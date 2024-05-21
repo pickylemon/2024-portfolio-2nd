@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+String ctx = request.getContextPath();
+%>
     <!-- ================================
 	    START MENU AREA
 	================================= -->
@@ -320,7 +323,7 @@
                                     </li>
                                     
                                     <li>
-                                        <a href="contact.html">contact</a>
+                                        <a href="<%=ctx%>/contact.do">contact</a>
                                     </li>
                                 </ul>
                             </div>

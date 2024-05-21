@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%
+String ctx = request.getContextPath();
+%>
     <!--================================
             START LOGIN AREA
     =================================-->
@@ -42,7 +45,7 @@
                                 <div class="login_assist">
                                     <p class="recover">Lost your
                                         <a href="pass-recovery.html">username</a> or
-                                        <a href="pass-recovery.html">password</a>?</p>
+                                        <a href="<%=ctx%>/auth/resetPassword.do">password</a>?</p>
                                     <p class="signup">Don't have an
                                         <a href="<c:url value='/auth/joinPage.do'/>">account</a>?</p>
                                 </div>

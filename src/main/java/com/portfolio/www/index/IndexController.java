@@ -18,4 +18,11 @@ public class IndexController {
 		mv.setViewName("index");
 		return mv;
 	}
+	
+	@RequestMapping("/contact.do")
+	public ModelAndView contact() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("contact");
+		return mv;
+	}
 }

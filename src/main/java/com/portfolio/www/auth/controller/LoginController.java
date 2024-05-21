@@ -1,4 +1,4 @@
-package com.portfolio.www.auth;
+package com.portfolio.www.auth.controller;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -9,15 +9,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class JoinController {
+public class LoginController {
 	
 	
-	@RequestMapping("/auth/joinPage.do")
-	public ModelAndView joinPage(@RequestParam HashMap<String, String> params) {
+	@RequestMapping("/auth/loginPage.do")
+	public ModelAndView loginPage(@RequestParam HashMap<String, String> params) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("key", Calendar.getInstance().getTimeInMillis());
-		mv.setViewName("auth/join");
+		mv.setViewName("auth/login");
 		
+		return mv;
+	}
+	
+	@RequestMapping("/auth/resetPassword.do")
+	public ModelAndView findPassword() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("auth/reset-password");
 		return mv;
 	}
 

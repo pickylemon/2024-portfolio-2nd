@@ -8,7 +8,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 offset-lg-3">
-                    <form action="#">
+                    <form action="<c:url value='/auth/joinPage.do'/>" method="post">
                         <div class="cardify signup_form">
                             <div class="login--header">
                                 <h3>Create Your Account</h3>
@@ -22,22 +22,22 @@
 
                                 <div class="form-group">
                                     <label for="urname">Your Name</label>
-                                    <input id="urname" type="text" class="text_field" placeholder="Enter your Name">
+                                    <input id="urname" type="text" class="text_field" placeholder="Enter your Name" name="memberNm" value="${memberDto.memberNm }">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="email_ad">Email Address</label>
-                                    <input id="email_ad" type="text" class="text_field" placeholder="Enter your email address">
+                                    <input id="email_ad" type="text" class="text_field" placeholder="Enter your email address" name="email" value="${memberDto.email }">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="user_name">Username</label>
-                                    <input id="user_name" type="text" class="text_field" placeholder="Enter your username...">
+                                    <input id="user_name" type="text" class="text_field" placeholder="Enter your username..." name="memberId" value="${memberDto.memberId }">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input id="password" type="text" class="text_field" placeholder="Enter your password...">
+                                    <input id="password" type="text" class="text_field" placeholder="Enter your password..." name="passwd" value="${memberDto.passwd }">
                                 </div>
 
                                 <div class="form-group">
@@ -64,6 +64,14 @@
         </div>
         <!-- end .container -->
     </section>
+    <script>
+    let msg = '${msg}'
+    window.onload = function(){
+    	if(msg != ''){
+    		alert(msg);
+    	}
+    }
+    </script>
     <!--================================
             END SIGNUP AREA
     =================================-->

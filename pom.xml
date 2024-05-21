@@ -16,6 +16,8 @@
 	</properties>
 
 	<dependencies>
+		
+		<!-- jackson 관련 -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
@@ -120,6 +122,51 @@
 			<scope>provided</scope>
 		</dependency>
 		
+		<!-- my-batis-->
+		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
+		<dependency>
+		    <groupId>org.mybatis</groupId>
+		    <artifactId>mybatis-spring</artifactId>
+		    <version>2.1.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+		<dependency>
+		    <groupId>org.mybatis</groupId>
+		    <artifactId>mybatis</artifactId>
+		    <version>3.5.16</version>
+		</dependency>
+
+		
+		<!--비밀번호 암호화-->
+		<!-- https://mvnrepository.com/artifact/at.favre.lib/bcrypt -->
+		<dependency>
+		    <groupId>at.favre.lib</groupId>
+		    <artifactId>bcrypt</artifactId>
+		    <version>0.10.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-crypto</artifactId>
+		    <version>5.4.2</version>
+		</dependency>
+		
+		<!-- 설정파일 암호화 -->
+		<!-- https://mvnrepository.com/artifact/org.jasypt/jasypt-spring31 -->
+		<dependency>
+		    <groupId>org.jasypt</groupId>
+		    <artifactId>jasypt-spring31</artifactId>
+		    <version>1.9.2</version>
+		</dependency>
+
+	
+		<!-- 메일 인증, mailSender 관련 -->
+		<dependency>
+		    <groupId>com.sun.mail</groupId>
+		    <artifactId>javax.mail</artifactId>
+		    <version>1.6.2</version>
+		</dependency>
+		
 		<!-- tiles -->
 		<dependency>
 		    <groupId>org.apache.tiles</groupId>
@@ -141,6 +188,7 @@
 	        <artifactId>tiles-extras</artifactId>
 	        <version>3.0.8</version>
 	    </dependency>
+	    
 	</dependencies>
 
 	<build>

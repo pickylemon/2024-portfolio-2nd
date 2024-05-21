@@ -21,12 +21,26 @@
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
 	</context:component-scan>
+	
+	<!-- mailSender. 웹 관련이라 pf-servlet.xml에 bean등록해 봄 -->
+	<context:property-placeholder location="classpath:mail-config.properties" />
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.naver.com" />
+		<property name="port" value="587" />
+		<property name="username" value="${mail.username}" />
+		<property name="password" value="${mail.password}" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean>
 
 	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
 		<property name="completeAutoload" value="true" />
 		<property name="definitions">
 			<list>
-				<value>/WEB-INF/tiles/tiles.xml</value>
+				<value>/WEB-INF/tiles/tiles-config.xml</value>
 			</list>
 		</property>
 	</bean>

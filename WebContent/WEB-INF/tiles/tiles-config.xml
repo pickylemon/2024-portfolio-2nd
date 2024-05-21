@@ -5,7 +5,7 @@
 	<!-- 기본 레이아웃 설정 -->
 	<definition name="tiles-default" template="/WEB-INF/views/layout/default.jsp">
 		<put-attribute name="menu" value="/WEB-INF/views/layout/menu.jsp" />
-		<put-attribute name="body" value="" />
+		<put-attribute name="body" value="" /> <!-- body는 계속 바뀌는 부분이므로 비워둔다. -->
 		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
 	</definition>
 	

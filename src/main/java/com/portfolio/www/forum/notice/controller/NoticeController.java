@@ -1,4 +1,4 @@
-package com.portfolio.www.forum.notice;
+package com.portfolio.www.forum.notice.controller;
 
 import java.util.Calendar;
 import java.util.HashMap;
