@@ -10,8 +10,9 @@ public interface MemberRepository {
 	
 	int getMemberSeq(String memberId) throws DataAccessException;
 	
-	int authValidation(int memberSeq) throws DataAccessException;
+	int updateAuthValid(int memberSeq) throws DataAccessException;
 	
-	MemberDto find(String memberId) throws DataRetrievalFailureException;
-	
+	//이 메서드는 언제 쓰지..?
+	MemberDto findById(String memberId) throws DataRetrievalFailureException;
+	MemberDto findBySeq(int memberSeq) throws DataAccessException;
 }

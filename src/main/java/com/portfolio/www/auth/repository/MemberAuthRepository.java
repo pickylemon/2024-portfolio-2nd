@@ -6,6 +6,6 @@ public interface MemberAuthRepository {
 
 	public int addAuthInfo(MemberAuthDto dto);
 	public MemberAuthDto getMemberAuthDto(String uri);
-	public int authValidation(String uri);
+	public int updateAuthValid(String uri);
 
 }

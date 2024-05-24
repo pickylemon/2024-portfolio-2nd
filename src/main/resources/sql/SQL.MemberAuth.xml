@@ -10,18 +10,19 @@
 	(member_seq, auth_num, auth_uri, reg_dtm, expire_dtm, auth_yn)
 	VALUES( #{memberSeq}, '', #{authUri}, #{regDtm}, #{expireDtm}, 'N')
 	</insert>
-	<select id="getMemberAuthDto" parameterType="string" resultType="MemberAuthDto">
+	
+	<select id="getMemberAuthDto" parameterType="String" resultType="MemberAuthDto">
 	SELECT auth_seq, 
 		   member_seq, 
 		   auth_num, 
 		   auth_uri, 
 		   reg_dtm, 
 		   expire_dtm, 
-		   auth_yn"
-	FROM forum.member_auth 
-   WHERE auth_uri = #{uri} AND auth_yn = 'N'
+		   auth_yn
+	 FROM forum.member_auth 
+    WHERE auth_uri = #{uri} AND auth_yn = 'N'
 	</select>
-	<update id="authValidation" parameterType="String">
+	<update id="updateAuthValid" parameterType="String">
 	UPDATE forum.member_auth
 	   SET auth_yn='Y'
 	 WHERE auth_uri = #{uri}

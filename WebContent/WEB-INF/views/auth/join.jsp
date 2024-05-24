@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
     <!--================================
             START SIGNUP AREA
     =================================-->
@@ -8,7 +10,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 offset-lg-3">
-                    <form action="<c:url value='/auth/joinPage.do'/>" method="post">
+                    <form:form action="<c:url value='/auth/joinPage.do'/>" method="post">
                         <div class="cardify signup_form">
                             <div class="login--header">
                                 <h3>Create Your Account</h3>
@@ -37,7 +39,7 @@
 
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input id="password" type="text" class="text_field" placeholder="Enter your password..." name="passwd" value="${memberDto.passwd }">
+                                    <input id="password" type="text" class="text_field" placeholder="Enter your password..." name="passwd" >
                                 </div>
 
                                 <div class="form-group">
@@ -56,7 +58,7 @@
                             <!-- end .login--form -->
                         </div>
                         <!-- end .cardify -->
-                    </form>
+                    </form:form>
                 </div>
                 <!-- end .col-md-6 -->
             </div>
@@ -65,10 +67,12 @@
         <!-- end .container -->
     </section>
     <script>
+    let code = '${code}'
     let msg = '${msg}'
     window.onload = function(){
-    	if(msg != ''){
-    		alert(msg);
+    	if(msg!=''){
+    		alert(msg)
+    		console.log(code)
     	}
     }
     </script>
