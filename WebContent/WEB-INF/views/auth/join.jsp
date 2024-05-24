@@ -37,7 +37,7 @@
 
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input id="password" type="text" class="text_field" placeholder="Enter your password..." name="passwd" value="${memberDto.passwd }">
+                                    <input id="password" type="text" class="text_field" placeholder="Enter your password..." name="passwd" >
                                 </div>
 
                                 <div class="form-group">
@@ -65,10 +65,12 @@
         <!-- end .container -->
     </section>
     <script>
+    let code = '${code}'
     let msg = '${msg}'
     window.onload = function(){
-    	if(msg != ''){
-    		alert(msg);
+    	if(msg!=''){
+    		alert(msg)
+    		console.log(code)
     	}
     }
     </script>

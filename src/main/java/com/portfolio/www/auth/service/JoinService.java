@@ -1,10 +1,19 @@
 package com.portfolio.www.auth.service;
 
+import java.util.HashMap;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.portfolio.www.auth.dto.EmailDto;
+import com.portfolio.www.auth.dto.EmailUtil;
+import com.portfolio.www.auth.dto.MemberAuthDto;
 import com.portfolio.www.auth.dto.MemberDto;
+import com.portfolio.www.auth.repository.MemberAuthRepository;
 import com.portfolio.www.auth.repository.MemberRepository;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
@@ -14,31 +23,78 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class JoinService {
+@PropertySource("classpath:mail-config.properties")
+@Transactional(readOnly = true)
+public class JoinService {	
 	private final MemberRepository memberRepository;
+	private final MemberAuthRepository memberAuthRepository;
+	@Value("${mail.username}")
+	private String sender;
+	private final EmailUtil emailUtil;
 	
 	/**
 	 * 회원가입.
-	 * 비밀번호와 이메일을 암호화한 데이터를 repository계층으로 넘겨야 한다.
+	 * 유저 정보를 저장하고, 인증 이메일을 보낸다.
 	 * @param memberDto
 	 * @return
 	 */
-	public int join(MemberDto memberDto) {
+	@Transactional
+	public int join(MemberDto memberDto, String contextPath) {
 		int code = -1;
 		try {
-			//사용자 정보를 암호화 후 repository계층으로 넘김
-			code = memberRepository.save(encrypt(memberDto));
+			String receiver = memberDto.getEmail();
+			//1. Member테이블에 insert
+			//(사용자 정보를 암호화 후 repository계층으로 넘김)
+			memberRepository.save(encrypt(memberDto)); 
+			
+			//2. MemberAuth테이블에 insert
+			int memberSeq = memberRepository.getMemberSeq(memberDto.getMemberId());
+			MemberAuthDto authDto = MemberAuthDto.createMemberAuthDto(memberSeq);
+			code = memberAuthRepository.addAuthInfo(authDto);
+			
+			//3. 인증메일 보내기
+			String authUri = authDto.getAuthUri();
+			//관련있는 메일 정보(제목, 내용)을 hashmap 객체에 묶어서 다루고자 함
+			//클래스를 따로 만들까 했지만, 여기서밖에 사용 하지 않을 것 같아서 일단은 map으로만..
+			HashMap<String, String> mailContent = createMailContent(contextPath, authUri);
+			//sender에 대한 정보는 bean으로 등록한 mailSender에서 가져온다.
+			EmailDto emailDto = EmailDto.createEmailDto(receiver, mailContent);
+			emailUtil.sendMail(emailDto, true);
+					
 		} catch (DuplicateKeyException e) {
 			//memberId는 Unique키 제약조건이 있어서, 
 			//같은 id로 가입시도 하면 exception 발생
 			code = 0;
-			e.printStackTrace();
+			log.info(e.getMessage());
 		} catch (DataAccessException e) {
-			e.printStackTrace();
+			log.info(e.getMessage()); //DataAccessException도 딱히 해줄게 없을 것 같은데 Exception이랑 나눠야 할까?
+		} catch (Exception e) {
+			log.info(e.getMessage()); 
 		}
+		//회원가입이 정상적으로 완료되면 code = 1 반환.
+		//사용자에게 알려야 할 유의미한 에러인 아이디 중복은 code = 0
+		//나머지 에러는 전부 code = -1
 		return code;
 	}
+
+	//QUESTION 여기가 뭔가 신경쓰인다. 
+	// 메일의 제목/내용에 변경 시 JoinService자체에 변경 포인트가 생긴다는 점이 뭔가..
+	// 메일 컨텐츠 부분만 따로 떼어내서 다룰 수는 없을까. 변경포인트를 분리하고 싶다.
+	private HashMap<String, String> createMailContent(String contextPath, String authUri) {
+		HashMap<String, String> mailContent = new HashMap<>();
+		
+		String subject = "인증을 완료해주세요";
+		String html =  "<a href='http://localhost:8080/"
+				+contextPath+"/emailAuth.do?uri="
+				+ authUri + "'>인증하기</a>";
+		
+		mailContent.put("subject", subject);
+		mailContent.put("text", html);
+		return mailContent;
+	}
 	
+	
+	//사용자 입력 이메일, 비밀번호를 암호화 후 다시 dto를 반환하는 메서드
 	private MemberDto encrypt(MemberDto memberDto) {
 		String passwd = memberDto.getPasswd();
 		String email = memberDto.getEmail();
@@ -62,4 +118,5 @@ public class JoinService {
 		
 		return memberDto;
 	}
+	
 }

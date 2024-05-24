@@ -67,6 +67,17 @@
         </div>
         <!-- end /.container -->
     </section>
+    
+    <script>
+    let code = '${code}'
+    let msg = '${msg}'
+    window.onload = function(){
+    	if(msg!=''){
+    		alert(msg)
+    		console.log(code)
+    	}
+    }
+    </script>
     <!--================================
 	    END FEATURE AREA
 	=================================-->
