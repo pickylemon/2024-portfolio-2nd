@@ -3,11 +3,18 @@ package com.portfolio.www.auth.dto;
 import java.util.Calendar;
 import java.util.UUID;
 
+import org.apache.ibatis.type.Alias;
+
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
+@NoArgsConstructor
+@Alias("MemberAuthDto")
 public class MemberAuthDto {
 	private int authSeq;
 	private int memberSeq;

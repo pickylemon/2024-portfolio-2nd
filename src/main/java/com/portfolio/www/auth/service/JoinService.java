@@ -1,13 +1,13 @@
 package com.portfolio.www.auth.service;
 
+import java.util.Calendar;
 import java.util.HashMap;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import com.portfolio.www.auth.dto.EmailDto;
 import com.portfolio.www.auth.dto.EmailUtil;
@@ -23,13 +23,10 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@PropertySource("classpath:mail-config.properties")
 @Transactional(readOnly = true)
 public class JoinService {	
 	private final MemberRepository memberRepository;
 	private final MemberAuthRepository memberAuthRepository;
-	@Value("${mail.username}")
-	private String sender;
 	private final EmailUtil emailUtil;
 	
 	/**
@@ -76,6 +73,62 @@ public class JoinService {
 		//나머지 에러는 전부 code = -1
 		return code;
 	}
+	
+	
+	
+	/**
+	 * 유저가 발송된 메일의 인증 주소로 접속하면
+	 * 인증 여부를 처리하는 메서드
+	 * @param uri
+	 * @return
+	 */
+	@Transactional
+	public int emailAuth(String uri) {
+		int code = -9;
+		//QUESTION 못찾으면 null을 반환하는지 아님 Exception 터뜨리는지?
+		MemberAuthDto authDto = memberAuthRepository.getMemberAuthDto(uri);
+		log.info("authDto={}", authDto);
+		//1. 인증 주소가 유효한지
+		if(ObjectUtils.isEmpty(authDto)) {
+			return code; //해당 uri로 조회되는 authDto가 없다. -> 유효한 인증 주소가 아님
+		}
+		
+		//2. 인증 정보가 유효한지
+		int memberSeq = authDto.getMemberSeq();
+		MemberDto memberDto = memberRepository.findBySeq(memberSeq);
+		if(ObjectUtils.isEmpty(memberDto)) { //해당 auth로 식별되는 회원정보 없음.
+			//QUESTION 근데 이걸 체크해야하는 경우가 있을까? 구체적인 예외 상황 상상해보기.
+			return code; 
+		}
+		
+		//3. 인증 시간이 유효한지
+		if(!isValidTime(authDto.getExpireDtm())) {
+			//인증시간이 지났다. 메일 재발송
+			//흠......................
+			
+		}
+		
+		//모든 검증이 끝났을 때 비로소 auth_yn을 y로 업데이트치기
+		try {
+			memberAuthRepository.updateAuthValid(uri);
+			code = memberRepository.updateAuthValid(memberSeq);
+		} catch (DataAccessException e) {
+			log.info(e.getMessage());
+		}
+		return code; //default가 -1
+	}
+	
+	
+	
+	private boolean isValidTime(long time) {
+		return Calendar.getInstance().getTimeInMillis() < time;
+	}
+	
+	
+	
+	
+	
+	
 
 	//QUESTION 여기가 뭔가 신경쓰인다. 
 	// 메일의 제목/내용에 변경 시 JoinService자체에 변경 포인트가 생긴다는 점이 뭔가..
@@ -84,7 +137,7 @@ public class JoinService {
 		HashMap<String, String> mailContent = new HashMap<>();
 		
 		String subject = "인증을 완료해주세요";
-		String html =  "<a href='http://localhost:8080/"
+		String html =  "<a href='http://localhost:8080"
 				+contextPath+"/emailAuth.do?uri="
 				+ authUri + "'>인증하기</a>";
 		

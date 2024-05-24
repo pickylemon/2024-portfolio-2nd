@@ -42,6 +42,8 @@
 		<property name="suffix" value=".jsp" />
 		<property name="order" value="2" />
 	</bean>
+	
+	<bean id="beanValidator" class="org.springframework.validation.beanvalidation.OptionalValidatorFactoryBean"/>
 
 	<mvc:resources mapping="/assest/**" location="/assest/" />
 

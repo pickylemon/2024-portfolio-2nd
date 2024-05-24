@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,6 @@ import com.portfolio.www.auth.dto.MemberDto;
 import com.portfolio.www.auth.message.AuthMessageEnum;
 import com.portfolio.www.auth.service.JoinService;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,18 +45,24 @@ public class JoinController {
 	
 	//TODO 사용자 입력 validation 추가하기 
 	@PostMapping("/auth/joinPage.do")
-	public ModelAndView join(@ModelAttribute @Valid MemberDto memberDto, BindingResult result, HttpServletRequest request, Model model, RedirectAttributes rattr ) {
+	public ModelAndView join(@ModelAttribute @Validated MemberDto memberDto, BindingResult result, HttpServletRequest request, Model model, RedirectAttributes rattr ) {
 		log.info("memberDto={}", memberDto);
+		ModelAndView mv = new ModelAndView();
 		String contextPath = request.getContextPath();
 		
 		if(result.hasErrors()) {
 			//검증에 실패하면 해당 메시지를 가지고 다시 입력페이지로 이동.
+			result.getAllErrors().forEach(System.out::println);
+			model.addAttribute("code", AuthMessageEnum.JOIN_FAIL.getCode());
+			model.addAttribute("msg", AuthMessageEnum.JOIN_FAIL.getMsg());
+			model.addAttribute("memberDto",memberDto);
+			mv.setViewName("auth/join"); 
+			return mv;
 		}
 		//에러가 발생해 다시 회원가입 화면 뷰를 보여줄 때, 사용자 입력을 그대로 전달하기 위해
 		//memberDto객체를 만들어 둠. 그냥 memberDto를 모델에 담아 전달하면 
 		//암호화된 값이 전달되므로 의도에 맞지 않는다.
 		MemberDto beforeEncDto = new MemberDto(memberDto);
-		ModelAndView mv = new ModelAndView();
 		
 		int code = joinService.join(memberDto, contextPath);
 		
@@ -89,7 +95,8 @@ public class JoinController {
 		log.info("uri={}", uri);
 		
 		//1. uri가 유효한지 확인하기(memberAuth에 해당 uri가 있는지)
-		joinService.emailAuth(uri);
+		int code = joinService.emailAuth(uri);
+		// Service 내부 로직에서 처리하기
 		//    -> 없다? 에러 : 유효하지 않은 주소입니다.
 		//    -> 있으면 
 		//	  -> 2. 유효시간 이내인지?
@@ -100,7 +107,14 @@ public class JoinController {
 		//        -> 있다? member와 memberAuth에 인증 "Y"로 update치기
 		
 		//성공시 다시 홈으로
-		rattr.addFlashAttribute("auth",AuthMessageEnum.AUTH_MAIL_SUCCESS);
-		return "redirect:/";
+		if(code == 1) {
+			rattr.addFlashAttribute("code", AuthMessageEnum.AUTH_MAIL_SUCCESS.getCode());
+			rattr.addFlashAttribute("msg", AuthMessageEnum.AUTH_MAIL_SUCCESS.getMsg());
+			//성공시에는 로그인 페이지로 이동하는게 더 낫나..?
+		} else {
+			rattr.addFlashAttribute("code", AuthMessageEnum.AUTH_MAIL_FAIL.getCode());
+			rattr.addFlashAttribute("msg", AuthMessageEnum.AUTH_MAIL_FAIL.getMsg());
+		} 
+		return "redirect:/index.do";
 	}
 }
