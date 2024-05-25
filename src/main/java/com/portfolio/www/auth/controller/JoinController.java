@@ -53,6 +53,7 @@ public class JoinController {
 		if(result.hasErrors()) {
 			//검증에 실패하면 해당 메시지를 가지고 다시 입력페이지로 이동.
 			result.getAllErrors().forEach(System.out::println);
+//			model.addAllAttributes(result.getModel());
 			model.addAttribute("code", AuthMessageEnum.JOIN_FAIL.getCode());
 			model.addAttribute("msg", AuthMessageEnum.JOIN_FAIL.getMsg());
 			model.addAttribute("memberDto",memberDto);
@@ -87,6 +88,7 @@ public class JoinController {
 		model.addAttribute("memberDto",beforeEncDto);
 		mv.setViewName("auth/join"); 
 		return mv;
+		
 	}
 	
 	//인증메일 확인하기

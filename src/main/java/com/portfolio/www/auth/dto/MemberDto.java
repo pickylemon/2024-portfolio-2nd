@@ -1,5 +1,7 @@
 package com.portfolio.www.auth.dto;
 
+
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -18,11 +20,11 @@ import lombok.NoArgsConstructor;
 public class MemberDto {
 	private int memberSeq;
 	@NotNull(message = "아이디는 필수값입니다.")
-	@Pattern(regexp = "^[a-zA-Z][0-9a-zA-Z]{5,8}$") //영문으로 시작, 영어 대소문자 숫자 조합으로 5~8자리
+	@Pattern(regexp = "^[0-9a-z]{5,8}$", message = "아이디는 영어 소문자와 숫자의 구성으로 5~8자리 내로 입력해주세요.")
 	private String memberId;
 	@NotNull
 	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,15}$",
-	message = "비밀번호는 특수문자와 영어대소문자를 조합해 8~15자리 내로 입력해주세요.")
+	message = "비밀번호는 특수문자와 영어대소문자, 숫자를 조합해 8~15자리 내로 입력해주세요.")
 	//영어대소문자, 특수문자 8~15자리
 	private String passwd;
 	@NotNull @NotBlank
