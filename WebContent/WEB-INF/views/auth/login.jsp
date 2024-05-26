@@ -11,28 +11,30 @@ String ctx = request.getContextPath();
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 offset-lg-3">
-                    <form action="#">
+                    <form action="<c:url value='/auth/loginPage.do'/>" method="post">
                         <div class="cardify login">
                             <div class="login--header">
                                 <h3>Welcome Back</h3>
-                                <p>You can sign in with your username</p>
+                                <p>You can sign in with your Id</p>
                             </div>
                             <!-- end .login_header -->
 
                             <div class="login--form">
                                 <div class="form-group">
-                                    <label for="user_name">Username</label>
-                                    <input id="user_name" type="text" class="text_field" placeholder="Enter your username...">
+                                    <label for="user_name">Id</label>
+                                    <input id="user_name" type="text" class="text_field" placeholder="Enter your username..." name="memberId" value="${memberId}">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="pass">Password</label>
-                                    <input id="pass" type="text" class="text_field" placeholder="Enter your password...">
+                                    <input id="pass" type="text" class="text_field" placeholder="Enter your password..." name="passwd">
                                 </div>
 
                                 <div class="form-group">
                                     <div class="custom_checkbox">
-                                        <input type="checkbox" id="ch2">
+                                        <input type="checkbox" id="ch2" name="rememberMe">
+                                        <!-- 체크 박스 속성 !!-->
+                                        <!-- 체크를 하면 파라미터 넘어가고, 체크를 하지 않으면 파라미터 자체가 넘어가지 않는다. (이름도 전달 안됨) -->
                                         <label for="ch2">
                                             <span class="shadow_checkbox"></span>
                                             <span class="label_text">Remember me</span>
@@ -61,6 +63,34 @@ String ctx = request.getContextPath();
         </div>
         <!-- end .container -->
     </section>
+    <script>
+    let msg = '${msg}'
+    let code = '${code}'
+    let idElem = document.querySelector('input[name=memberId]')
+    let passwdElem = document.querySelector('input[name=passwd]')
+    
+    window.onload = function(){
+    	showErrorMsg(msg, code)
+    }
+    
+    function showErrorMsg(msg, code) {
+    	if(code != -1 && code != -9) return;
+    	
+    	let errMsgElem = document.createElement("p")
+    	errMsgElem.style.color = 'red'
+    	
+    	if(code == -9) { //아이디 없음
+    		let msg = document.createTextNode("존재하지 않는 아이디입니다.");
+    		errMsgElem.append(msg)
+    		idElem.closest('div').append(errMsgElem)
+    	} else if(code == -1) { //비밀번호 없음
+    		let msg = document.createTextNode("비밀번호가 틀렸습니다.");
+    		errMsgElem.append(msg)
+    		passwdElem.closest('div').append(errMsgElem)
+    	}
+    }
+
+    </script>
     <!--================================
             END LOGIN AREA
     =================================-->

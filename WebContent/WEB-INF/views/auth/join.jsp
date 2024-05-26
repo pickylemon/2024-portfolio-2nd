@@ -94,6 +94,7 @@ String ctx = request.getContextPath();
         <!-- end .container -->
     </section>
     <script>
+    <!-- 비밀번호 확인 실패하면 submit 안되게 -->
     function pwdEquals(elem) { 
     	console.log(elem)
     	let pwd1 = elem.querySelector("input[name=passwd]")
