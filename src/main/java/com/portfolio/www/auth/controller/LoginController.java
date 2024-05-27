@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,18 +18,21 @@ import com.portfolio.www.auth.message.LoginMessageEnum;
 import com.portfolio.www.auth.service.LoginService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/auth")
+@Slf4j
 public class LoginController {
 	private final LoginService loginService;
 	
-	@GetMapping("/auth/loginPage.do")
-	public ModelAndView loginPage() {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("auth/login");
+	@GetMapping("/loginPage.do")
+	public String loginPage(String url, Model model) {
+		log.info("url={}",url);
 		
-		return mv;
+		model.addAttribute("url", url);
+		return "auth/login";
 	}
 	
 	/**
@@ -41,9 +45,10 @@ public class LoginController {
 	 * @param request
 	 * @return
 	 */
-	@PostMapping("/auth/loginPage.do")
+	@PostMapping("/loginPage.do")
 	public String login(String memberId, String passwd, Model model, 
-			Boolean rememberMe, HttpServletRequest request, HttpServletResponse response, RedirectAttributes rattr) {
+			boolean rememberMe, HttpServletRequest request, 
+			String url, HttpServletResponse response, RedirectAttributes rattr) {
 		
 		int code = loginService.login(memberId, passwd);
 		
@@ -55,15 +60,18 @@ public class LoginController {
 			session.setAttribute("memberSeq", memberSeq);
 			
 			//2.rememberMe 설정에 따른 쿠키 처리
-			if(rememberMe != null) {
-				Cookie cookie = makeCookie(memberId, rememberMe);
-				response.addCookie(cookie);
-			}
+			log.info("rememberMe={}", rememberMe);
+			Cookie cookie = makeCookie(memberId, rememberMe);
+			response.addCookie(cookie);
+			
 			
 			rattr.addFlashAttribute("code", LoginMessageEnum.LOGIN_SUCCESS.getCode());
 			rattr.addFlashAttribute("msg", LoginMessageEnum.LOGIN_SUCCESS.getMsg());
 
-			return "redirect:/index.do"; //로그인 성공시 홈으로 이동
+			return "redirect:"+(url==""? "/index.do" : url); 
+			//로그인 성공시 원래 요청페이지로 이동(없으면 홈)
+			//(로그인 필터를 통해 이 컨트롤러 메서드에 온 경우가 아닌,
+			//직접적으로 로그인을 한 경우에는 name이 url인 input의 value가 빈 문자열로 넘어온다(null이 아님) 
 			
 		} else if (code == -1) {
 			//비밀번호 불일치
@@ -80,11 +88,26 @@ public class LoginController {
 //		model.addAttribute("passwd", passwd); 비밀번호는 굳이 안 넘겨도 될 것 같다.
 		return "auth/login";
 	}
+	
+	//뷰에서, 로그인 상태에서만 로그아웃 버튼이 보이도록 지정한 상태이지만, 
+	//사실 주소창에 직접 치고 들어올 수도 있다(get) 
+	//-> 비정상적인 접근. 어떻게 대응을 해야할까? 404를 보여줘야 하나 아니면 그냥 조치없이 홈으로 가야하나..
+	@GetMapping("/logout.do")
+	public String logout(HttpServletRequest request, RedirectAttributes rattr) {
+		HttpSession session = request.getSession(false);
+		if(!ObjectUtils.isEmpty(session)) {
+			session.invalidate();
+			rattr.addFlashAttribute("code", LoginMessageEnum.LOGOUT_SUCCESS.getCode());
+			rattr.addFlashAttribute("msg", LoginMessageEnum.LOGOUT_SUCCESS.getMsg());
+		}
+		return "redirect:/index.do";
+	}
 
-	private Cookie makeCookie(String memberId, Boolean rememberMe) {
+	private Cookie makeCookie(String memberId, boolean rememberMe) {
 		Cookie cookie;
 		if(rememberMe) { //아이디 저장 체크박스 선택시
 			cookie = new Cookie("memberId", memberId);
+			cookie.setMaxAge(60*60*24*7);
 		} else { //아이디 저장 체크박스 해제시 - 기존 쿠키 덮어버리기
 			cookie = new Cookie("memberId","");
 			cookie.setMaxAge(0);
@@ -95,7 +118,7 @@ public class LoginController {
 	@RequestMapping("/auth/resetPassword.do")
 	public ModelAndView findPassword() {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("auth/reset-password");
+		mv.setViewName("auth/reset-password");	
 		return mv;
 	}
 

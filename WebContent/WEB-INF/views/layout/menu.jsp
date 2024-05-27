@@ -6,6 +6,9 @@
 <%
 String ctx = request.getContextPath();
 %>
+<!-- 로그인 여부에 따라 로그인/로그아웃 버튼이 보인다. -->
+<c:set var="loginOutLink" value="${sessionScope.memberSeq == null ? '/auth/loginPage.do' : '/auth/logout.do'}"/>
+<c:set var="loginOut" value="${sessionScope.memberSeq == null ? 'Login' : 'Logout'} "/>
     <!-- ================================
 	    START MENU AREA
 	================================= -->
@@ -103,8 +106,10 @@ String ctx = request.getContextPath();
                                 </ul>
                             </div>
                             <div class="pull-right join desktop-size d-md-block d-none">
+                            <c:if test='${sessionScope.memberSeq == null }'>
                                 <a href="<c:url value='/auth/joinPage.do'/>" class="btn btn--round btn-secondary  btn--xs">Join Now</a>
-                                <a href="<c:url value='/auth/loginPage.do'/>" class="btn btn--round btn--xs">Login</a>
+                            </c:if>
+                                <a href="<c:url value='${loginOutLink}'/>" class="btn btn--round btn--xs">${loginOut}</a>
                             </div>
                             <div class="pull-right join mobile-size d-md-none d-flex">
                                 <a href="#" class="btn btn--round btn-secondary "><span class="lnr lnr-user"></span></a>
@@ -307,7 +312,7 @@ String ctx = request.getContextPath();
                                         <div class="dropdowns dropdown--menu">
                                             <ul>
                                                 <li>
-                                                    <a href="<c:url value='/forum//notice/listPage.do'/>">공지사항</a>
+                                                    <a href="<c:url value='/forum/notice/listPage.do'/>">공지사항</a>
                                                 </li>
                                                 <li>
                                                     <a href="all-products.html">Popular Items</a>

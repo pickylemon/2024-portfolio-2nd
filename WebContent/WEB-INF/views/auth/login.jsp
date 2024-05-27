@@ -4,6 +4,11 @@
 <%
 String ctx = request.getContextPath();
 %>
+<c:set var="savedId" value="${cookie.memberId.value}"/>
+<c:out value="${savedId }"/>
+
+
+
     <!--================================
             START LOGIN AREA
     =================================-->
@@ -11,7 +16,7 @@ String ctx = request.getContextPath();
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 offset-lg-3">
-                    <form action="<c:url value='/auth/loginPage.do'/>" method="post">
+                    <form action="<c:url value='/auth/loginPage.do'/>" onsubmit="return formCheck()" method="post">
                         <div class="cardify login">
                             <div class="login--header">
                                 <h3>Welcome Back</h3>
@@ -22,7 +27,9 @@ String ctx = request.getContextPath();
                             <div class="login--form">
                                 <div class="form-group">
                                     <label for="user_name">Id</label>
-                                    <input id="user_name" type="text" class="text_field" placeholder="Enter your username..." name="memberId" value="${memberId}">
+                                    <input id="user_name" type="text" class="text_field" placeholder="Enter your username..." name="memberId" value="${savedId ne null? savedId : memberId}">
+                                    <input type="hidden" name="url" value="${url}">
+<%--                                     <c:out value="${request.}"/> --%>
                                 </div>
 
                                 <div class="form-group">
@@ -32,7 +39,7 @@ String ctx = request.getContextPath();
 
                                 <div class="form-group">
                                     <div class="custom_checkbox">
-                                        <input type="checkbox" id="ch2" name="rememberMe">
+                                        <input type="checkbox" id="ch2" name="rememberMe" ${savedId ne null? 'checked' : '' }>
                                         <!-- 체크 박스 속성 !!-->
                                         <!-- 체크를 하면 파라미터 넘어가고, 체크를 하지 않으면 파라미터 자체가 넘어가지 않는다. (이름도 전달 안됨) -->
                                         <label for="ch2">
@@ -90,6 +97,31 @@ String ctx = request.getContextPath();
     	}
     }
 
+    //아이디와 비밀번호를 공백문자 또는 빈칸으로 입력하면 프론트에서 먼저 거르기
+    function formCheck() {
+    	function formElem(name, selectorName) {
+    		this.field = name;
+    		this.inputElem = document.querySelector('input[name='+selectorName+']')
+    	}
+    
+    	const formElems = [ new formElem('아이디', 'memberId'), new formElem('비밀번호', 'passwd') ]
+    	console.log(formElems)
+    	
+    	for(let input of formElems){
+    		if(input.inputElem.value.trim() == '') {
+    			let noticeElem = document.createElement("p")
+    			noticeElem.style.color = 'red'
+    			let msg = document.createTextNode(input.field+"를 입력해주세요")
+    			noticeElem.append(msg)
+    			input.inputElem.closest('div').append(noticeElem)
+    			return false;
+    		}
+    	}
+    	
+    	return false;
+    	
+    }
+    
     </script>
     <!--================================
             END LOGIN AREA
