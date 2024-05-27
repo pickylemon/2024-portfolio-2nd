@@ -23,13 +23,14 @@ String ctx = request.getContextPath();
                             <div class="login--form">
                                 <div class="form-group">
                                     <label for="passwd">Enter your New Password</label>
-                                    <input id="passwd" type="text" class="text_field" placeholder="Reset your password" name="passwd" value="${passwd }">
+                                    <input id="passwd" type="text" class="text_field" placeholder="Reset your password" name="passwd" value="${dto.passwd }">
                                     <spring:hasBindErrors name="passwdResetDto">
 	                                    <c:if test="${errors.hasFieldErrors('passwd') }">
 	                                    	<strong style="color:red">${errors.getFieldError('passwd').defaultMessage }</strong>
 	                                    </c:if>
                                     </spring:hasBindErrors>
-                                    <input type="hidden" name="memberSeq" value="${memberSeq }"/>
+                                    <input type="hidden" name="memberSeq" value="${dto.memberSeq }"/>
+                                    <input type="hidden" name="resetPasswdAuthSeq" value="${dto.resetPasswdAuthSeq }"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="passwd2">Check your New Password Again</label>

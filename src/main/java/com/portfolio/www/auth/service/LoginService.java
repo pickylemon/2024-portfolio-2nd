@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.springframework.dao.DataAccessException;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import com.portfolio.www.auth.dto.EmailDto;
@@ -89,21 +90,18 @@ public class LoginService {
 		return code;
 	}
 	
-	public int checkAuthUriForPasswdReset(String uri) {
-		int memberSeq = -9;
-		try {
-			memberSeq = memberAuthRepository.getMemberSeqFromResetAuth(uri);
-		} catch (DataAccessException e) {
-			log.info(e.getMessage());
-		}
-		return memberSeq;
+	public PasswdResetDto checkAuthUriForPasswdReset(String uri) {
+		return memberAuthRepository.getPasswdResetDto(uri);
 	}
 	
+	@Transactional
 	public int resetPasswd(PasswdResetDto resetDto) {
 		int code = -1;
 		try {
 			//새 비밀번호 역시 암호화해서 저장해야 함.
 			code = memberRepository.updatePasswd(encrypt(resetDto));
+			memberAuthRepository.updateResetPasswdAuthYn(resetDto);
+			log.info("resetDto={}", resetDto);
 		} catch (DataAccessException e) {
 			log.info(e.getMessage());
 		}

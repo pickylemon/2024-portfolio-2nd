@@ -29,14 +29,20 @@
 	</update>
 	
 	<insert id="addResetPasswdAuthInfo" parameterType="ResetPasswdAuthDto">
-	INSERT INTO forum.reset_passwd_auth
+	INSERT INTO forum.`reset_passwd_auth`
 	(auth_uri, member_seq, reg_dtm, expire_dtm)
 	VALUES (#{authUri}, #{memberSeq}, #{regDtm}, #{expireDtm})
 	</insert>
 
-	<select id="getMemberSeqFromResetAuth" parameterType="String" resultType="int">
-	SELECT member_seq
+	<select id="getPasswdResetDto" parameterType="String" resultType="PasswdResetDto">
+	SELECT reset_passwd_auth_seq, member_seq
 	FROM forum.reset_passwd_auth
 	WHERE auth_uri = #{uri}
 	</select>
+	
+	<update id="updateResetPasswdAuthYn" parameterType="PasswdResetDto">
+	UPDATE forum.`reset_passwd_auth`
+	SET reset_pwd_yn = 'Y'
+	WHERE reset_passwd_auth_seq = #{resetPasswdAuthSeq}
+	</update>
 </mapper>

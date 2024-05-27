@@ -1,6 +1,7 @@
 package com.portfolio.www.auth.repository;
 
 import com.portfolio.www.auth.dto.MemberAuthDto;
+import com.portfolio.www.auth.dto.PasswdResetDto;
 import com.portfolio.www.auth.dto.ResetPasswdAuthDto;
 
 public interface MemberAuthRepository {
@@ -11,5 +12,6 @@ public interface MemberAuthRepository {
 	
 	//비밀번호 찾기시 메일로 보낼 인증주소를 등록
 	public int addResetPasswdAuthInfo(ResetPasswdAuthDto dto);
-	public int getMemberSeqFromResetAuth(String uri);
+	public PasswdResetDto getPasswdResetDto(String uri);
+	public int updateResetPasswdAuthYn(PasswdResetDto dto);
 }
