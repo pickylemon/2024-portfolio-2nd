@@ -24,19 +24,19 @@ public class EmailUtil {
 	//근데..이렇게 구현체 타입으로 빈 주입 받으면 유연성이 떨어지는 것 아닐까.
 	private final JavaMailSenderImpl mailSender;
 	
+//	public String sendMail(EmailDto email) {
+//		return sendMail(email, email.isHtml());	
+//	}
+//	
+	
 	public String sendMail(EmailDto email) {
-		return sendMail(email, false);	
-	}
-	
-	
-	public String sendMail(EmailDto email, boolean isHtml) {
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 			messageHelper.setTo(email.getReceiver());
 			messageHelper.setFrom(mailSender.getUsername());
 			messageHelper.setSubject(email.getSubject());
-			messageHelper.setText(email.getText(), isHtml);
+			messageHelper.setText(email.getText(), email.isHtml());
 			mailSender.send(message);
 			
 		} catch(Exception e) {

@@ -11,22 +11,25 @@ String ctx = request.getContextPath();
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 offset-lg-3">
-                    <form action="#">
+                    <form action="<c:url value='/auth/checkIdAndEmail.do'/>" method="post">
                         <div class="cardify recover_pass">
                             <div class="login--header">
-                                <p>Please enter the email address for your account. A verification code will be sent to you.
-                                    Once you have received the verification code, you will be able to choose a new password
-                                    for your account.</p>
+                                <p>비밀번호를 찾고자 하는 아이디와 가입시 등록한 이메일을 입력해주세요.</p>
                             </div>
                             <!-- end .login_header -->
 
                             <div class="login--form">
                                 <div class="form-group">
-                                    <label for="email_ad">Email Address</label>
-                                    <input id="email_ad" type="text" class="text_field" placeholder="Enter your email address">
+                                    <label for="id">Enter your ID</label>
+                                    <input id="id" type="text" class="text_field" placeholder="Enter your id" name="memberId" value="${memberId}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Enter your Email</label>
+                                    <input id="email" type="text" class="text_field" placeholder="Enter your email" name="email" value="${email }">
                                 </div>
 
-                                <button class="btn btn--md btn--round register_btn" type="submit">Register Now</button>
+
+                                <button class="btn btn--md btn--round register_btn" type="submit">Next Step</button>
                             </div>
                             <!-- end .login--form -->
                         </div>

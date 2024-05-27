@@ -34,4 +34,10 @@
 	 WHERE member_seq = #{memberSeq}
 	</select>
 	
+	<update id="updatePasswd" parameterType="PasswdResetDto">
+	UPDATE forum.member
+	SET passwd = #{passwd}
+	WHERE member_seq = #{memberSeq}
+	</update>
+	
 </mapper>

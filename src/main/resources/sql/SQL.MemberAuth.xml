@@ -27,5 +27,16 @@
 	   SET auth_yn='Y'
 	 WHERE auth_uri = #{uri}
 	</update>
+	
+	<insert id="addResetPasswdAuthInfo" parameterType="ResetPasswdAuthDto">
+	INSERT INTO forum.reset_passwd_auth
+	(auth_uri, member_seq, reg_dtm, expire_dtm)
+	VALUES (#{authUri}, #{memberSeq}, #{regDtm}, #{expireDtm})
+	</insert>
 
+	<select id="getMemberSeqFromResetAuth" parameterType="String" resultType="int">
+	SELECT member_seq
+	FROM forum.reset_passwd_auth
+	WHERE auth_uri = #{uri}
+	</select>
 </mapper>
