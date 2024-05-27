@@ -168,9 +168,10 @@ public class LoginController {
 	public String resetPasswordPage(String uri, Model model) {
 		log.info("authUri={}",uri);
 		//authUri로 조회되는 
-		int memberSeq = loginService.checkAuthUriForPasswdReset(uri);
-		if(memberSeq > 0) {
-			model.addAttribute("memberSeq", memberSeq);
+		PasswdResetDto dto = loginService.checkAuthUriForPasswdReset(uri);
+		log.info("authDto={}", dto);
+		if(dto != null) {
+			model.addAttribute("dto", dto);
 			return "/auth/resetPasswd";
 		} else {
 			return "redirect:/index.do"; //TODO 잘못된 접근 404페이지로 수정하기
@@ -195,7 +196,7 @@ public class LoginController {
 			return "redirect:/index.do";
 			
 		} else {
-			model.addAttribute("memberSeq", memberSeq);
+			model.addAttribute("dto", passwdResetDto);
 			return "/auth/resetPasswd";
 		}
 		

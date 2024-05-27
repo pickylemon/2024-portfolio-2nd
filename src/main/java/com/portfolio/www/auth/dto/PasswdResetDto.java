@@ -12,6 +12,8 @@ import lombok.ToString;
 @ToString
 public class PasswdResetDto {
 	@NotNull
+	private int resetPasswdAuthSeq;
+	@NotNull
 	private int memberSeq;
 	@NotNull
 	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,15}$",
