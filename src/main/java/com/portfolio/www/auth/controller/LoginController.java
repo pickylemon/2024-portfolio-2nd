@@ -4,17 +4,20 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.portfolio.www.auth.dto.PasswdResetDto;
 import com.portfolio.www.auth.message.LoginMessageEnum;
+import com.portfolio.www.auth.message.ResetPasswdAuthMessageEnum;
 import com.portfolio.www.auth.service.LoginService;
 
 import lombok.RequiredArgsConstructor;
@@ -115,11 +118,86 @@ public class LoginController {
 		return cookie;
 	}
 	
-	@RequestMapping("/auth/resetPassword.do")
-	public ModelAndView findPassword() {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("auth/reset-password");	
-		return mv;
+	@GetMapping("/checkIdAndEmail.do")
+	public String enterIdPage() {
+		return "/auth/checkIdAndEmail";
 	}
-
+	
+	@PostMapping("/checkIdAndEmail.do")
+	public String verifyId(String memberId, String email, HttpServletRequest request, Model model, RedirectAttributes rattr) {
+		String contextPath = request.getContextPath();
+		int code = loginService.beforeResetPasswd(memberId, email, contextPath);
+		
+		log.info("memberId={}, email={}", memberId, email);
+		//조회되는 아이디가 없거나, 
+		//아이디가 일치해도 입력한 이메일이 가입시 입력한 이메일과 다르다면(가벼운 본인 인증 절차)
+		//사용자 입력값을 그대로 뷰에 뿌려주고 메시지를 전달한다.
+		
+		//비밀번호 리셋 : 비밀번호 리셋 뷰가 필요하다(사용자가 새 비밀번호를 입력해야하니까)
+		//근데, 이 뷰와 연결된 컨트롤러 메서드는, 그 주소가 유추가능해서는 안된다. (악용될 수 있으니까)
+		//즉, 랜덤값으로 주소를 전달해야하고, 내부적으로는 그 랜덤값을 통해 사용자를 식별할 수 있어야 비밀번호 update도 가능하다.
+		//그럼 결국 테이블이 또 필요한걸까?
+		
+		//해시함수를 이용해 이메일을 암호화했기때문에 복호화가 불가능하다.
+		//즉 가입된 이메일을 직접 DB에서 꺼내서 사용자에게 확인시키거나, 이메일 전송에 사용할 수가 없음
+		//사용자 입력 이메일이 저장된 이메일이 같은지 검증하고, 같다면 사용자 입력 이메일로 비밀번호 변경 메일을 보낸다.
+		if(code == 1) {
+			rattr.addFlashAttribute("code",ResetPasswdAuthMessageEnum.MAIL_SEND_SUCCESS.getCode());
+			rattr.addFlashAttribute("msg",ResetPasswdAuthMessageEnum.MAIL_SEND_SUCCESS.getMsg());
+			return "redirect:/index.do";
+		} else if (code == -1) {
+			//조회되는 아이디가 없으면
+			model.addAttribute("code", ResetPasswdAuthMessageEnum.NO_SUCH_MEMBER.getCode());
+			model.addAttribute("msg", ResetPasswdAuthMessageEnum.NO_SUCH_MEMBER.getMsg());
+		} else if (code == -3) {
+			//이메일 발송 오류
+			model.addAttribute("code", ResetPasswdAuthMessageEnum.AUTH_MAIL_FAIL.getCode());
+			model.addAttribute("msg", ResetPasswdAuthMessageEnum.AUTH_MAIL_FAIL.getMsg());
+		} else {
+			//기타 오류
+			model.addAttribute("code", ResetPasswdAuthMessageEnum.FAIL.getCode());
+			model.addAttribute("msg", ResetPasswdAuthMessageEnum.FAIL.getMsg());
+		}
+		//유저 입력값을 다시 form으로 전달하며 메시지도 같이 전달
+		model.addAttribute("memberId", memberId);
+		model.addAttribute("email",email);
+		return "/auth/checkIdAndEmail";
+	}
+	
+	@GetMapping("/resetPasswd.do")
+	public String resetPasswordPage(String uri, Model model) {
+		log.info("authUri={}",uri);
+		//authUri로 조회되는 
+		int memberSeq = loginService.checkAuthUriForPasswdReset(uri);
+		if(memberSeq > 0) {
+			model.addAttribute("memberSeq", memberSeq);
+			return "/auth/resetPasswd";
+		} else {
+			return "redirect:/index.do"; //TODO 잘못된 접근 404페이지로 수정하기
+		}
+	}
+	
+	@PostMapping("/resetPasswd.do")
+	public String resetPassword(@Valid PasswdResetDto passwdResetDto, BindingResult result, Model model, RedirectAttributes rattr) {
+		//log.info("passwdResetDto={}", passwdResetDto);
+		int memberSeq = passwdResetDto.getMemberSeq();
+		
+		if(result.hasErrors()) {
+			result.getAllErrors().forEach(System.out::println);
+			model.addAttribute("memberSeq", memberSeq);
+			return "/auth/resetPasswd";
+		}
+		
+		int code = loginService.resetPasswd(passwdResetDto);
+		if(code == 1) {
+			rattr.addFlashAttribute("code", ResetPasswdAuthMessageEnum.PASSWD_RESET_SUCCESS.getCode());
+			rattr.addFlashAttribute("msg", ResetPasswdAuthMessageEnum.PASSWD_RESET_SUCCESS.getMsg());
+			return "redirect:/index.do";
+			
+		} else {
+			model.addAttribute("memberSeq", memberSeq);
+			return "/auth/resetPasswd";
+		}
+		
+	}
 }

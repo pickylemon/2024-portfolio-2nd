@@ -55,8 +55,8 @@ public class JoinService {
 			//클래스를 따로 만들까 했지만, 여기서밖에 사용 하지 않을 것 같아서 일단은 map으로만..
 			HashMap<String, String> mailContent = createMailContent(contextPath, authUri);
 			//sender에 대한 정보는 bean으로 등록한 mailSender에서 가져온다.
-			EmailDto emailDto = EmailDto.createEmailDto(receiver, mailContent);
-			emailUtil.sendMail(emailDto, true);
+			EmailDto emailDto = EmailDto.createEmailDto(receiver, mailContent, true);
+			emailUtil.sendMail(emailDto);
 					
 		} catch (DuplicateKeyException e) {
 			//memberId는 Unique키 제약조건이 있어서, 
@@ -123,11 +123,6 @@ public class JoinService {
 	private boolean isValidTime(long time) {
 		return Calendar.getInstance().getTimeInMillis() < time;
 	}
-	
-	
-	
-	
-	
 	
 
 	//QUESTION 여기가 뭔가 신경쓰인다. 
