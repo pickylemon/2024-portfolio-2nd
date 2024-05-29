@@ -3,6 +3,7 @@
 <%
 String ctx = request.getContextPath();
 %>
+<c:out value="${list.size()}"/>
     <section class="section--padding2">
         <div class="container">
             <div class="row">
@@ -20,45 +21,27 @@ String ctx = request.getContextPath();
                                             	<th>No</th>
                                                 <th>제목</th>
                                                 <th>Date</th>
+                                                <th>조회수</th>
                                                 <th>작성자</th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>
-                                                	<a href="<c:url value='/forum/notice/readPage.do'/>">
-                                                		Payoneer
-                                                	</a>
-                                                </td>
-                                                <td>2024.03.23 21:57:13</td>
-                                                <td>홍길동</td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Payoneer</td>
-                                                <td>2024.03.23 21:57:13</td>
-                                                <td>홍길동</td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Payoneer</td>
-                                                <td>2024.03.23 21:57:13</td>
-                                                <td>홍길동</td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Payoneer</td>
-                                                <td>2024.03.23 21:57:13</td>
-                                                <td>홍길동</td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Payoneer</td>
-                                                <td>2024.03.23 21:57:13</td>
-                                                <td>홍길동</td>
-                                            </tr>
+                                        <c:forEach var="item" items="${list}">
+                                        	<tr>
+                                        		<td>${item.boardSeq }</td>
+                                        		<td>
+                                        		<a href="<c:url value='/forum/notice/readPage.do?boardSeq=${item.boardSeq }&boardTypeSeq=${item.boardTypeSeq }'/>">
+                                        		${item.title } [${item.boardCommentCnt }]
+                                        		<c:if test="${item.attFileCnt > 0}">
+                                        			<i class="fas fa-solid fa-paperclip"></i>
+                                        		</c:if>
+                                        		</a></td>
+                                        		<td>${item.regDtm }</td>
+                                        		<td>${item.hit }</td>
+                                        		<td>${item.regMemberId }</td>
+                                        	</tr>
+                                        </c:forEach>
                                         </tbody>
                                     </table>
                                     <div style="display: inline-block; margin: 0 5px; float: right; padding-right:10px;">
@@ -69,15 +52,19 @@ String ctx = request.getContextPath();
                                     <div class="pagination-area" style="padding-top: 45px;">
 				                        <nav class="navigation pagination" role="navigation">
 				                            <div class="nav-links">
-				                                <a class="prev page-numbers" href="#">
-				                                    <span class="lnr lnr-arrow-left"></span>
-				                                </a>
-				                                <a class="page-numbers current" href="#">1</a>
-				                                <a class="page-numbers" href="#">2</a>
-				                                <a class="page-numbers" href="#">3</a>
-				                                <a class="next page-numbers" href="#">
-				                                    <span class="lnr lnr-arrow-right"></span>
-				                                </a>
+				                              <c:if test="${ph.startPage ne 1 }">
+													<a class="prev page-numbers" href="<c:url value='/forum/notice/listPage.do?page=${ph.startPage-1 }&size=${ph.pageSize }'/>">
+					                                    <span class="lnr lnr-arrow-left"></span>
+					                                </a>
+												</c:if>
+												<c:forEach var="i" begin="${ph.startPage }" end="${ph.endPage }">
+													<a class="page-numbers" href="<c:url value='/forum/notice/listPage.do?page=${i }&size=${ph.pageSize }'/>">${i }</a>
+												</c:forEach>
+				                                <c:if test="${ph.endPage ne ph.totalPage }">
+													<a class="next page-numbers" href="<c:url value='/forum/notice/listPage.do?page=${ph.endPage+1 }&size=${ph.pageSize }'/>">
+					                                    <span class="lnr lnr-arrow-right"></span>
+					                                </a>
+												</c:if>
 				                            </div>
 				                        </nav>
 				                    </div>
