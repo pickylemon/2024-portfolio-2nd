@@ -1,7 +1,5 @@
 package com.portfolio.www.forum.notice.dto;
 
-import java.io.Serializable;
-
 import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
@@ -13,8 +11,9 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-public class BoardSaveDto implements Serializable {
+public class BoardSaveDto {
 	//제목, 내용, 파일
+	private Integer boardSeq;
 	@NotBlank(message = "제목을 입력해주세요.")
 	private String title;
 	@NotBlank(message = "본문 내용을 입력해주세요.")

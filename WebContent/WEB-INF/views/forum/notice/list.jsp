@@ -3,7 +3,6 @@
 <%
 String ctx = request.getContextPath();
 %>
-<c:out value="${list.size()}"/>
     <section class="section--padding2">
         <div class="container">
             <div class="row">

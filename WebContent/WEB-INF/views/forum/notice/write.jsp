@@ -16,6 +16,7 @@
 
 	    })    
     
+	    //왠지 모르겠는데..script태그를 아래로 내리면 에디터 렌더링에 이상이 생긴다. 그래서 그냥 다시 올림.
 	    $('#trumbowyg-demo').trumbowyg({
 	        lang: 'kr'
 	    });
@@ -43,7 +44,15 @@
 	    	} 
 	    	return false;
 	    }
+	    
+	    
+	    //input태그를 disply:none으로 해둔 상태라 추가된 파일명(onchange이벤트)을 보여주기 위한 함수
+	    function showFileName(elem) {
+	    	const fileName = elem.files[0].name
+	    	elem.closest('label').querySelector('span.fileName').innerText = fileName
+	    }
 	</script>
+
     <!--================================
             START DASHBOARD AREA
     =================================-->
@@ -52,7 +61,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="question-form cardify p-4">
-                        <form action="<c:url value='/forum/notice/writePage.do'/>" method="post" onsubmit="return formCheck(this)">
+                        <form action="<c:url value='/forum/notice/writePage.do'/>" method="post" onsubmit="return formCheck(this)" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label>제목</label>
                                 <input type="text" placeholder="Enter title here" required name="title">
@@ -75,11 +84,24 @@
 
                             <div class="form-group">
                                 <div class="attachments">
-                                    <label>Attachments</label>
+                                    <div>Attachments</div>
                                     <label>
                                         <span class="lnr lnr-paperclip"></span> Add File
                                         <span>or Drop Files Here</span>
-                                        <input type="file" style="display:none;">
+                                        <span class="fileName"></span>
+                                        <input type="file" style="display:none;" name="attFiles" onchange="showFileName(this)">
+                                    </label>
+                                    <label>
+                                        <span class="lnr lnr-paperclip"></span> Add File
+                                        <span>or Drop Files Here</span>
+                                        <span class="fileName"></span>
+                                        <input type="file" style="display:none;" name="attFiles" onchange="showFileName(this)">
+                                    </label>
+                                    <label>
+                                        <span class="lnr lnr-paperclip"></span> Add File
+                                        <span>or Drop Files Here</span>
+                                        <span class="fileName"></span>
+                                        <input type="file" style="display:none;" name="attFiles" onchange="showFileName(this)">
                                     </label>
                                 </div>
                             </div>
@@ -96,6 +118,7 @@
         </div>
         <!-- end .container -->
     </section>
+        
     <!--================================
             END DASHBOARD AREA
     =================================-->

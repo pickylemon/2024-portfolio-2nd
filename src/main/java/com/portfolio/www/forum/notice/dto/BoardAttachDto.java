@@ -25,13 +25,16 @@ public class BoardAttachDto {
 	 private int downloadCnt;
 	 
 	 
-	 public static BoardAttachDto makeBoardAttachDto(MultipartFile mf, File destFile) {
+	 public static BoardAttachDto makeBoardAttachDto(MultipartFile mf, File destFile,
+			 						int boardSeq, int boardTypeSeq) {
 		 BoardAttachDto attachDto = new BoardAttachDto();
 		 attachDto.setOrgFileNm(mf.getOriginalFilename());
 		 attachDto.setChngFileNm(destFile.getName());
     	 attachDto.setFileType(mf.getContentType());
 		 attachDto.setFileSize(mf.getSize());
 		 attachDto.setSavePath(destFile.getAbsolutePath());
+		 attachDto.setBoardSeq(boardSeq);
+		 attachDto.setBoardTypeSeq(boardTypeSeq);
 		 
 		 return attachDto;
 	 }

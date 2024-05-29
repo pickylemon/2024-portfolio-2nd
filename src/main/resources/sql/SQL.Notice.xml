@@ -67,12 +67,12 @@
 	</update>
 	
 	<insert id="save" parameterType="BoardSaveDto">
-		<selectKey resultType="string" keyProperty="boardSeq" order="AFTER">
+		<selectKey resultType="int" keyProperty="boardSeq" order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 		INSERT INTO board 
 		(board_type_seq, title, content, reg_member_seq, reg_dtm) 
-		VALUES (#{boardTypeSeq}, #{title}, #{content}, #{regMemberSeq}, DATE_FORMAT(now(),'%Y%m%d%H%i%s'))
+		VALUES (#{boardTypeSeq}, #{title}, #{content}, #{regMemberSeq}, DATE_FORMAT(now(),'%Y-%m-%d-%H:%i:%s'))
 	</insert>
 	
 	<update id="update" parameterType="BoardModifyDto">

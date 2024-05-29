@@ -1,5 +1,6 @@
 package com.portfolio.www.forum.notice.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
@@ -7,14 +8,19 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.portfolio.www.forum.notice.dto.BoardAttachDto;
 import com.portfolio.www.forum.notice.dto.BoardDto;
+import com.portfolio.www.forum.notice.dto.BoardSaveDto;
 import com.portfolio.www.forum.notice.dto.BoardVoteDto;
 import com.portfolio.www.forum.notice.dto.PageHandler;
 import com.portfolio.www.forum.notice.dto.SearchCondition;
+import com.portfolio.www.forum.notice.exception.FileSaveException;
 import com.portfolio.www.forum.notice.repository.BoardAttachRepository;
 import com.portfolio.www.forum.notice.repository.BoardCommentRepository;
 import com.portfolio.www.forum.notice.repository.BoardRepository;
+import com.portfolio.www.forum.notice.util.FileUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +33,7 @@ public class BoardService {
 	private final BoardRepository boardRepository;
 	private final BoardAttachRepository boardAttachRepository;
 	private final BoardCommentRepository boardcommentRepository;
-//	private final FileUtil fileUtil;
+	private final FileUtil fileUtil;
 	
 	/*
 	 * 게시글 리스트 가져오기(첨부파일 갯수, 댓글 갯수 목록도 포함시켜서)
@@ -159,38 +165,37 @@ public class BoardService {
 	 * @param mfs
 	 * @return
 	 */
-//	@Transactional
-//	public int savePost(BoardSaveDto dto, MultipartFile[] mfs) {
-//		int code = 1;
-//		try {
-//			//1. 게시글 데이터 DB에 저장
-//			int boardSeq = boardRepository.save(dto); //내부적으로 keyholder를 사용해 pk반환
-//			log.info("boardSeq={}", boardSeq);
-//
-//			for(MultipartFile mf : mfs) { //첨부파일 배열에 대해 루프 돌림
-//				if(!mf.isEmpty()) {
-//					//2. 첨부파일 물리적 저장 및	
-//					File destfile = fileUtil.saveFiles(mf);
-//					//3-1. BoardAttachDto 생성
-//					BoardAttachDto attachDto = BoardAttachDto.makeBoardAttachDto(mf, destfile);
-//					attachDto.setBoardSeq(boardSeq);
-//					attachDto.setBoardTypeSeq(dto.getBoardTypeSeq());
-//					//3-2. 첨부파일 메타데이터 DB에 저장
-//					log.info("attachDto={}", attachDto);
-//					boardAttachRepository.saveAttachFile(attachDto);
-//				}
-//			}
-//		} catch(DataAccessException e) {
-//			//게시글 등록에 실패하면
-//			log.info("e.getMessage()={}", e.getMessage());
-//			code = -1;
-//			e.printStackTrace();
-//		} catch(FileSaveException e) {
-//			code = -2; //사용자에게 게시글 등록 실패 이유를 전달하기 위해 굳이 code를 나눴다.
-//			e.printStackTrace();
-//		}
-//		return code;
-//	}
+	@Transactional
+	public int savePost(BoardSaveDto dto, MultipartFile[] mfs) {
+		int code = 1;
+		try {
+			//1. 게시글 데이터 DB에 저장
+			int boardSeq = boardRepository.save(dto); //내부적으로 keyholder를 사용해 pk반환
+			log.info("boardSeq={}", boardSeq);
+
+			for(MultipartFile mf : mfs) { //첨부파일 배열에 대해 루프 돌림
+				if(!mf.isEmpty()) {
+					//2. 첨부파일 물리적 저장 및	
+					File destfile = fileUtil.saveFiles(mf);
+					//3-1. BoardAttachDto 생성
+					BoardAttachDto attachDto 
+							= BoardAttachDto.makeBoardAttachDto(mf, destfile, boardSeq, dto.getBoardTypeSeq());
+					//3-2. 첨부파일 메타데이터 DB에 저장
+					log.info("attachDto={}", attachDto);
+					boardAttachRepository.saveAttachFile(attachDto);
+				}
+			}
+		} catch(DataAccessException e) {
+			//게시글 등록에 실패하면
+			log.info("e.getMessage()={}", e.getMessage());
+			code = -1;
+			e.printStackTrace();
+		} catch(FileSaveException e) {
+			code = -2; //사용자에게 게시글 등록 실패 이유를 전달하기 위해 굳이 code를 나눴다.
+			e.printStackTrace();
+		}
+		return code;
+	}
 //
 //	
 //	/**

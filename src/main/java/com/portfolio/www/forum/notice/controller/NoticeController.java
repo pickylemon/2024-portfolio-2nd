@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.portfolio.www.forum.notice.dto.BoardDto;
 import com.portfolio.www.forum.notice.dto.BoardSaveDto;
@@ -66,8 +67,10 @@ public class NoticeController {
 	}
 	
 	@PostMapping("/writePage.do")
-	public String write(@Validated BoardSaveDto boardSaveDto, BindingResult error, HttpSession session) {
+	public String write(@Validated BoardSaveDto boardSaveDto, BindingResult error, 
+						MultipartFile[] attFiles, HttpSession session) {
 		log.info("boardSaveDto={}", boardSaveDto);
+		log.info("attFiles.length={}", attFiles.length);
 		if(error.hasErrors()) { //작성 내용도 유효성 체크 해야함(ex. 공백 x)
 			//사용자 작성 내용은 (생략된)@ModelAttribute에 담겨서 같이 전달됨.
 			error.getAllErrors().forEach(System.out::println);
@@ -75,6 +78,8 @@ public class NoticeController {
 		}
 		int memberSeq = (int)session.getAttribute("memberSeq");
 		boardSaveDto.setRegMemberSeq(memberSeq);
+		
+		boardService.savePost(boardSaveDto, attFiles);
 		return "redirect:/forum/notice/listPage.do";
 	}
 	
