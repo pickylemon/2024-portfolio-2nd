@@ -6878,7 +6878,8 @@ div#ui-datepicker-div tbody tr td a:hover {
   display: block;
 }
 
-.question-form .form-group .attachments label:last-child, .question-form .form-group .attachments p.label:last-child {
+/* .question-form .form-group .attachments label:last-child, .question-form .form-group .attachments p.label:last-child { */
+.question-form .form-group .attachments label, .question-form .form-group .attachments p.label {
   border: 1px solid #ececec;
   line-height: 55px;
   padding: 0 20px;

@@ -49,7 +49,8 @@
 	<!-- DAO 위치를 basePackage로.. -->
 	<!-- 작업지시서가 있는 패키지 위치를 잡아줘야 사용 할 수 있다 --> <!-- 인터페이스에 @Mapper 달아주는 것과 같은 효과? -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"> 
-		<property name="basePackage" value="com.portfolio.www.*.repository" />
+		<property name="basePackage" value="com.portfolio.www.**.repository" />
+<!-- 		<property name="basePackage" value="com.portfolio.www.*.*.repository" /> -->
 	</bean>
 	
 	<!-- 트랜잭션 관리를 위한 bean -->
