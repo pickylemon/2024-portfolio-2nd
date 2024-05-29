@@ -2,6 +2,7 @@ package com.portfolio.www.forum.notice.service;
 
 import java.io.File;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,6 +21,7 @@ import com.portfolio.www.forum.notice.exception.FileSaveException;
 import com.portfolio.www.forum.notice.repository.BoardAttachRepository;
 import com.portfolio.www.forum.notice.repository.BoardCommentRepository;
 import com.portfolio.www.forum.notice.repository.BoardRepository;
+import com.portfolio.www.forum.notice.util.CustomFile;
 import com.portfolio.www.forum.notice.util.FileUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -239,35 +241,35 @@ public class BoardService {
 //	}
 //	
 //	
-//	/**
-//	 * 게시물 삭제
-//	 * -> 해당 게시물의 게시글과 첨부파일 모두 삭제
-//	 * -> (물리적으로 저장된 첨부파일도 삭제하고, DB에서 파일 데이터도 모두 삭제)
-//	 * @param boardSeq
-//	 * @param boardTypeSeq
-//	 * @return
-//	 * 처음엔 try-catch로 처리했었는데, 
-//	 * 예외가 발생하면 catch구문에 잡혀서 rollback이 안될 것 같아서 rollbackFor로만 설정함.. 
-//	 * 예외에 대해 처리도 하고 rollback도 하고 싶으면 어떻게 하지?? 
-//	 */
-//	
-//	@Transactional(rollbackFor = {DataAccessException.class, FileSaveException.class})
-//	public int delete(Integer boardSeq, Integer boardTypeSeq) {
-//		int code = -1;
-//	
-//		//1. 물리적으로 저장되어있는 파일 삭제
-//		List<File> delFileList = (List<File>) getFileList(boardSeq, boardTypeSeq);
-//		fileUtil.deleteFiles(delFileList);
-//		
-//		//2. 파일정보 DB에서 삭제
-//		boardAttachRepository.deleteList(boardSeq, boardTypeSeq);
-//		//3. 게시글 DB에서 삭제(FK 제약조건이 restrict on delete라서, board_attach의 delete가 먼저 수행되어야 한다.)
-//		code = boardRepository.delete(boardSeq, boardTypeSeq);
-//
-//		log.info("code={}", code);
-//		return code;
-//	}
-//
+	/**
+	 * 게시물 삭제
+	 * -> 해당 게시물의 게시글과 첨부파일 모두 삭제
+	 * -> (물리적으로 저장된 첨부파일도 삭제하고, DB에서 파일 데이터도 모두 삭제)
+	 * @param boardSeq
+	 * @param boardTypeSeq
+	 * @return
+	 * 처음엔 try-catch로 처리했었는데, 
+	 * 예외가 발생하면 catch구문에 잡혀서 rollback이 안될 것 같아서 rollbackFor로만 설정함.. 
+	 * 예외에 대해 처리도 하고 rollback도 하고 싶으면 어떻게 하지?? 
+	 */
+	
+	@Transactional(rollbackFor = {DataAccessException.class, FileSaveException.class})
+	public int delete(Integer boardSeq, Integer boardTypeSeq) {
+		int code = -1;
+	
+		//1. 물리적으로 저장되어있는 파일 삭제
+		List<File> delFileList = (List<File>) getFileList(boardSeq, boardTypeSeq);
+		fileUtil.deleteFiles(delFileList);
+		
+		//2. 파일정보 DB에서 삭제
+		boardAttachRepository.deleteList(boardSeq, boardTypeSeq);
+		//3. 게시글 DB에서 삭제(FK 제약조건이 restrict on delete라서, board_attach의 delete가 먼저 수행되어야 한다.)
+		code = boardRepository.delete(boardSeq, boardTypeSeq);
+
+		log.info("code={}", code);
+		return code;
+	}
+
 //	/**
 //	 * 게시물 수정 페이지에서 개별 첨부 파일 삭제 요청
 //	 * 
@@ -307,28 +309,28 @@ public class BoardService {
 //	}
 //	
 //	
-//	/**
-//	 * boardSeq와 boardTypeSeq로 식별되는 게시물에 포함된
-//	 * 모든 첨부파일의 정보를 DB에서 읽어와서 (List<BoardAttachDto>)
-//	 * List<? super CustomFile>로 변환하는 메서드
-//	 * 
-//	 * ex) 
-//	 * 1. 게시글 삭제시 해당 게시글에 포함된 모든 첨부파일을 삭제할 때
-//	 * 2. 사용자가 해당 게시글의 모든 첨부파일을 한번에 압축파일로 다운받을 때
-//	 * 
-//	 * zip파일로 다운 받아도 압축 해제시, 원본 파일명이 그대로 보존되길 원해서
-//	 * File을 상속받고 File을 포함하고 원본 파일명을 가지는 CustomFile 클래스를 만들어 사용함.
-//	 * 
-//	 * @param boardSeq
-//	 * @param boardTypeSeq
-//	 * @return
-//	 */
-//	private List<? super CustomFile> getFileList(Integer boardSeq, Integer boardTypeSeq) {
-//		List<BoardAttachDto> attFileInfoList = boardAttachRepository.getList(boardSeq, boardTypeSeq);
-//		List<CustomFile> fileList = attFileInfoList.stream()
-//								.map(dto -> new CustomFile(dto.getSavePath(), dto.getOrgFileNm()))
-//								.collect(Collectors.toList());
-//		return fileList;
-//	}
+	/**
+	 * boardSeq와 boardTypeSeq로 식별되는 게시물에 포함된
+	 * 모든 첨부파일의 정보를 DB에서 읽어와서 (List<BoardAttachDto>)
+	 * List<? super CustomFile>로 변환하는 메서드
+	 * 
+	 * ex) 
+	 * 1. 게시글 삭제시 해당 게시글에 포함된 모든 첨부파일을 삭제할 때
+	 * 2. 사용자가 해당 게시글의 모든 첨부파일을 한번에 압축파일로 다운받을 때
+	 * 
+	 * zip파일로 다운 받아도 압축 해제시, 원본 파일명이 그대로 보존되길 원해서
+	 * File을 상속받고 File을 포함하고 원본 파일명을 가지는 CustomFile 클래스를 만들어 사용함.
+	 * 
+	 * @param boardSeq
+	 * @param boardTypeSeq
+	 * @return
+	 */
+	private List<? super CustomFile> getFileList(Integer boardSeq, Integer boardTypeSeq) {
+		List<BoardAttachDto> attFileInfoList = boardAttachRepository.getList(boardSeq, boardTypeSeq);
+		List<CustomFile> fileList = attFileInfoList.stream()
+								.map(dto -> new CustomFile(dto.getSavePath(), dto.getOrgFileNm()))
+								.collect(Collectors.toList());
+		return fileList;
+	}
 
 }

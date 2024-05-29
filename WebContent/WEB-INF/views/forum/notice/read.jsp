@@ -6,11 +6,7 @@ String ctx = request.getContextPath();
 	<link rel="stylesheet" href="<%=ctx%>/assest/template/css/trumbowyg.min.css">
     <script src="<%=ctx%>/assest/template/js/vendor/trumbowyg.min.js"></script>
     <script src="<%=ctx%>/assest/template/js/vendor/trumbowyg/ko.js"></script>
-    <script type="text/javascript">
-	    $('#trumbowyg-demo').trumbowyg({
-	        lang: 'kr'
-	    });
-	</script>
+
     <!--================================
             START DASHBOARD AREA
     =================================-->
@@ -35,7 +31,7 @@ String ctx = request.getContextPath();
                             </div>
                             <!-- end .title_vote -->
                             <div class="suppot_query_tag">
-                                <img class="poster_avatar" src="<%=ctx%>/assest/template/images/support_avat1.png" alt="Support Avatar"> Mitesh Chavda
+                                <img class="poster_avatar" src="<%=ctx%>/assest/template/images/support_avat1.png" alt="Support Avatar"> ${boardDto.regMemberId }
                                 <span>${boardDto.regDtm }</span>
                             </div>
                             <p style="    margin-bottom: 0; margin-top: 19px;">
@@ -128,6 +124,53 @@ String ctx = request.getContextPath();
         </div>
         <!-- end .container -->
     </section>
+     <script type="text/javascript">
+	    $('#trumbowyg-demo').trumbowyg({
+	        lang: 'kr'
+	    });
+	    
+	    
+
+	    function deletePage(){
+	    	if(!confirm("게시글을 정말로 삭제하시겠습니까?")) {
+	    		return;
+	    	}
+	    	
+	    	let url = '<%=ctx%>/forum/notice/'+${boardDto.boardTypeSeq}
+	    	url += '/'+ ${boardDto.boardSeq} +'/deletePage.do'
+	    	
+	    	$.ajax({    
+	    		type : 'delete',           
+	    		// 타입 (get, post, put 등등)    
+	    		url : url,
+	    		// 요청할 서버url
+	    		async : true,
+	    		// 비동기화 여부 (default : true)
+	    		headers : {
+	    			// Http header
+// 	    			"Content-Type" : "application/json",
+// 	    			"accept" : "application/json"
+	    		},
+	    		dataType : 'text',
+	    		success : function(result) {
+	    			// 결과 성공 콜백함수 
+	    			alert('성공')
+	    			console.log(result);
+	    			alert(result)
+    				location.href='<%=ctx%>/forum/notice/listPage.do'
+
+	    		},
+	    		error : function(result, error) {
+	    			// 결과 에러 콜백함수
+	    			alert('실패')
+	    			console.log(error)
+	    			alert(result.responseJSON)
+// 	    			alert('failed');
+	    			console.log(error)
+	    		}
+	    	});
+	    }
+	</script>
     <!--================================
             END DASHBOARD AREA
     =================================-->

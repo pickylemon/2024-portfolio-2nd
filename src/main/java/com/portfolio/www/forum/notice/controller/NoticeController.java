@@ -30,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/forum/notice")
+//게시글 목록 페이지, 개별 페이지(읽기), 작성 페이지 요청과 게시글 등록을 다루는 컨트롤러
+//ajax통신은 RestNoticeController에서 담당
 public class NoticeController {
 	private final BoardService boardService;
 	
@@ -122,5 +124,4 @@ public class NoticeController {
 		model.addAttribute("boardDto", boardDto);
 		return "forum/notice/read";
 	}
-
 }

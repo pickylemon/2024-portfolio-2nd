@@ -5,7 +5,7 @@
 
 <mapper namespace="com.portfolio.www.forum.notice.repository.BoardRepository">
     <select id="getList" resultType="BoardDto">
-     SELECT b.board_seq, b.board_type_seq, b.title, b.content, b.hit, b.del_yn, b.reg_dtm, b.reg_member_seq, b.update_dtm, b.update_member_seq, m.member_id as reg_member_id
+     SELECT b.board_seq, b.board_type_seq, b.title, b.content, b.hit, b.del_yn, b.reg_dtm, b.reg_member_seq, b.update_dtm, b.update_member_seq, m.member_id reg_member_id
 	   FROM board b 
 	   JOIN board_type bt 
 	     ON b.board_type_seq = bt.board_type_seq 
@@ -26,7 +26,7 @@
 	</select>
 	
 	<select id="getOne" resultType="BoardDto">
-	 SELECT b.board_seq, b.board_type_seq, b.title, b.content, b.hit, b.del_yn, b.reg_dtm, b.reg_member_seq, b.update_dtm, b.update_member_seq, m.member_id
+	 SELECT b.board_seq, b.board_type_seq, b.title, b.content, b.hit, b.del_yn, b.reg_dtm, b.reg_member_seq, b.update_dtm, b.update_member_seq, m.member_id reg_member_id
 	   FROM board b 
 	   JOIN board_type bt 
 		 ON b.board_type_seq = bt.board_type_seq 
