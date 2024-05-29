@@ -89,30 +89,30 @@ public class BoardService {
 	 * @param boardTypeSeq
 	 * @return
 	 */
-//	public List<BoardAttachDto> getAttFileInfoList(int boardSeq, int boardTypeSeq) {
-//		return boardAttachRepository.getList(boardSeq, boardTypeSeq);
-//	}
-//	
-//	/**
-//	 * 특정 첨부파일의 정보 가져오기, 다운로드 횟수 카운트+1
-//	 * 지금은, 선택한 특정 첨부파일 다운로드 상황에서만 이 메서드가 호출돼서
-//	 * downloadCnt를 +1하는 로직과 같이 묶어놓을 수 있긴한데 
-//	 * @param attachSeq
-//	 * @return 
-//	 */
-//	@Transactional
-//	public BoardAttachDto getSingleAttFileInfo(Integer attachSeq) {
-//		boardAttachRepository.updateDownloadCnt(attachSeq);
-//		return boardAttachRepository.getOne(attachSeq);
-//	}
-//	
-//	
-//	public int getLikeTotal(int boardSeq, int boardTypeSeq) {
-//		return boardRepository.getLikeTotal(boardSeq, boardTypeSeq);
-//	}
-//	public int getUnlikeTotal(int boardSeq, int boardTypeSeq) {
-//		return boardRepository.getUnlikeTotal(boardSeq, boardTypeSeq);
-//	}
+	public List<BoardAttachDto> getAttFileInfoList(int boardSeq, int boardTypeSeq) {
+		return boardAttachRepository.getList(boardSeq, boardTypeSeq);
+	}
+	
+	/**
+	 * 특정 첨부파일의 정보 가져오기, 다운로드 횟수 카운트+1
+	 * 지금은, 선택한 특정 첨부파일 다운로드 상황에서만 이 메서드가 호출돼서
+	 * downloadCnt를 +1하는 로직과 같이 묶어놓을 수 있긴한데 
+	 * @param attachSeq
+	 * @return 
+	 */
+	@Transactional
+	public BoardAttachDto getSingleAttFileInfo(Integer attachSeq) {
+		boardAttachRepository.updateDownloadCnt(attachSeq);
+		return boardAttachRepository.getOne(attachSeq);
+	}
+	
+	
+	public int getLikeTotal(int boardSeq, int boardTypeSeq) {
+		return boardRepository.getLikeTotal(boardSeq, boardTypeSeq);
+	}
+	public int getUnlikeTotal(int boardSeq, int boardTypeSeq) {
+		return boardRepository.getUnlikeTotal(boardSeq, boardTypeSeq);
+	}
 	
 	/**
 	 * 
@@ -152,26 +152,25 @@ public class BoardService {
 		return code;
 	}
 
-
-	
-
 	/**
 	 * 게시글 저장
 	 * * 게시글에 대한 insert와 첨부파일의 물리적 저장, insert가 모두 하나의 Tx
 	 * 1. 게시글 데이터 DB 저장
 	 * 2. 파일을 물리적으로 저장
 	 * 3. 파일에 대한 메타 정보를 DB에 저장
-	 * @param dto
+	 * @param boardSaveDto
 	 * @param mfs
 	 * @return
 	 */
 	@Transactional
-	public int savePost(BoardSaveDto dto, MultipartFile[] mfs) {
+	public int savePost(BoardSaveDto boardSaveDto, MultipartFile[] mfs) {
 		int code = 1;
 		try {
 			//1. 게시글 데이터 DB에 저장
-			int boardSeq = boardRepository.save(dto); //내부적으로 keyholder를 사용해 pk반환
-			log.info("boardSeq={}", boardSeq);
+			//int boardSeq = boardRepository.save(boardSaveDto);
+			//땡!! 반환값은 selectKey로 가져온 boardSeq가 아니라 insert가 반영된 row값이라서 1이다
+			boardRepository.save(boardSaveDto); //내부적으로 keyholder를 사용해 pk반환(boardSeq에 binding됨)
+			log.info("boardDto={}", boardSaveDto);
 
 			for(MultipartFile mf : mfs) { //첨부파일 배열에 대해 루프 돌림
 				if(!mf.isEmpty()) {
@@ -179,7 +178,7 @@ public class BoardService {
 					File destfile = fileUtil.saveFiles(mf);
 					//3-1. BoardAttachDto 생성
 					BoardAttachDto attachDto 
-							= BoardAttachDto.makeBoardAttachDto(mf, destfile, boardSeq, dto.getBoardTypeSeq());
+							= BoardAttachDto.makeBoardAttachDto(mf, destfile, boardSaveDto);
 					//3-2. 첨부파일 메타데이터 DB에 저장
 					log.info("attachDto={}", attachDto);
 					boardAttachRepository.saveAttachFile(attachDto);

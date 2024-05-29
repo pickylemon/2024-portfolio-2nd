@@ -21,7 +21,7 @@ String ctx = request.getContextPath();
                     <div class="forum_detail_area ">
                         <div class="cardify forum--issue">
                             <div class="title_vote clearfix">
-                                <h3>Responsive Website Footer Menu</h3>
+                                <h3>${boardDto.title }</h3>
 
                                 <div class="vote">
                                     <a href="#">
@@ -36,19 +36,38 @@ String ctx = request.getContextPath();
                             <!-- end .title_vote -->
                             <div class="suppot_query_tag">
                                 <img class="poster_avatar" src="<%=ctx%>/assest/template/images/support_avat1.png" alt="Support Avatar"> Mitesh Chavda
-                                <span>2024.03.23 20:41:22</span>
+                                <span>${boardDto.regDtm }</span>
                             </div>
                             <p style="    margin-bottom: 0; margin-top: 19px;">
-                            	Nunc placerat mi id nisi interdum they mollis. Praesent pharetra, justot scel erisque the mattis
-                                leo quam. Nunc placerat mi id nisi interdum they mollis. Praesent phare tra, justo ut scel
-                                eris que the mattis, leo quam placerat mi id nisi interdum mollis</p>
+                            	${boardDto.content }</p>
+                             <br/><br/><br/>
+                            <c:if test="${attFileList.size() != 0}">
+	                            <c:forEach items="${attFileList }" var="attFile">
+	                            	<a href="<%=ctx%>/forum/download.do?attachSeq=${attFile.attachSeq}">다운로드 : ${attFile.orgFileNm } (${attFile.fileSize } bytes) [다운로드 횟수 : ${attFile.downloadCnt } ]</a>
+	                            	<br>
+	                            </c:forEach>
+	                            <br>
+	                            <br>
+                            </c:if>
+                            
+                            <!-- 첨부된 파일이 2개 이상일때만 전체 압축해서 다운로드 받을 수 있음 -->
+                            <c:if test="${attFileList.size() > 1}">
+                            	<a href="<%=ctx%>/forum/${boardDto.boardTypeSeq }/${boardDto.boardSeq }/download.do">파일 전체 다운로드</a>
+                            	<br>
+                            </c:if>
+                            
+                            <!-- 수정하기, 삭제하기 버튼은 본인일때만 보여야 하는 버튼 -->
+                            <c:if test='${sessionScope.memberSeq eq boardDto.regMemberSeq }'>
+                            	<a href="<c:url value='/forum/notice/${boardDto.boardTypeSeq }/${boardDto.boardSeq }/modifyPage.do'/>" id="modBtn" >글 수정하기</a><br>
+                            	<a href="#" id="delBtn" onclick="javascript:deletePage()">글 삭제하기</a><br>
+                            </c:if>
                         </div>
                         <!-- end .forum_issue -->
 
 
                         <div class="forum--replays cardify">
                             <div class="area_title">
-                                <h4>1 Replies</h4>
+                                <h4>${comments.size()} Replies</h4>
                             </div>
                             <!-- end .area_title -->
 

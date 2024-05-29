@@ -26,26 +26,16 @@ public class BoardAttachDto {
 	 
 	 
 	 public static BoardAttachDto makeBoardAttachDto(MultipartFile mf, File destFile,
-			 						int boardSeq, int boardTypeSeq) {
+			 						BoardSaveDto boardSaveDto) {
 		 BoardAttachDto attachDto = new BoardAttachDto();
 		 attachDto.setOrgFileNm(mf.getOriginalFilename());
 		 attachDto.setChngFileNm(destFile.getName());
     	 attachDto.setFileType(mf.getContentType());
 		 attachDto.setFileSize(mf.getSize());
 		 attachDto.setSavePath(destFile.getAbsolutePath());
-		 attachDto.setBoardSeq(boardSeq);
-		 attachDto.setBoardTypeSeq(boardTypeSeq);
+		 attachDto.setBoardSeq(boardSaveDto.getBoardSeq());
+		 attachDto.setBoardTypeSeq(boardSaveDto.getBoardTypeSeq());
 		 
 		 return attachDto;
 	 }
-	 
-	 public void setBoardSeq(int boardSeq) {
-		 this.boardSeq = boardSeq;
-	 }
-	 
-	 public void setBoardTypeSeq(int boardTypeSeq) {
-		 this.boardTypeSeq = boardTypeSeq;
-	 }
-	 
-	
 }
