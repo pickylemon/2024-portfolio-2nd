@@ -124,15 +124,15 @@ String ctx = request.getContextPath();
     	}
     }
     
-    let code = '${code}'
-    let msg = '${msg}'
+    let msg = '${msgObject.msg}'
+    let code = '${msgObject.code}'
+
     window.onload = function(){
-    	if(msg!=''){
-    		alert(msg)
-    		console.log(code)
-    	}
+	   	if(msg!=''){
+	   		console.log(code)
+	   		alert(msg)
+	   	}
     }
-    
     
     </script>
     <!--================================

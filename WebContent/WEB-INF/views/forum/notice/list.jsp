@@ -79,13 +79,24 @@ String ctx = request.getContextPath();
         <!-- end .container -->
     </section>
     <script>
-    let code = '${code}'
-    let msg = '${msg}'
+//     let code = '${code}'
+//     let msg = '${msg}'
+//     window.onload = function(){
+//        	if(msg!=''){
+//        		alert(msg)
+//        		console.log(code)
+//        	}
+//     }
+    
+    let msg = '${msgObject.msg}'
+    let code = '${msgObject.code}'
+
     window.onload = function(){
-       	if(msg!=''){
-       		alert(msg)
-       		console.log(code)
-       	}
+	   	if(msg!=''){
+	   		console.log(code)
+	   		alert(msg)
+	   	}
     }
+        
     </script>
    

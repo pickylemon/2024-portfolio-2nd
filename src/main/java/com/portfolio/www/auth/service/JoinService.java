@@ -46,6 +46,8 @@ public class JoinService {
 			
 			//2. MemberAuth테이블에 insert
 			int memberSeq = memberRepository.getMemberSeq(memberDto.getMemberId());
+			//QUESTION 여기도 사실 selectKey를 활용할 수 있지 않을까??
+			
 			MemberAuthDto authDto = MemberAuthDto.createMemberAuthDto(memberSeq);
 			code = memberAuthRepository.addAuthInfo(authDto);
 			

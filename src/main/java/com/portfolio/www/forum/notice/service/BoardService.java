@@ -2,6 +2,7 @@ package com.portfolio.www.forum.notice.service;
 
 import java.io.File;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.portfolio.www.forum.notice.dto.BoardAttachDto;
 import com.portfolio.www.forum.notice.dto.BoardDto;
+import com.portfolio.www.forum.notice.dto.BoardModifyDto;
 import com.portfolio.www.forum.notice.dto.BoardSaveDto;
 import com.portfolio.www.forum.notice.dto.BoardVoteDto;
 import com.portfolio.www.forum.notice.dto.PageHandler;
@@ -20,6 +22,7 @@ import com.portfolio.www.forum.notice.exception.FileSaveException;
 import com.portfolio.www.forum.notice.repository.BoardAttachRepository;
 import com.portfolio.www.forum.notice.repository.BoardCommentRepository;
 import com.portfolio.www.forum.notice.repository.BoardRepository;
+import com.portfolio.www.forum.notice.util.CustomFile;
 import com.portfolio.www.forum.notice.util.FileUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -28,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 public class BoardService {
 	private final BoardRepository boardRepository;
 	private final BoardAttachRepository boardAttachRepository;
@@ -178,7 +181,7 @@ public class BoardService {
 					File destfile = fileUtil.saveFiles(mf);
 					//3-1. BoardAttachDto 생성
 					BoardAttachDto attachDto 
-							= BoardAttachDto.makeBoardAttachDto(mf, destfile, boardSaveDto);
+							= BoardAttachDto.makeBoardAttachDto(mf, destfile, boardSaveDto.getBoardSeq(), boardSaveDto.getBoardTypeSeq());
 					//3-2. 첨부파일 메타데이터 DB에 저장
 					log.info("attachDto={}", attachDto);
 					boardAttachRepository.saveAttachFile(attachDto);
@@ -195,79 +198,70 @@ public class BoardService {
 		}
 		return code;
 	}
-//
-//	
-//	/**
-//	 * 게시물 수정
-//	 * 게시물 작성과 달리 게시물 수정은 이미 boardSeq가 있기 때문에 keyHolder를 쓰지 않아도 된다.
-//	 * @param modifyDto
-//	 * @return
-//	 */
-//	@Transactional
-//	public int modify(BoardModifyDto modifyDto, MultipartFile[] attFiles) {
-//		//1. 게시글 데이터 DB 업데이트
-//		int code = 0;
-//		try {
-//			code = boardRepository.update(modifyDto);
-//			
-//			for(MultipartFile mf : attFiles) {
-//				if(!mf.isEmpty()) {
-//					//2. 첨부파일 물리적 저장
-//					File destFile = fileUtil.saveFiles(mf);
-//					
-//					//dto
-//					BoardAttachDto attachDto = BoardAttachDto.makeBoardAttachDto(mf, destFile);
-//					attachDto.setBoardSeq(modifyDto.getBoardSeq());
-//					attachDto.setBoardTypeSeq(modifyDto.getBoardTypeSeq());
-//					
-//					//3. 첨부파일 데이터 DB 저장
-//					boardAttachRepository.saveAttachFile(attachDto);
-//				}
-//			}
-//		} catch(DataAccessException e) {
-//			//게시글 수정에 실패하면
-//			log.info("e.getMessage()={}", e.getMessage());
-//			code = -1;
-//			e.printStackTrace();
-//		} catch(FileSaveException e) {
-//			code = -2; //사용자에게 게시글 수정 실패 이유를 전달하기 위해 code를 나눴다.
-//			e.printStackTrace();
-//		}
-//		
-//		log.info("code={}",code);
-//		return code;
-//	}
-//	
-//	
-//	/**
-//	 * 게시물 삭제
-//	 * -> 해당 게시물의 게시글과 첨부파일 모두 삭제
-//	 * -> (물리적으로 저장된 첨부파일도 삭제하고, DB에서 파일 데이터도 모두 삭제)
-//	 * @param boardSeq
-//	 * @param boardTypeSeq
-//	 * @return
-//	 * 처음엔 try-catch로 처리했었는데, 
-//	 * 예외가 발생하면 catch구문에 잡혀서 rollback이 안될 것 같아서 rollbackFor로만 설정함.. 
-//	 * 예외에 대해 처리도 하고 rollback도 하고 싶으면 어떻게 하지?? 
-//	 */
-//	
-//	@Transactional(rollbackFor = {DataAccessException.class, FileSaveException.class})
-//	public int delete(Integer boardSeq, Integer boardTypeSeq) {
-//		int code = -1;
-//	
-//		//1. 물리적으로 저장되어있는 파일 삭제
-//		List<File> delFileList = (List<File>) getFileList(boardSeq, boardTypeSeq);
-//		fileUtil.deleteFiles(delFileList);
-//		
-//		//2. 파일정보 DB에서 삭제
-//		boardAttachRepository.deleteList(boardSeq, boardTypeSeq);
-//		//3. 게시글 DB에서 삭제(FK 제약조건이 restrict on delete라서, board_attach의 delete가 먼저 수행되어야 한다.)
-//		code = boardRepository.delete(boardSeq, boardTypeSeq);
-//
-//		log.info("code={}", code);
-//		return code;
-//	}
-//
+
+	
+	/**
+	 * 게시물 수정
+	 * 게시물 작성과 달리 게시물 수정은 이미 boardSeq가 있기 때문에 keyHolder를 쓰지 않아도 된다.
+	 * rollback
+	 * @param modifyDto
+	 * @return
+	 */
+	@Transactional(rollbackFor= {FileSaveException.class, DataAccessException.class})
+	public int modify(BoardModifyDto modifyDto, MultipartFile[] attFiles) {
+		//1. 게시글 데이터 DB 업데이트
+		int code = boardRepository.update(modifyDto);
+		
+		//게시글 등록시 이미 첨부파일 3개를 다 채운 상태이고, 수정시 첨부파일 삭제 및 재추가를 하지 않으면
+		//attFiles에는 null이 담기기 때문에 null체크를 해서 NPE방지해야함
+		if(attFiles!=null) {
+			for(MultipartFile mf : attFiles) {
+				if(!mf.isEmpty()) {
+					//2. 첨부파일 물리적 저장
+					File destFile = fileUtil.saveFiles(mf);
+					//dto
+					BoardAttachDto attachDto 
+							= BoardAttachDto.makeBoardAttachDto(mf, destFile, modifyDto.getBoardSeq(), modifyDto.getBoardTypeSeq());
+					//3. 첨부파일 데이터 DB 저장
+					boardAttachRepository.saveAttachFile(attachDto);
+				}
+			}
+		}
+		
+		return code;
+		//throw new FileSaveException("테스트");
+	}
+	
+	
+	/**
+	 * 게시물 삭제
+	 * -> 해당 게시물의 게시글과 첨부파일 모두 삭제
+	 * -> (물리적으로 저장된 첨부파일도 삭제하고, DB에서 파일 데이터도 모두 삭제)
+	 * @param boardSeq
+	 * @param boardTypeSeq
+	 * @return
+	 * 처음엔 try-catch로 처리했었는데, 
+	 * 예외가 발생하면 catch구문에 잡혀서 rollback이 안될 것 같아서 rollbackFor로만 설정함.. 
+	 * 예외에 대해 처리도 하고 rollback도 하고 싶으면 어떻게 하지?? 
+	 */
+	
+	@Transactional(rollbackFor = {DataAccessException.class, FileSaveException.class})
+	public int delete(Integer boardSeq, Integer boardTypeSeq) {
+		int code = -1;
+	
+		//1. 물리적으로 저장되어있는 파일 삭제
+		List<File> delFileList = (List<File>) getFileList(boardSeq, boardTypeSeq);
+		fileUtil.deleteFiles(delFileList);
+		
+		//2. 파일정보 DB에서 삭제
+		boardAttachRepository.deleteList(boardSeq, boardTypeSeq);
+		//3. 게시글 DB에서 삭제(FK 제약조건이 restrict on delete라서, board_attach의 delete가 먼저 수행되어야 한다.)
+		code = boardRepository.delete(boardSeq, boardTypeSeq);
+
+		log.info("code={}", code);
+		return code;
+	}
+
 //	/**
 //	 * 게시물 수정 페이지에서 개별 첨부 파일 삭제 요청
 //	 * 
@@ -307,28 +301,28 @@ public class BoardService {
 //	}
 //	
 //	
-//	/**
-//	 * boardSeq와 boardTypeSeq로 식별되는 게시물에 포함된
-//	 * 모든 첨부파일의 정보를 DB에서 읽어와서 (List<BoardAttachDto>)
-//	 * List<? super CustomFile>로 변환하는 메서드
-//	 * 
-//	 * ex) 
-//	 * 1. 게시글 삭제시 해당 게시글에 포함된 모든 첨부파일을 삭제할 때
-//	 * 2. 사용자가 해당 게시글의 모든 첨부파일을 한번에 압축파일로 다운받을 때
-//	 * 
-//	 * zip파일로 다운 받아도 압축 해제시, 원본 파일명이 그대로 보존되길 원해서
-//	 * File을 상속받고 File을 포함하고 원본 파일명을 가지는 CustomFile 클래스를 만들어 사용함.
-//	 * 
-//	 * @param boardSeq
-//	 * @param boardTypeSeq
-//	 * @return
-//	 */
-//	private List<? super CustomFile> getFileList(Integer boardSeq, Integer boardTypeSeq) {
-//		List<BoardAttachDto> attFileInfoList = boardAttachRepository.getList(boardSeq, boardTypeSeq);
-//		List<CustomFile> fileList = attFileInfoList.stream()
-//								.map(dto -> new CustomFile(dto.getSavePath(), dto.getOrgFileNm()))
-//								.collect(Collectors.toList());
-//		return fileList;
-//	}
+	/**
+	 * boardSeq와 boardTypeSeq로 식별되는 게시물에 포함된
+	 * 모든 첨부파일의 정보를 DB에서 읽어와서 (List<BoardAttachDto>)
+	 * List<? super CustomFile>로 변환하는 메서드
+	 * 
+	 * ex) 
+	 * 1. 게시글 삭제시 해당 게시글에 포함된 모든 첨부파일을 삭제할 때
+	 * 2. 사용자가 해당 게시글의 모든 첨부파일을 한번에 압축파일로 다운받을 때
+	 * 
+	 * zip파일로 다운 받아도 압축 해제시, 원본 파일명이 그대로 보존되길 원해서
+	 * File을 상속받고 File을 포함하고 원본 파일명을 가지는 CustomFile 클래스를 만들어 사용함.
+	 * 
+	 * @param boardSeq
+	 * @param boardTypeSeq
+	 * @return
+	 */
+	private List<? super CustomFile> getFileList(Integer boardSeq, Integer boardTypeSeq) {
+		List<BoardAttachDto> attFileInfoList = boardAttachRepository.getList(boardSeq, boardTypeSeq);
+		List<CustomFile> fileList = attFileInfoList.stream()
+								.map(dto -> new CustomFile(dto.getSavePath(), dto.getOrgFileNm()))
+								.collect(Collectors.toList());
+		return fileList;
+	}
 
 }

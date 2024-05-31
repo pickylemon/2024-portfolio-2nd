@@ -67,9 +67,7 @@ public class LoginController {
 			Cookie cookie = makeCookie(memberId, rememberMe);
 			response.addCookie(cookie);
 			
-			
-			rattr.addFlashAttribute("code", LoginMessageEnum.LOGIN_SUCCESS.getCode());
-			rattr.addFlashAttribute("msg", LoginMessageEnum.LOGIN_SUCCESS.getMsg());
+			rattr.addFlashAttribute("msgObject", LoginMessageEnum.LOGIN_SUCCESS);
 
 			return "redirect:"+(url==""? "/index.do" : url); 
 			//로그인 성공시 원래 요청페이지로 이동(없으면 홈)
@@ -78,13 +76,11 @@ public class LoginController {
 			
 		} else if (code == -1) {
 			//비밀번호 불일치
-			model.addAttribute("code", LoginMessageEnum.WRONG_PASSWD.getCode());
-			model.addAttribute("msg", LoginMessageEnum.WRONG_PASSWD.getMsg());
-			
+			model.addAttribute("msgObject", LoginMessageEnum.WRONG_PASSWD);
+		
 		} else {
 			//해당 아이디로 가입된 회원 없음 code = -9
-			model.addAttribute("code", LoginMessageEnum.USER_NOT_REGISTERED.getCode());
-			model.addAttribute("msg", LoginMessageEnum.USER_NOT_REGISTERED.getMsg());
+			model.addAttribute("msgObject", LoginMessageEnum.USER_NOT_REGISTERED);
 		}
 		//로그인 실패한 경우, 유저의 입력값을 가지고 다시 로그인 페이지로 돌아감
 		model.addAttribute("memberId", memberId);
@@ -100,8 +96,7 @@ public class LoginController {
 		HttpSession session = request.getSession(false);
 		if(!ObjectUtils.isEmpty(session)) {
 			session.invalidate();
-			rattr.addFlashAttribute("code", LoginMessageEnum.LOGOUT_SUCCESS.getCode());
-			rattr.addFlashAttribute("msg", LoginMessageEnum.LOGOUT_SUCCESS.getMsg());
+			rattr.addFlashAttribute("msgObject", LoginMessageEnum.LOGOUT_SUCCESS);
 		}
 		return "redirect:/index.do";
 	}
@@ -142,21 +137,17 @@ public class LoginController {
 		//즉 가입된 이메일을 직접 DB에서 꺼내서 사용자에게 확인시키거나, 이메일 전송에 사용할 수가 없음
 		//사용자 입력 이메일이 저장된 이메일이 같은지 검증하고, 같다면 사용자 입력 이메일로 비밀번호 변경 메일을 보낸다.
 		if(code == 1) {
-			rattr.addFlashAttribute("code",ResetPasswdAuthMessageEnum.MAIL_SEND_SUCCESS.getCode());
-			rattr.addFlashAttribute("msg",ResetPasswdAuthMessageEnum.MAIL_SEND_SUCCESS.getMsg());
+			rattr.addFlashAttribute("msgObject",ResetPasswdAuthMessageEnum.MAIL_SEND_SUCCESS);
 			return "redirect:/index.do";
 		} else if (code == -1) {
 			//조회되는 아이디가 없으면
-			model.addAttribute("code", ResetPasswdAuthMessageEnum.NO_SUCH_MEMBER.getCode());
-			model.addAttribute("msg", ResetPasswdAuthMessageEnum.NO_SUCH_MEMBER.getMsg());
+			model.addAttribute("msgObject", ResetPasswdAuthMessageEnum.NO_SUCH_MEMBER);
 		} else if (code == -3) {
 			//이메일 발송 오류
-			model.addAttribute("code", ResetPasswdAuthMessageEnum.AUTH_MAIL_FAIL.getCode());
-			model.addAttribute("msg", ResetPasswdAuthMessageEnum.AUTH_MAIL_FAIL.getMsg());
+			model.addAttribute("msgObject", ResetPasswdAuthMessageEnum.AUTH_MAIL_FAIL);
 		} else {
 			//기타 오류
-			model.addAttribute("code", ResetPasswdAuthMessageEnum.FAIL.getCode());
-			model.addAttribute("msg", ResetPasswdAuthMessageEnum.FAIL.getMsg());
+			model.addAttribute("msgObject", ResetPasswdAuthMessageEnum.FAIL);
 		}
 		//유저 입력값을 다시 form으로 전달하며 메시지도 같이 전달
 		model.addAttribute("memberId", memberId);
@@ -191,8 +182,7 @@ public class LoginController {
 		
 		int code = loginService.resetPasswd(passwdResetDto);
 		if(code == 1) {
-			rattr.addFlashAttribute("code", ResetPasswdAuthMessageEnum.PASSWD_RESET_SUCCESS.getCode());
-			rattr.addFlashAttribute("msg", ResetPasswdAuthMessageEnum.PASSWD_RESET_SUCCESS.getMsg());
+			rattr.addFlashAttribute("msgObject", ResetPasswdAuthMessageEnum.PASSWD_RESET_SUCCESS);
 			return "redirect:/index.do";
 			
 		} else {
