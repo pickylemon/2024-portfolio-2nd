@@ -86,12 +86,13 @@ function pwdEquals(elem) {
 	}
 }
 
-	let code = '${code}'
-	let msg = '${msg}'
-	window.onload = function(){
-		if(msg!=''){
-			alert(msg)
-			console.log(code)
-		}
-	}
+    let msg = '${msgObject.msg}'
+    let code = '${msgObject.code}'
+
+    window.onload = function(){
+    	if(msg!=''){
+    		console.log(code)
+    		alert(msg)
+    	}
+    }
 </script>

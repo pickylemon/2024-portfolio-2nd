@@ -234,6 +234,31 @@
 		    <artifactId>commons-fileupload</artifactId>
 		    <version>1.5</version>
 		</dependency>
+		
+		<!-- Spring AOP 관련 -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-aop -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+		</dependency> <!-- Spring의 AOP 기능을 사용하기 위해 필요 -->
+
+		<!-- AspectJ -->
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
+		<dependency>
+		    <groupId>org.aspectj</groupId>
+		    <artifactId>aspectjrt</artifactId>
+		    <version>1.9.7</version>
+		    <scope>runtime</scope>
+		</dependency>
+
+		<!-- AOP 기능을 사용하기 위해 필요 -->
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.9.7</version>
+		</dependency> <!-- AOP 기능을 사용하기 위해 필요 -->
 
 	    
 	</dependencies>

@@ -154,19 +154,19 @@ String ctx = request.getContextPath();
 	    		dataType : 'text',
 	    		success : function(result) {
 	    			// 결과 성공 콜백함수 
-	    			alert('성공')
-	    			console.log(result);
+	    			//alert('성공')
+	    			//console.log(result);
+	    			console.log(result)
 	    			alert(result)
     				location.href='<%=ctx%>/forum/notice/listPage.do'
 
 	    		},
-	    		error : function(result, error) {
+	    		error : function(result) {
 	    			// 결과 에러 콜백함수
-	    			alert('실패')
-	    			console.log(error)
-	    			alert(result.responseJSON)
-// 	    			alert('failed');
-	    			console.log(error)
+	    			console.log(result)
+	    			console.log(result.responseText)
+	    			alert(result.responseText)
+// 	    			console.log(error)
 	    		}
 	    	});
 	    }

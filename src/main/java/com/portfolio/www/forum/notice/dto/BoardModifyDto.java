@@ -1,23 +1,27 @@
 package com.portfolio.www.forum.notice.dto;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
+@Setter
 @ToString
+@NoArgsConstructor
 public class BoardModifyDto {
 	//제목, 내용, 파일
-	@NotEmpty
+	@NotNull
 	private int boardSeq;
-	@NotEmpty
+	@NotBlank(message = "제목을 입력해주세요")
 	private String title;
-	@NotEmpty
+	@NotBlank(message = "본문 내용을 입력해주세요")
 	private String content;
-	@NotEmpty
+	@NotNull
 	private int boardTypeSeq;
-	@NotEmpty
 	private int updateMemberSeq;
 	
 	public BoardModifyDto(int boardTypeSeq, int boardSeq, int updateMemberSeq,

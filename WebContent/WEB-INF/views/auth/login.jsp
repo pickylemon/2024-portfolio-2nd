@@ -70,13 +70,15 @@ String ctx = request.getContextPath();
         </div>
         <!-- end .container -->
     </section>
-    <script>
-    let msg = '${msg}'
-    let code = '${code}'
+    <script>    
+    let msg = '${msgObject.msg}'
+    let code = '${msgObject.code}'
+
     let idElem = document.querySelector('input[name=memberId]')
     let passwdElem = document.querySelector('input[name=passwd]')
     
     window.onload = function(){
+    	
     	showErrorMsg(msg, code)
     }
     

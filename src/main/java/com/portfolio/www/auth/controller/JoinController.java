@@ -43,7 +43,6 @@ public class JoinController {
 	 * @return
 	 */
 	
-	//TODO 사용자 입력 validation 추가하기 
 	@PostMapping("/auth/joinPage.do")
 	public ModelAndView join(@ModelAttribute @Validated MemberDto memberDto, BindingResult result, HttpServletRequest request, Model model, RedirectAttributes rattr ) {
 		log.info("memberDto={}", memberDto);
@@ -53,9 +52,8 @@ public class JoinController {
 		if(result.hasErrors()) {
 			//검증에 실패하면 해당 메시지를 가지고 다시 입력페이지로 이동.
 			result.getAllErrors().forEach(System.out::println);
-//			model.addAllAttributes(result.getModel());
-			model.addAttribute("code", AuthMessageEnum.JOIN_FAIL.getCode());
-			model.addAttribute("msg", AuthMessageEnum.JOIN_FAIL.getMsg());
+//			model.addAllAttributes(result.getModel());)
+			model.addAttribute("msgObject", AuthMessageEnum.JOIN_FAIL);
 			model.addAttribute("memberDto",memberDto);
 			mv.setViewName("auth/join"); 
 			return mv;
@@ -70,19 +68,16 @@ public class JoinController {
 		if(code == 1) {
 			//회원가입 성공시 다시 홈으로 이동
 			//Enum자체를 model이나 flashMap에 담을 수는 없는걸까. 뭔가 view에서 못받던데
-			rattr.addFlashAttribute("code", AuthMessageEnum.SUCCESS.getCode());
-			rattr.addFlashAttribute("msg", AuthMessageEnum.SUCCESS.getMsg());
+			rattr.addFlashAttribute("msgObject", AuthMessageEnum.SUCCESS);
 			
 			//QUESTION redirect:/ 라고 하면 redirect는 되는데, flashAttribute가 전달 안됨.
 			//tilesViewResolver가 우선순위 1이라서 그런가?
 			mv.setViewName("redirect:/index.do"); 
 			return mv;
 		} else if (code == 0){
-			model.addAttribute("code", AuthMessageEnum.ALREADY_EXISTS.getCode());
-			model.addAttribute("msg", AuthMessageEnum.ALREADY_EXISTS.getMsg());
+			model.addAttribute("msgObject", AuthMessageEnum.ALREADY_EXISTS);
 		} else { //code == -1
-			model.addAttribute("code", AuthMessageEnum.JOIN_FAIL.getCode());
-			model.addAttribute("msg", AuthMessageEnum.JOIN_FAIL.getMsg());
+			model.addAttribute("msgObject", AuthMessageEnum.JOIN_FAIL);
 		}
 		//회원가입 실패시 유저의 입력데이터 그대로 들고 다시 form으로
 		model.addAttribute("memberDto",beforeEncDto);
@@ -110,12 +105,10 @@ public class JoinController {
 		
 		//성공시 다시 홈으로
 		if(code == 1) {
-			rattr.addFlashAttribute("code", AuthMessageEnum.AUTH_MAIL_SUCCESS.getCode());
-			rattr.addFlashAttribute("msg", AuthMessageEnum.AUTH_MAIL_SUCCESS.getMsg());
+			rattr.addFlashAttribute("msgObject", AuthMessageEnum.AUTH_MAIL_SUCCESS);
 			//성공시에는 로그인 페이지로 이동하는게 더 낫나..?
 		} else {
-			rattr.addFlashAttribute("code", AuthMessageEnum.AUTH_MAIL_FAIL.getCode());
-			rattr.addFlashAttribute("msg", AuthMessageEnum.AUTH_MAIL_FAIL.getMsg());
+			rattr.addFlashAttribute("msgObject", AuthMessageEnum.AUTH_MAIL_FAIL);
 		} 
 		return "redirect:/index.do";
 	}

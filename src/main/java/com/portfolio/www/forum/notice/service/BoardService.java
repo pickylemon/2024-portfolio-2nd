@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.portfolio.www.forum.notice.dto.BoardAttachDto;
 import com.portfolio.www.forum.notice.dto.BoardDto;
+import com.portfolio.www.forum.notice.dto.BoardModifyDto;
 import com.portfolio.www.forum.notice.dto.BoardSaveDto;
 import com.portfolio.www.forum.notice.dto.BoardVoteDto;
 import com.portfolio.www.forum.notice.dto.PageHandler;
@@ -30,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 public class BoardService {
 	private final BoardRepository boardRepository;
 	private final BoardAttachRepository boardAttachRepository;
@@ -180,7 +181,7 @@ public class BoardService {
 					File destfile = fileUtil.saveFiles(mf);
 					//3-1. BoardAttachDto 생성
 					BoardAttachDto attachDto 
-							= BoardAttachDto.makeBoardAttachDto(mf, destfile, boardSaveDto);
+							= BoardAttachDto.makeBoardAttachDto(mf, destfile, boardSaveDto.getBoardSeq(), boardSaveDto.getBoardTypeSeq());
 					//3-2. 첨부파일 메타데이터 DB에 저장
 					log.info("attachDto={}", attachDto);
 					boardAttachRepository.saveAttachFile(attachDto);
@@ -197,50 +198,41 @@ public class BoardService {
 		}
 		return code;
 	}
-//
-//	
-//	/**
-//	 * 게시물 수정
-//	 * 게시물 작성과 달리 게시물 수정은 이미 boardSeq가 있기 때문에 keyHolder를 쓰지 않아도 된다.
-//	 * @param modifyDto
-//	 * @return
-//	 */
-//	@Transactional
-//	public int modify(BoardModifyDto modifyDto, MultipartFile[] attFiles) {
-//		//1. 게시글 데이터 DB 업데이트
-//		int code = 0;
-//		try {
-//			code = boardRepository.update(modifyDto);
-//			
-//			for(MultipartFile mf : attFiles) {
-//				if(!mf.isEmpty()) {
-//					//2. 첨부파일 물리적 저장
-//					File destFile = fileUtil.saveFiles(mf);
-//					
-//					//dto
-//					BoardAttachDto attachDto = BoardAttachDto.makeBoardAttachDto(mf, destFile);
-//					attachDto.setBoardSeq(modifyDto.getBoardSeq());
-//					attachDto.setBoardTypeSeq(modifyDto.getBoardTypeSeq());
-//					
-//					//3. 첨부파일 데이터 DB 저장
-//					boardAttachRepository.saveAttachFile(attachDto);
-//				}
-//			}
-//		} catch(DataAccessException e) {
-//			//게시글 수정에 실패하면
-//			log.info("e.getMessage()={}", e.getMessage());
-//			code = -1;
-//			e.printStackTrace();
-//		} catch(FileSaveException e) {
-//			code = -2; //사용자에게 게시글 수정 실패 이유를 전달하기 위해 code를 나눴다.
-//			e.printStackTrace();
-//		}
-//		
-//		log.info("code={}",code);
-//		return code;
-//	}
-//	
-//	
+
+	
+	/**
+	 * 게시물 수정
+	 * 게시물 작성과 달리 게시물 수정은 이미 boardSeq가 있기 때문에 keyHolder를 쓰지 않아도 된다.
+	 * rollback
+	 * @param modifyDto
+	 * @return
+	 */
+	@Transactional(rollbackFor= {FileSaveException.class, DataAccessException.class})
+	public int modify(BoardModifyDto modifyDto, MultipartFile[] attFiles) {
+		//1. 게시글 데이터 DB 업데이트
+		int code = boardRepository.update(modifyDto);
+		
+		//게시글 등록시 이미 첨부파일 3개를 다 채운 상태이고, 수정시 첨부파일 삭제 및 재추가를 하지 않으면
+		//attFiles에는 null이 담기기 때문에 null체크를 해서 NPE방지해야함
+		if(attFiles!=null) {
+			for(MultipartFile mf : attFiles) {
+				if(!mf.isEmpty()) {
+					//2. 첨부파일 물리적 저장
+					File destFile = fileUtil.saveFiles(mf);
+					//dto
+					BoardAttachDto attachDto 
+							= BoardAttachDto.makeBoardAttachDto(mf, destFile, modifyDto.getBoardSeq(), modifyDto.getBoardTypeSeq());
+					//3. 첨부파일 데이터 DB 저장
+					boardAttachRepository.saveAttachFile(attachDto);
+				}
+			}
+		}
+		
+		return code;
+		//throw new FileSaveException("테스트");
+	}
+	
+	
 	/**
 	 * 게시물 삭제
 	 * -> 해당 게시물의 게시글과 첨부파일 모두 삭제
