@@ -91,18 +91,12 @@ public class NoticeController {
 		if(code == 1) {
 			//성공적으로 게시글+첨부파일이 등록된 경우
 			rattr.addFlashAttribute("msgObject", BoardMessageEnum.SAVE_SUCCESS);
-//			rattr.addFlashAttribute("code", BoardMessageEnum.SAVE_SUCCESS.getCode());
-//			rattr.addFlashAttribute("msg", BoardMessageEnum.SAVE_SUCCESS.getMsg());
 			return "redirect:/forum/notice/listPage.do"; //목록으로 이동
 		} else if (code == -2) { 
 			//코드 -2 : 첨부파일을 물리적으로 저장하는데 예외 발생
 			model.addAttribute("msgObject", BoardMessageEnum.FILE_UPLOAD_FAIL);
-//			model.addAttribute("code", BoardMessageEnum.FILE_UPLOAD_FAIL.getCode());
-//			model.addAttribute("msg", BoardMessageEnum.FILE_UPLOAD_FAIL.getMsg());
 		} else { //code == -1 게시글 등록에 예외 발생
 			model.addAttribute("msgObject", BoardMessageEnum.SAVE_FAIL);
-//			model.addAttribute("code", BoardMessageEnum.SAVE_FAIL.getCode());
-//			model.addAttribute("msg", BoardMessageEnum.SAVE_FAIL.getMsg());
 		}
 		//게시글 등록에 실패한 경우에도, 사용자가 입력한 정보가 사라지면 안되고 그대로 다시 뷰에 뿌려주어야함
 		//BoardSaveDto앞에 @ModelAttribute가 생략되어 있음. 
