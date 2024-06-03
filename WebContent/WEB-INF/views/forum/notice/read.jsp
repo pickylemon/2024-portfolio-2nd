@@ -39,7 +39,7 @@ String ctx = request.getContextPath();
                              <br/><br/><br/>
                             <c:if test="${attFileList.size() != 0}">
 	                            <c:forEach items="${attFileList }" var="attFile">
-	                            	<a href="<%=ctx%>/forum/download.do?attachSeq=${attFile.attachSeq}">다운로드 : ${attFile.orgFileNm } (${attFile.fileSize } bytes) [다운로드 횟수 : ${attFile.downloadCnt } ]</a>
+	                            	<a href="<%=ctx%>/forum/notice/download.do?attachSeq=${attFile.attachSeq}">다운로드 : ${attFile.orgFileNm } (${attFile.fileSize } bytes) [다운로드 횟수 : ${attFile.downloadCnt } ]</a>
 	                            	<br>
 	                            </c:forEach>
 	                            <br>
@@ -48,7 +48,7 @@ String ctx = request.getContextPath();
                             
                             <!-- 첨부된 파일이 2개 이상일때만 전체 압축해서 다운로드 받을 수 있음 -->
                             <c:if test="${attFileList.size() > 1}">
-                            	<a href="<%=ctx%>/forum/${boardDto.boardTypeSeq }/${boardDto.boardSeq }/download.do">파일 전체 다운로드</a>
+                            	<a href="<%=ctx%>/forum/notice/${boardDto.boardTypeSeq }/${boardDto.boardSeq }/download.do">파일 전체 다운로드</a>
                             	<br>
                             </c:if>
                             

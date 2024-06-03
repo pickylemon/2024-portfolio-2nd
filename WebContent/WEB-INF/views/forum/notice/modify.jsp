@@ -100,6 +100,36 @@
 
     })
     
+     //개별 파일 삭제 ajax 요청
+	    function deleteFile(attachSeq){
+    	if(!confirm("첨부파일을 삭제하시겠습니까?"))
+    		return;
+    	
+	    	$.ajax({    
+	    		type : 'delete',             
+	    		url : '<%=ctx%>/forum/notice/'+attachSeq+'/deleteFile.do',
+	    		async : true,
+	    		headers : {
+// 	    			"Content-Type" : "application/json",
+// 	    			"accept" : "application/json"
+	    		},
+	    		dataType : 'text',
+	    		success : function(result) {
+	    			// 결과 성공 콜백함수 
+	    			console.log(result)
+	    			alert(result)
+  					location.href='<%=ctx%>/forum/notice/${boardDto.boardTypeSeq }/${boardDto.boardSeq }/modifyPage.do'
+    			},
+	    		error : function(result) {
+	    			// 결과 에러 콜백함수
+	    			console.log(result)
+	    			console.log(result.responseText)
+	    			alert(result.responseText)
+	    		}
+	    	});
+	    	
+	    }
+    
     	    
     //input태그를 disply:none으로 해둔 상태라 추가된 파일명(onchange이벤트)을 보여주기 위한 함수
     function showFileName(elem) {

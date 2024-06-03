@@ -213,7 +213,7 @@ public class BoardService {
 		int code = boardRepository.update(modifyDto);
 		
 		//게시글 등록시 이미 첨부파일 3개를 다 채운 상태이고, 수정시 첨부파일 삭제 및 재추가를 하지 않으면
-		//attFiles에는 null이 담기기 때문에 null체크를 해서 NPE방지해야함
+		//attFiles에는 null이 담기기 때문에(input type="file"이 없어서) null체크를 해서 NPE방지해야함
 		if(attFiles!=null) {
 			for(MultipartFile mf : attFiles) {
 				if(!mf.isEmpty()) {
@@ -262,45 +262,46 @@ public class BoardService {
 		return code;
 	}
 
-//	/**
-//	 * 게시물 수정 페이지에서 개별 첨부 파일 삭제 요청
-//	 * 
-//	 * Tx의 rollbackFor 디폴트가 runtimeException이지만, 혹시 몰라 명시적으로 적어두었다.
-//	 * SecurityException은 file.delete()에서 발생할 수 있는 runtimeException인데,
-//	 * DB 예외는 아니지만, 파일을 물리적으로 삭제하는 과정에서 예외가 생겨도 rollback 처리 하고 싶었음.
-//	 * @param attachSeq
-//	 */
-//	
-//	@Transactional(rollbackFor = {SecurityException.class, DataAccessException.class})
-//	public int deleteFile(Integer attachSeq) {
-//		//1.첨부파일을 물리적으로 지우고
-//		//2.DB에서도 첨부파일 정보 삭제
-//		BoardAttachDto dto = boardAttachRepository.getOne(attachSeq);
-//		File file = new File(dto.getSavePath());
-//		fileUtil.deleteFile(file);
-//		return boardAttachRepository.deleteOne(attachSeq);
-//	}
-//
-//	/**
-//	 * 해당 boardTypeSeq와 boardSeq로 식별되는 모든 첨부파일을 zip파일로 만들어
-//	 * 컨트롤러에 전달
-//	 * @param boardTypeSeq
-//	 * @param boardSeq
-//	 * @return
-//	 */
-//	public File getCompressedFile(Integer boardSeq, Integer boardTypeSeq) {
-//		//해당 게시물의 모든 파일의 download count를 +1
-//		List<BoardAttachDto> attachDtoList = boardAttachRepository.getList(boardSeq, boardTypeSeq);
-//		for(BoardAttachDto attachDto : attachDtoList) {
-//			boardAttachRepository.updateDownloadCnt(attachDto.getAttachSeq());
-//		}
-//		
-//		//해당 boardTypeSeq와 boardSeq로 식별되는 모든 파일 정보를 읽어온다.
-//		List<CustomFile> fileList = (List<CustomFile>) getFileList(boardSeq, boardTypeSeq);
-//		return fileUtil.makeCompressedFile(fileList);
-//	}
-//	
-//	
+	/**
+	 * 게시물 수정 페이지에서 개별 첨부 파일 삭제 요청
+	 * 
+	 * Tx의 rollbackFor 디폴트가 runtimeException이지만, 혹시 몰라 명시적으로 적어두었다.
+	 * SecurityException은 file.delete()에서 발생할 수 있는 runtimeException인데,
+	 * DB 예외는 아니지만, 파일을 물리적으로 삭제하는 과정에서 예외가 생겨도 rollback 처리 하고 싶었음.
+	 * @param attachSeq
+	 */
+	
+	@Transactional(rollbackFor = {SecurityException.class, DataAccessException.class})
+	public int deleteFile(Integer attachSeq) {
+		BoardAttachDto dto = boardAttachRepository.getOne(attachSeq);
+		File file = new File(dto.getSavePath());
+		//1.첨부파일을 물리적으로 지우고
+		fileUtil.deleteFile(file);
+		//2.DB에서도 첨부파일 정보 삭제
+		return boardAttachRepository.deleteOne(attachSeq);
+
+	}
+
+	/**
+	 * 해당 boardTypeSeq와 boardSeq로 식별되는 모든 첨부파일을 zip파일로 만들어
+	 * 컨트롤러에 전달
+	 * @param boardTypeSeq
+	 * @param boardSeq
+	 * @return
+	 */
+	public File getCompressedFile(Integer boardSeq, Integer boardTypeSeq) {
+		//해당 게시물의 모든 파일의 download count를 +1
+		List<BoardAttachDto> attachDtoList = boardAttachRepository.getList(boardSeq, boardTypeSeq);
+		for(BoardAttachDto attachDto : attachDtoList) {
+			boardAttachRepository.updateDownloadCnt(attachDto.getAttachSeq());
+		}
+		
+		//해당 boardTypeSeq와 boardSeq로 식별되는 모든 파일 정보를 읽어온다.
+		List<CustomFile> fileList = (List<CustomFile>) getFileList(boardSeq, boardTypeSeq);
+		return fileUtil.makeCompressedFile(fileList);
+	}
+	
+	
 	/**
 	 * boardSeq와 boardTypeSeq로 식별되는 게시물에 포함된
 	 * 모든 첨부파일의 정보를 DB에서 읽어와서 (List<BoardAttachDto>)
@@ -324,5 +325,8 @@ public class BoardService {
 								.collect(Collectors.toList());
 		return fileList;
 	}
+	
+	
+	
 
 }

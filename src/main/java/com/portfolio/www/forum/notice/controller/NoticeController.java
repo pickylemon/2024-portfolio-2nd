@@ -1,6 +1,11 @@
 package com.portfolio.www.forum.notice.controller;
 
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -26,6 +31,7 @@ import com.portfolio.www.forum.notice.dto.SearchCondition;
 import com.portfolio.www.forum.notice.exception.FileSaveException;
 import com.portfolio.www.forum.notice.message.BoardMessageEnum;
 import com.portfolio.www.forum.notice.service.BoardService;
+import com.portfolio.www.forum.notice.util.DownloadInfo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -91,18 +97,12 @@ public class NoticeController {
 		if(code == 1) {
 			//성공적으로 게시글+첨부파일이 등록된 경우
 			rattr.addFlashAttribute("msgObject", BoardMessageEnum.SAVE_SUCCESS);
-//			rattr.addFlashAttribute("code", BoardMessageEnum.SAVE_SUCCESS.getCode());
-//			rattr.addFlashAttribute("msg", BoardMessageEnum.SAVE_SUCCESS.getMsg());
 			return "redirect:/forum/notice/listPage.do"; //목록으로 이동
 		} else if (code == -2) { 
 			//코드 -2 : 첨부파일을 물리적으로 저장하는데 예외 발생
 			model.addAttribute("msgObject", BoardMessageEnum.FILE_UPLOAD_FAIL);
-//			model.addAttribute("code", BoardMessageEnum.FILE_UPLOAD_FAIL.getCode());
-//			model.addAttribute("msg", BoardMessageEnum.FILE_UPLOAD_FAIL.getMsg());
 		} else { //code == -1 게시글 등록에 예외 발생
 			model.addAttribute("msgObject", BoardMessageEnum.SAVE_FAIL);
-//			model.addAttribute("code", BoardMessageEnum.SAVE_FAIL.getCode());
-//			model.addAttribute("msg", BoardMessageEnum.SAVE_FAIL.getMsg());
 		}
 		//게시글 등록에 실패한 경우에도, 사용자가 입력한 정보가 사라지면 안되고 그대로 다시 뷰에 뿌려주어야함
 		//BoardSaveDto앞에 @ModelAttribute가 생략되어 있음. 
@@ -226,6 +226,50 @@ public class NoticeController {
 		}
 		return "forum/notice/modify";
 	}
+	
+	/**
+	 * 개별 파일 다운로드
+	 * read.jsp로부터 attachSeq를 전달받아 attachDto를 조회
+	 * 파일 객체를 만들어 파일에 관한 정보와 함께 fileDownloadView로 전달
+	 * 
+	 * 전체 다운로드(zip파일)의 경우 다운로드 후 zip파일 삭제 필요하므로 
+	 * 개별 파일 다운로드인지, 전체 다운로드인지 flag가 필요함.
+	 * 
+	 * @param attachSeq
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/download.do")
+	public String download(Integer attachSeq, Model model) {
+		
+		log.info("attachSeq={}", attachSeq);
+		
+		BoardAttachDto attachDto = boardService.getSingleAttFileInfo(attachSeq);
+		
+		DownloadInfo fileInfo = new DownloadInfo(attachDto, false);
+		model.addAttribute("fileInfo", fileInfo);
+		
+		return "fileDownloadView"; //beanNameViewResolver에 의해 view이름으로 해석됨
+	}
+	
+	/**
+	 * 해당 게시물의 모든 첨부파일을 zip파일로 내려받기
+	 * @return
+	 */
+	@GetMapping("/{boardTypeSeq}/{boardSeq}/download.do")
+	public String downloadAll(@PathVariable("boardTypeSeq") Integer boardTypeSeq,
+							@PathVariable("boardSeq") Integer boardSeq, Model model){
+		
+		File compresedFile = boardService.getCompressedFile(boardSeq, boardTypeSeq);
+		DownloadInfo zipInfo = DownloadInfo.ZipDownloadInfo(compresedFile);
+		
+		model.addAttribute("fileInfo", zipInfo);
+		
+		return "fileDownloadView";
+	}
+	
+	
+	
 	
 	
 }
