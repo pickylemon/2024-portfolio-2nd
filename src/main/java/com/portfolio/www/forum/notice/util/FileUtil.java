@@ -1,12 +1,17 @@
 package com.portfolio.www.forum.notice.util;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -84,57 +89,58 @@ public class FileUtil {
 	 * @param zipList
 	 * @return
 	 */
-//	public File makeCompressedFile(List<CustomFile> zipList) {
-//		//zip파일로 만들 파일 리스트 준비
-//		//FileOutputStream, ZipOutputStream, FileInputStream
-//		
-//		FileOutputStream fos = null;
-//		ZipOutputStream zos = null;
-//		FileInputStream fis = null;
-//		
-//		File zipFile = new File(getSavePath());
-//		
-//		try {
-//			
-//			if(!zipFile.exists()) {
-//				zipFile.mkdirs();
-//			}
-//			
-//			//여러 사용자들이 동시에 다운로드 받을 수 있으므로 생성되는 zip파일도 UUID로 만듦.
-//			String fileNm = UUID.randomUUID().toString().replaceAll("-", "") + ".zip";
-//			zipFile = new File(getSavePath(), fileNm);
-//			
-//			fos = new FileOutputStream(zipFile);
-//			zos = new ZipOutputStream(fos);
-//			
-//			for(CustomFile file : zipList) {
-//				fis = new FileInputStream(file);
-//				ZipEntry zipEntry = new ZipEntry(file.getOrgFileNm()); //압축해제해도 원본 파일명으로 받을 수 있도록
-//				zos.putNextEntry(zipEntry);
-//				
-//				 byte[] bytes = new byte[1024];
-//	                int length;
-//	                while((length = fis.read(bytes)) >= 0) {
-//	                    zos.write(bytes, 0, length);
-//	                }
-//
-//	                fis.close();
-//	                zos.closeEntry();
-//			}
-//			
-//			zos.close();
-//			fos.close();
-//			
-//		} catch(IOException e) {
-//			e.printStackTrace();
-//		} finally {
-//			IOUtils.closeQuietly(zos);
-//			IOUtils.closeQuietly(fis);
-//			IOUtils.closeQuietly(fos);
-//		}
-//		
-//		return zipFile;
-//	}
+	public File makeCompressedFile(List<CustomFile> zipList) {
+		//zip파일로 만들 파일 리스트 준비
+		//FileOutputStream, ZipOutputStream, FileInputStream
+		
+		FileOutputStream fos = null;
+		ZipOutputStream zos = null;
+		FileInputStream fis = null;
+		
+		File zipFile = new File(getSavePath());
+		
+		try {
+			//파일을 저장할 디렉토리가 없을 경우 만들기.
+			if(!zipFile.exists()) {
+				zipFile.mkdirs();
+			}
+			
+			//여러 사용자들이 동시에 다운로드 받을 수 있으므로 생성되는 zip파일도 UUID로 만듦.
+			String fileNm = UUID.randomUUID().toString().replaceAll("-", "") + ".zip";
+			zipFile = new File(getSavePath(), fileNm);
+			
+			fos = new FileOutputStream(zipFile);
+			zos = new ZipOutputStream(fos);
+			
+			//여기가 핵심
+			for(CustomFile file : zipList) {
+				fis = new FileInputStream(file);
+				ZipEntry zipEntry = new ZipEntry(file.getOrgFileNm()); //압축해제해도 원본 파일명으로 받을 수 있도록
+				zos.putNextEntry(zipEntry);
+				
+				 byte[] bytes = new byte[1024];
+	                int length;
+	                while((length = fis.read(bytes)) != -1) {
+	                    zos.write(bytes, 0, length);
+	                }
+
+	                fis.close();
+	                zos.closeEntry();
+			}
+			
+			zos.close();
+			fos.close();
+			
+		} catch(IOException e) {
+			e.printStackTrace();
+		} finally {
+			IOUtils.closeQuietly(zos);
+			IOUtils.closeQuietly(fis);
+			IOUtils.closeQuietly(fos);
+		}
+		
+		return zipFile;	
+	}
 	
 
 	/**

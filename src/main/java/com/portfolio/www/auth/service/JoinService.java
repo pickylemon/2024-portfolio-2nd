@@ -110,6 +110,9 @@ public class JoinService {
 			
 		}
 		
+		
+		//TODO 여기 try-catch 없애기. catch에서 exception 받아버리면 Tx도 안됨.....
+		
 		//모든 검증이 끝났을 때 비로소 auth_yn을 y로 업데이트치기
 		try {
 			memberAuthRepository.updateAuthValid(uri);

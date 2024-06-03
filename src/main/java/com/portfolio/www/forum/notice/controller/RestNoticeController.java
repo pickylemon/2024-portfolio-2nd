@@ -57,7 +57,7 @@ public class RestNoticeController {
 	@DeleteMapping("/{attachSeq}/deleteFile.do")
 	public ResponseEntity<String> deleteFile(@PathVariable("attachSeq") Integer attachSeq) {
 		int code = boardService.deleteFile(attachSeq);
-		//code = -1; //에러 테스트용
+
 		if(code==1) {
 			return ResponseEntity.ok()
 					//헤더에 UTF-8 추가 안해주면 ajax 콜백에서 한글 다 깨짐

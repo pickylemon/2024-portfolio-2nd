@@ -279,28 +279,29 @@ public class BoardService {
 		fileUtil.deleteFile(file);
 		//2.DB에서도 첨부파일 정보 삭제
 		return boardAttachRepository.deleteOne(attachSeq);
+
 	}
 
-//	/**
-//	 * 해당 boardTypeSeq와 boardSeq로 식별되는 모든 첨부파일을 zip파일로 만들어
-//	 * 컨트롤러에 전달
-//	 * @param boardTypeSeq
-//	 * @param boardSeq
-//	 * @return
-//	 */
-//	public File getCompressedFile(Integer boardSeq, Integer boardTypeSeq) {
-//		//해당 게시물의 모든 파일의 download count를 +1
-//		List<BoardAttachDto> attachDtoList = boardAttachRepository.getList(boardSeq, boardTypeSeq);
-//		for(BoardAttachDto attachDto : attachDtoList) {
-//			boardAttachRepository.updateDownloadCnt(attachDto.getAttachSeq());
-//		}
-//		
-//		//해당 boardTypeSeq와 boardSeq로 식별되는 모든 파일 정보를 읽어온다.
-//		List<CustomFile> fileList = (List<CustomFile>) getFileList(boardSeq, boardTypeSeq);
-//		return fileUtil.makeCompressedFile(fileList);
-//	}
-//	
-//	
+	/**
+	 * 해당 boardTypeSeq와 boardSeq로 식별되는 모든 첨부파일을 zip파일로 만들어
+	 * 컨트롤러에 전달
+	 * @param boardTypeSeq
+	 * @param boardSeq
+	 * @return
+	 */
+	public File getCompressedFile(Integer boardSeq, Integer boardTypeSeq) {
+		//해당 게시물의 모든 파일의 download count를 +1
+		List<BoardAttachDto> attachDtoList = boardAttachRepository.getList(boardSeq, boardTypeSeq);
+		for(BoardAttachDto attachDto : attachDtoList) {
+			boardAttachRepository.updateDownloadCnt(attachDto.getAttachSeq());
+		}
+		
+		//해당 boardTypeSeq와 boardSeq로 식별되는 모든 파일 정보를 읽어온다.
+		List<CustomFile> fileList = (List<CustomFile>) getFileList(boardSeq, boardTypeSeq);
+		return fileUtil.makeCompressedFile(fileList);
+	}
+	
+	
 	/**
 	 * boardSeq와 boardTypeSeq로 식별되는 게시물에 포함된
 	 * 모든 첨부파일의 정보를 DB에서 읽어와서 (List<BoardAttachDto>)
@@ -324,5 +325,8 @@ public class BoardService {
 								.collect(Collectors.toList());
 		return fileList;
 	}
+	
+	
+	
 
 }
