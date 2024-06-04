@@ -19,16 +19,15 @@ public interface BoardRepository {
 	
 	BoardDto getOne(@Param("boardSeq") Integer boardSeq, @Param("boardTypeSeq") Integer boardTypeSeq);
 	
-	BoardVoteDto getVote(@Param("boardSeq") int boardSeq, @Param("boardTypeSeq") int boardTypeSeq, @Param("memberSeq") int memberSeq);
+	BoardVoteDto getVote(@Param("boardSeq") Integer boardSeq, 
+						@Param("boardTypeSeq") Integer boardTypeSeq, 
+						@Param("memberSeq") Integer memberSeq);
 	
-	int addVote(@Param("boardSeq") int boardSeq, @Param("boardTypeSeq") int boardTypeSeq, 
-			@Param("memberSeq") int memberSeq, @Param("isLike") String isLike, @Param("ip") String ip);
+	int addVote(BoardVoteDto boardVoteDto);
 	
-	int deleteVote(@Param("boardSeq") int boardSeq, @Param("boardTypeSeq") int boardTypeSeq, 
-				@Param("memberSeq") int memberSeq, @Param("isLike") String isLike);
+	int deleteVote(BoardVoteDto boardVoteDto);
 	
-	int updateVote(@Param("boardSeq") int boardSeq, @Param("boardTypeSeq") int boardTypeSeq, 
-			@Param("memberSeq") int memberSeq, @Param("isLike") String isLike, @Param("ip") String ip);
+	int updateVote(BoardVoteDto boardVoteDto);
 	
 	int save(BoardSaveDto dto);
 	

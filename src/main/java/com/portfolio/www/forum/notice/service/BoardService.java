@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-//@Transactional(readOnly = true)
+@Transactional(readOnly = true)
 public class BoardService {
 	private final BoardRepository boardRepository;
 	private final BoardAttachRepository boardAttachRepository;
@@ -71,7 +71,7 @@ public class BoardService {
 	 * @return
 	 */
 	@Transactional
-	public BoardDto getPost(Integer boardSeq, Integer boardTypeSeq) {
+	public BoardDto getPost(int boardSeq, int boardTypeSeq) {
 		BoardDto boardDto = null;
 		try {
 			boardRepository.updateViewCnt(boardSeq, boardTypeSeq);
@@ -136,19 +136,21 @@ public class BoardService {
 	//비즈니스 로직
 	//이미 vote테이블에 값이 존재하는지?
 	@Transactional
-	public int vote(int boardSeq, int boardTypeSeq, int memberSeq, String isLike, String ip) {
-		BoardVoteDto dto = getVote(boardSeq, boardTypeSeq, memberSeq);
+	public int vote(BoardVoteDto boardVoteDto) {
+		BoardVoteDto savedVoteDto = getVote(boardVoteDto.getBoardSeq(),
+									boardVoteDto.getBoardTypeSeq(),
+									boardVoteDto.getMemberSeq());
 		
-		int code = 0;
+		int code = -1;
 		
-		if(ObjectUtils.isEmpty(dto)) { //테이블에 투표 결과가 없으면 추가
-			boardRepository.addVote(boardSeq, boardTypeSeq, memberSeq, isLike, ip);
+		if(ObjectUtils.isEmpty(savedVoteDto)) { //테이블에 투표 결과가 없으면 추가
+			boardRepository.addVote(boardVoteDto);
 			code = 0;
-		} else if(dto.getIsLike().equals(isLike)) { //같은 버튼 두번 누르면 취소
-			boardRepository.deleteVote(boardSeq, boardTypeSeq, memberSeq, isLike);
+		} else if(savedVoteDto.getIsLike().equals(boardVoteDto.getIsLike())) { //같은 버튼 두번 누르면 취소
+			boardRepository.deleteVote(boardVoteDto);
 			code = 1;
 		} else { //이전과 다른 버튼 누르면 갱신 (이전: 좋아요 -> 현재 : 싫어요)
-			boardRepository.updateVote(boardSeq, boardTypeSeq, memberSeq, isLike, ip);
+			boardRepository.updateVote(boardVoteDto);
 			code = 2;
 		}
 		

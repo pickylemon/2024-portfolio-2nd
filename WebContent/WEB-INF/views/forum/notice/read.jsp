@@ -96,20 +96,27 @@ String ctx = request.getContextPath();
                                 <h3>${boardDto.title }</h3>
 
                                 <div class="vote">
-                                    <a href="#">
+                                    <a href="#" id="cThumbUpAnchor" data-thumb=true class="${boardDto.isLike eq 'Y'? 'active':'' }" onclick="javascript:thumbClick(${boardDto.boardSeq }, ${boardDto.boardTypeSeq }, this);">
                                         <span class="lnr lnr-thumbs-up"></span>
                                     </a>
-                                    <a href="#">
+                                    <a href="#" id="cThumbDownAnchor" data-thumb=false class="${boardDto.isLike eq 'N'? 'active':'' }" onclick="javascript:thumbClick(${boardDto.boardSeq }, ${boardDto.boardTypeSeq }, this);">
                                         <span class="lnr lnr-thumbs-down"></span>
                                     </a>
                                 </div>
                                 <!-- end .vote -->
                             </div>
                             <!-- end .title_vote -->
-                            <div class="suppot_query_tag">
-                                <img class="poster_avatar" src="<%=ctx%>/assest/template/images/support_avat1.png" alt="Support Avatar"> ${boardDto.regMemberId }
-                                <span>${boardDto.regDtm }</span>
-                            </div>
+             				<div class="regDtmVote">
+	                            <div class="suppot_query_tag">
+	                                <img class="poster_avatar" src="<%=ctx%>/assest/template/images/support_avat1.png" alt="Support Avatar"> ${boardDto.regMemberId }
+	                                <span>${boardDto.regDtm }</span>
+	                            </div>
+	                            <div class="voteStat">
+	                                <div class="total">like : <span class="voteSum true">${boardDto.likeTotal}</span> </div> 
+	                                <div class="total">unlike: <span class="voteSum false">${boardDto.unlikeTotal}</span></div>
+	                        	</div>
+	                        </div>
+                        	
                             <p style="    margin-bottom: 0; margin-top: 19px;">
                             	${boardDto.content }</p>
                              <br/><br/><br/>
@@ -167,8 +174,8 @@ String ctx = request.getContextPath();
 	                                        		<p>${comment.deleteDtm eq null ? comment.regDtm : '' }</p>
 	                                        		<c:if test="${comment.deleteDtm eq null }">
 	                                        		<div class="voteStat">
-			                                            <div class="total">like : ${comment.likeTotal}</div> 
-			                                            <div class="total">unlike: ${comment.unlikeTotal}</div>
+			                                            <div class="total">like : <span class="voteSum true"> ${comment.likeTotal} </span></div> 
+			                                            <div class="total">unlike: <span class="voteSum false"> ${comment.unlikeTotal} </span></div>
 		                                            </div>
 	                                        		</c:if>
 	                                        	</div>
@@ -278,38 +285,7 @@ String ctx = request.getContextPath();
     
 <script type="text/javascript">
 
-// $('#comment-edit').trumbowyg({
-// 	lang: 'kr'
-// 	})
-
-    // 댓글 수정창을 보여주는 메서드
-    function openModifyWindow(elem){
-    	//1. 현재 댓글 내용을 댓글 수정 창에 뿌리기.
-    	let contentBox = elem.closest('div.contentBtn');
-    	let commentContent = contentBox.querySelector('span.commentContent').innerText;
-    	console.log(commentContent)
-    	$('#comment-edit').trumbowyg('html', commentContent)
-
-    	//2.댓글 수정 창을 현재 댓글 위치로 가져오고(&display를 block) 현재 댓글 내용 요소는 삭제.
-    	let commentArea = elem.closest('div.forum_single_reply');
-    	let editForm = document.querySelector('div.comment-form-area.edit');
-    	commentArea.append(editForm);
-    	editForm.style.display = "block";
-    	
-    	//2-2. 이전의 다른 댓글의 수정버튼을 누른 상태라면, 그 댓글의 수정창은 닫혀야 한다.
-    	let hiddenElem = document.querySelector('div.contentBtn.hiddenComment');
-    	console.log(hiddenElem);
-    	if(hiddenElem != null) {
-    		hiddenElem.classList.remove("hiddenComment");
-    	}
-    		contentBox.classList.add("hiddenComment");
-    	
-    	
-    	//3.댓글 수정 창의 수정 버튼에 현재 댓글의 commentSeq를 심어둔다.
-    	let editBtn = editForm.querySelector('button.edit');
-    	editBtn.setAttribute('data-commentSeq', commentArea.getAttribute('data-commentSeq'))
-    }
-    
+//게시글 삭제, 좋아요/싫어요 함수
 
    	//게시글 삭제 메서드
     function deletePage(){
@@ -351,6 +327,79 @@ String ctx = request.getContextPath();
 	    		}
 	    	});
 	    }
+	    
+    //게시글에 대한 좋아요/싫어요 투표
+    function thumbClick(boardSeq, boardTypeSeq, elem) {
+    	alert('clicked!');
+    	
+//     	let voteDiv = elem.closest('div.vote');
+    	let voteDiv = elem.closest('div.cardify');
+    	console.log(boardSeq);
+    	console.log(boardTypeSeq);
+    	
+    	console.log(voteDiv)
+    	
+    	let url = '<%=ctx%>/forum/notice/'
+    	url += boardTypeSeq + '/'
+    	url += boardSeq +'/'
+    	url += 'vote.do'
+    	url += '?thumb=' + elem.getAttribute("data-thumb")
+    		
+    			
+    	$.ajax({    
+    		type : 'get',           
+    		// 타입 (get, post, put 등등)    
+    		url : url,
+    		// 요청할 서버url
+    		async : true,
+    		// 비동기화 여부 (default : true)
+    		headers : {
+    			// Http header
+//     			"Content-Type" : "application/json",
+    			"accept" : "application/json"
+    		},
+    		dataType : 'json',
+    		success : function(result) {
+    			// 결과 성공 콜백함수 
+    			console.dir(result)
+    			
+    			if(result.code == 0) { //이전 투표 결과가 없는 경우.
+    				voteDiv.querySelector("a[data-thumb="+result.thumb+"]").classList.add('active')
+
+    				//카운트 반영
+    				let voteSum = voteDiv.querySelector("span.voteSum."+result.thumb)
+    				voteSum.innerText = parseInt(voteSum.innerText) + 1
+    				
+    			} else if (result.code == 1) { //이전 투표결과를 취소
+    				voteDiv.querySelector("a[data-thumb="+result.thumb+"]").classList.remove('active')
+
+    				//카운트 반영
+    				let voteSum = voteDiv.querySelector("span.voteSum."+result.thumb)
+    				voteSum.innerText = parseInt(voteSum.innerText) - 1
+    			} else { //이전 투표결과를 반대로 
+    				voteDiv.querySelector("a[data-thumb="+!result.thumb+"]").classList.remove('active')
+    				voteDiv.querySelector("a[data-thumb="+result.thumb+"]").classList.add('active')
+
+    				//카운트 반영
+    				let voteSum1 = voteDiv.querySelector("span.voteSum."+result.thumb)
+    				let voteSum2 = voteDiv.querySelector("span.voteSum."+!result.thumb)
+    				voteSum1.innerText = parseInt(voteSum1.innerText) + 1
+    				voteSum2.innerText = parseInt(voteSum2.innerText) - 1
+
+    			}
+
+    		},
+    		error : function(request, status, error) {
+    			// 결과 에러 콜백함수
+    			alert('투표 결과 반영에 실패했습니다.');
+    			console.log(error)
+    		}
+    	});
+    }	    
+    
+    
+    
+//댓글 등록, 수정, 삭제, 좋아요/싫어요 함수    
      	
 	    //어차피 서버에서의 댓글 등록 로직은 같으므로 (댓글과 대댓글의 구분이 없다. 그냥 댓글을 DB에 insert하는 것)
 	    //프론트에서도 댓글(parentSeq=null, lvl=0)과 대댓글(parentSeq!=null, lvl>0)을 모두 보낼 수 있게
@@ -394,7 +443,7 @@ String ctx = request.getContextPath();
     		}
     	});
     }
-    
+	    
     //댓글 삭제하기
     function deleteComment(boardTypeSeq, boardSeq, elem){
     	if(!confirm('댓글을 정말 삭제하시겠습니까?')){
@@ -473,6 +522,33 @@ String ctx = request.getContextPath();
     	});
      		
 	}
+    // 댓글 수정창을 보여주는 메서드
+    function openModifyWindow(elem){
+    	//1. 현재 댓글 내용을 댓글 수정 창에 뿌리기.
+    	let contentBox = elem.closest('div.contentBtn');
+    	let commentContent = contentBox.querySelector('span.commentContent').innerText;
+    	console.log(commentContent)
+    	$('#comment-edit').trumbowyg('html', commentContent)
+
+    	//2.댓글 수정 창을 현재 댓글 위치로 가져오고(&display를 block) 현재 댓글 내용 요소는 삭제.
+    	let commentArea = elem.closest('div.forum_single_reply');
+    	let editForm = document.querySelector('div.comment-form-area.edit');
+    	commentArea.append(editForm);
+    	editForm.style.display = "block";
+    	
+    	//2-2. 이전의 다른 댓글의 수정버튼을 누른 상태라면, 그 댓글의 수정창은 닫혀야 한다.
+    	let hiddenElem = document.querySelector('div.contentBtn.hiddenComment');
+    	console.log(hiddenElem);
+    	if(hiddenElem != null) {
+    		hiddenElem.classList.remove("hiddenComment");
+    	}
+    		contentBox.classList.add("hiddenComment");
+    	
+    	
+    	//3.댓글 수정 창의 수정 버튼에 현재 댓글의 commentSeq를 심어둔다.
+    	let editBtn = editForm.querySelector('button.edit');
+    	editBtn.setAttribute('data-commentSeq', commentArea.getAttribute('data-commentSeq'))
+    }
     
     
     // 대댓글 등록 창을 띄우는 메서드
@@ -495,6 +571,74 @@ String ctx = request.getContextPath();
     					elem.getAttribute("data-commentSeq") : elem.getAttribute("data-parentCommentSeq"));
     	submitBtn.setAttribute('data-commentLvl', parseInt(elem.getAttribute('data-commentLvl'))+1);
     	submitBtn.setAttribute('data-mentionMemberSeq', elem.getAttribute("data-mentionMemberSeq"));
+    }
+    
+    
+  //각각 댓글에 대한 좋아요 싫어요
+    function replyThumbClick(commentSeq, elem) {
+    	alert('clicked!');
+//     	let replyDiv = elem.closest('div.reply.vote');
+    	let replyDiv = elem.closest('div.forum_single_reply');
+    	console.log(replyDiv)
+    	
+    	let url = '<%=ctx%>/forum/notice/'
+    	url += commentSeq + '/'
+    	url += 'replyVote.do?thumb=' + elem.getAttribute("data-thumb")
+    		
+    			
+    	$.ajax({    
+    		type : 'get',           
+    		// 타입 (get, post, put 등등)    
+    		url : url,
+    		// 요청할 서버url
+    		async : true,
+    		// 비동기화 여부 (default : true)
+    		headers : {
+    			// Http header
+//     			"Content-Type" : "application/json",
+    			"accept" : "application/json"
+    		},
+    		dataType : 'json',
+    		success : function(result) {
+    			// 결과 성공 콜백함수 
+    			console.dir(result);
+    			
+    			if(result.code == 0) { //이전 투표 결과가 없는 경우 (새로 투표 결과 insert)
+    				//thumb active 표현
+    				replyDiv.querySelector("a[data-thumb="+result.thumb+"]").classList.add('active')
+    				
+    				//카운트 반영
+    				let voteSum = replyDiv.querySelector("span.voteSum."+result.thumb)
+    				voteSum.innerText = parseInt(voteSum.innerText) + 1
+
+    			} else if (result.code == 1) { //이전 투표결과를 취소
+    				//thumb active 표현
+					replyDiv.querySelector("a[data-thumb="+result.thumb+"]").classList.remove('active')
+					
+					//카운트 반영
+					let voteSum = replyDiv.querySelector("span.voteSum."+result.thumb)
+    				voteSum.innerText = parseInt(voteSum.innerText) - 1
+
+    			} else if (result.code == 2){ //이전 투표결과를 반대로 
+    				//thumb active 표현
+    				replyDiv.querySelector("a[data-thumb="+!result.thumb+"]").classList.remove('active')
+    				replyDiv.querySelector("a[data-thumb="+result.thumb+"]").classList.add('active')
+    				
+    				//카운트 반영
+    				let voteSum1 = replyDiv.querySelector("span.voteSum."+result.thumb)
+    				let voteSum2 = replyDiv.querySelector("span.voteSum."+!result.thumb)
+    				voteSum1.innerText = parseInt(voteSum1.innerText) + 1
+    				voteSum2.innerText = parseInt(voteSum2.innerText) - 1
+
+    			}
+
+    		},
+    		error : function(request, status, error) {
+    			// 결과 에러 콜백함수
+    			alert('failed');
+    			console.log(error)
+    		}
+    	});
     }
 </script>
     <!--================================
