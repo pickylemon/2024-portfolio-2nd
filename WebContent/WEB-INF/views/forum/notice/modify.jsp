@@ -7,12 +7,6 @@
 	<link rel="stylesheet" href="<%=ctx%>/assest/template/css/trumbowyg.min.css">
     <script src="<%=ctx%>/assest/template/js/vendor/trumbowyg.min.js"></script>
     <script src="<%=ctx%>/assest/template/js/vendor/trumbowyg/ko.js"></script>
-    <script type="text/javascript">
-    $('#trumbowyg-demo').trumbowyg({
-        lang: 'kr'
-    });
-    </script>
-    <!-- trumbowyg 설정 부분 script는 아래로 내리면 렌더링에 이상이 생겨서 어쩔 수 없이 상단에 뒀음 -->
 
     <!--================================
             START DASHBOARD AREA
@@ -23,7 +17,7 @@
                 <div class="col-lg-12">
                     <div class="question-form cardify p-4">
                         <form action="<c:url value='/forum/notice/${boardDto.boardTypeSeq }/${boardDto.boardSeq }/modifyPage.do'/>"
-                         							 onsubmit="return formCheck(this)" method="post" enctype="multipart/form-data">
+                         							  method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label>제목</label>
                                 <input type="text" placeholder="Enter title here" required name="title" value="${boardDto.title }">
@@ -41,7 +35,8 @@
                                     	<strong style="color:red">${errors.getFieldError('content').defaultMessage }</strong>
                                     </c:if>
                                 </spring:hasBindErrors>
-                                <div id="trumbowyg-demo"></div>
+<!--                                 <div id="trumbowyg-demo"></div> -->
+                                <div id="content"></div>
                             </div>
                             <div class="form-group">
                                 <div class="attachments">
@@ -96,7 +91,8 @@
         
     $(document).ready(function(){
     	//게시물 정보 뿌려주기
-    	$('#trumbowyg-demo').trumbowyg('html', '${boardDto.content}');
+//     	$('#trumbowyg-demo').trumbowyg('html', '${boardDto.content}');
+    	$('#content').trumbowyg('html', '${boardDto.content}');
 
     })
     
@@ -140,17 +136,17 @@
     }
     
     //form submit전에 textarea의 name을 변경해준다.(controller에서 한번에 dto로 받고싶어서)
-    function formCheck(elem) {
-    	let txtArea = elem.querySelector('textarea[name=trumbowyg-demo]')
-    	console.log(txtArea)
-    	txtArea.setAttribute("name","content")
+//     function formCheck(elem) {
+//     	let txtArea = elem.querySelector('textarea[name=trumbowyg-demo]')
+//     	console.log(txtArea)
+//     	txtArea.setAttribute("name","content")
     	
-    	if(txtArea.getAttribute("name")=="content"){
-    		console.log(txtArea)
-    		return true;
-    	} 
-    	return false;
-    }
+//     	if(txtArea.getAttribute("name")=="content"){
+//     		console.log(txtArea)
+//     		return true;
+//     	} 
+//     	return false;
+//     }
 	</script>
 
     <!--================================

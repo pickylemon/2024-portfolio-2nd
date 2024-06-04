@@ -13,14 +13,15 @@
 	
 	<update id="modify" parameterType="CommentDto">
 	 UPDATE forum.board_comment
-		SET update_dtm = DATE_FORMAT(now(),'%Y%m%d%H%i%s')
-		SET content = #{content}
+		SET update_dtm = DATE_FORMAT(now(),'%Y%m%d%H%i%s'),
+		    content = #{content}
 	  WHERE comment_seq = #{commentSeq}
 	</update>
 	
 	<update id="delete" parameterType="int">
 	 UPDATE forum.board_comment
-		SET delete_dtm = DATE_FORMAT(now(),'%Y%m%d%H%i%s')
+		SET delete_dtm = DATE_FORMAT(now(),'%Y%m%d%H%i%s'),
+			content = '.'
 	  WHERE comment_seq = #{commentSeq}
 	</update>
 	
@@ -53,10 +54,11 @@
 <!-- 	</select> -->
 	
 	<select id="count" resultType="int">
-	 SELECT COUNT(*)
+	 SELECT COUNT(comment_seq)
 	   FROM forum.board_comment
 	  WHERE board_seq = #{boardSeq}
 		AND board_type_seq = #{boardTypeSeq}
+		AND delete_dtm IS NULL
 	</select>
 	
 <!-- 	<select id="getVote" resultType="CommentVoteDto"> -->

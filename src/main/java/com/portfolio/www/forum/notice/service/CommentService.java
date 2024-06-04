@@ -22,5 +22,11 @@ public class CommentService {
 		return commentRepository.getAllCommentList(boardSeq, boardTypeSeq);
 	}
 	
-
+	public int deleteComment(int commentSeq) {
+		return commentRepository.delete(commentSeq);
+	}
+	
+	public int modifyComment(CommentDto commentDto) {
+		return commentRepository.modify(commentDto);
+	}
 }

@@ -12,14 +12,16 @@
 	    	
 	    	//게시글 등록에 실패해서 다시 이 뷰로 올 경우, 
 	    	//사용자 입력 내용을 그대로 전달받아 뿌려줌 	
-	    	$('#trumbowyg-demo').trumbowyg('html', '${boardSaveDto.content}');
+// 	    	$('#trumbowyg-demo').trumbowyg('html', '${boardSaveDto.content}');
+	    	$('#content').trumbowyg('html', '${boardSaveDto.content}');
 
 	    })    
     
 	    //왠지 모르겠는데..script태그를 아래로 내리면 에디터 렌더링에 이상이 생긴다. 그래서 그냥 다시 올림.
-	    $('#trumbowyg-demo').trumbowyg({
-	        lang: 'kr'
-	    });
+	    //24.06.24 이유 찾음 : main.js에서 아예 만들고 있기 때문에 무시되는거
+// 	    $('#trumbowyg-demo').trumbowyg({
+// 	        lang: 'kr'
+// 	    });
 	    
 	   
 // 	    1. trumbowyg는 내부적으로 div id와 같은 name으로 textarea를 만든다.
@@ -33,17 +35,18 @@
 // 	    테스트 결과 왠지 모르겠는데 꼭 id가 "trumbowyg-demo"여야만 브라우저에서 에디터가 정상적으로 렌더링 되었음.
 	    
 // 	    그래서 form전송 전에 이 에디터에 의해 내부적으로 생성되는 textarea의 이름을 content로 바꿔주는 방법을 택함.
-	    function formCheck(elem) {
-	    	let txtArea = elem.querySelector('textarea[name=trumbowyg-demo]')
-	    	console.log(txtArea)
-	    	txtArea.setAttribute("name","content")
+
+// 	    function formCheck(elem) {
+// 	    	let txtArea = elem.querySelector('textarea[name=trumbowyg-demo]')
+// 	    	console.log(txtArea)
+// 	    	txtArea.setAttribute("name","content")
 	    	
-	    	if(txtArea.getAttribute("name")=="content"){
-	    		console.log(txtArea)
-	    		return true;
-	    	} 
-	    	return false;
-	    }
+// 	    	if(txtArea.getAttribute("name")=="content"){
+// 	    		console.log(txtArea)
+// 	    		return true;
+// 	    	} 
+// 	    	return false;
+// 	    }
 	    
 	    
 	    //input태그를 disply:none으로 해둔 상태라 추가된 파일명(onchange이벤트)을 보여주기 위한 함수
@@ -61,7 +64,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="question-form cardify p-4">
-                        <form action="<c:url value='/forum/notice/writePage.do'/>" method="post" onsubmit="return formCheck(this)" enctype="multipart/form-data">
+<%--                         <form action="<c:url value='/forum/notice/writePage.do'/>" method="post" onsubmit="return formCheck(this)" enctype="multipart/form-data"> --%>
+                        <form action="<c:url value='/forum/notice/writePage.do'/>" method="post"  enctype="multipart/form-data">
                             <div class="form-group">
                                 <label>제목</label>
                                 <input type="text" placeholder="Enter title here" required name="title">
@@ -79,7 +83,8 @@
 	                            	<strong style="color:red">${errors.getFieldError('content').defaultMessage }</strong>
 	                            </c:if>
                             </spring:hasBindErrors>
-                                <div id="trumbowyg-demo"></div>
+<!--                                 <div id="trumbowyg-demo"></div> -->
+                                <div id="content"></div>
                             </div>
 
                             <div class="form-group">

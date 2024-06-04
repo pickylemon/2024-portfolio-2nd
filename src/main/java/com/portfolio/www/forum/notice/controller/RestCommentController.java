@@ -4,13 +4,15 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.portfolio.www.forum.notice.dto.CommentDto;
-import com.portfolio.www.forum.notice.message.BoardMessageEnum;
 import com.portfolio.www.forum.notice.message.CommentMessageEnum;
 import com.portfolio.www.forum.notice.service.CommentService;
 
@@ -57,29 +59,37 @@ public class RestCommentController {
 		}
 
 	}
-//	
-//	@DeleteMapping("/{commentSeq}/deleteComment.do")
-//	public ResponseEntity<CommentResponse> deleteComment(@PathVariable("commentSeq") int commentSeq) {
-//		int code = commentService.deleteComment(commentSeq);
-//		
-//		if(code == 1) {
-//			return ResponseEntity.ok().body(new CommentResponse(code, "댓글이 성공적으로 삭제되었습니다."));
-//		} else {
-//			return ResponseEntity.badRequest().body(new CommentResponse(code, "댓글 삭제에 실패했습니다."));
-//		}
-//	}
-//	
-//	@PatchMapping("/modifyComment.do")
-//	public ResponseEntity<CommentResponse> modifyComment(@RequestBody BoardCommentDto commentDto) {
-//		int code = commentService.modifyComment(commentDto);
-//		
-//		if(code == 1) {
-//			return ResponseEntity.ok().body(new CommentResponse(code, "댓글이 성공적으로 수정되었습니다."));
-//		} else {
-//			return ResponseEntity.badRequest().body(new CommentResponse(code, "댓글 수정에 실패했습니다."));
-//		}
-//		
-//	}
+	
+	@DeleteMapping("/{commentSeq}/deleteComment.do")
+	public ResponseEntity<String> deleteComment(@PathVariable("commentSeq") int commentSeq) {
+		int code = commentService.deleteComment(commentSeq);
+		
+		if(code == 1) {
+			return ResponseEntity.ok()
+								.header(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8")
+								.body(CommentMessageEnum.DEL_SUCCESS.getMsg());
+		} else {
+			return ResponseEntity.badRequest()
+								.header(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8")
+								.body(CommentMessageEnum.DEL_FAIL.getMsg());
+		}
+	}
+	
+	@PatchMapping("/modifyComment.do")
+	public ResponseEntity<String> modifyComment(@RequestBody CommentDto commentDto) {
+		int code = commentService.modifyComment(commentDto);
+		
+		if(code == 1) {
+			return ResponseEntity.ok()
+								.header(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8")
+								.body(CommentMessageEnum.MODIFY_SUCCESS.getMsg());
+		} else {
+			return ResponseEntity.badRequest()
+								.header(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8")
+								.body(CommentMessageEnum.MODFY_FAIL.getMsg());
+		}
+		
+	}
 //	
 //	/**
 //	 * 댓글 투표 
