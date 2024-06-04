@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.portfolio.www.forum.notice.dto.CommentDto;
 import com.portfolio.www.forum.notice.dto.CommentVoteDto;
-import com.portfolio.www.forum.notice.dto.ReplyVoteResponse;
+import com.portfolio.www.forum.notice.dto.VoteResponse;
 import com.portfolio.www.forum.notice.message.CommentMessageEnum;
 import com.portfolio.www.forum.notice.service.CommentService;
 
@@ -116,12 +116,13 @@ public class RestCommentController {
 	 * @return
 	 */
 	@GetMapping("/{commentSeq}/replyVote.do")
-	public ResponseEntity<ReplyVoteResponse> vote(@PathVariable("commentSeq") int commentSeq,
+	public ResponseEntity<VoteResponse> vote(@PathVariable("commentSeq") int commentSeq,
 									@RequestParam("thumb") boolean thumb, 
-									HttpSession session, HttpServletRequest request) {
+									HttpServletRequest request) {
 		log.info("commentSeq={}", commentSeq);
 		log.info("thumb={}", thumb);
 		//댓글 등록자
+		HttpSession session = request.getSession(false);	
 		int memberSeq = (int)session.getAttribute("memberSeq");
 		//ip 주소
 		String ip = request.getRemoteAddr();
@@ -131,7 +132,7 @@ public class RestCommentController {
 		CommentVoteDto commentVoteDto = new CommentVoteDto(commentSeq, memberSeq, isLike, ip);
 		int code = commentService.vote(commentVoteDto);
 		
-		ReplyVoteResponse response = new ReplyVoteResponse(code, thumb);
+		VoteResponse response = new VoteResponse(code, thumb);
 		
 		//예외가 발생했을 경우 code == -1
 		if(code == -1) {

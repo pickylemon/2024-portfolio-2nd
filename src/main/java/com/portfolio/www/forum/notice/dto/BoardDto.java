@@ -24,6 +24,8 @@ public class BoardDto {
 	private int attFileCnt;
 	private int boardCommentCnt;
 	
+	private String isLike;
 	private int likeTotal;
 	private int unlikeTotal;
+	
 }

@@ -43,13 +43,13 @@
 		AND member_seq = #{memberSeq}
 	</select>
 	
-	<insert id="addVote">
+	<insert id="addVote" parameterType="BoardVoteDto">
 	 INSERT INTO board_vote 
 	 (board_seq, board_type_seq, member_seq, is_like, reg_dtm, ip) 
 	 VALUES (#{boardSeq}, #{boardTypeSeq}, #{memberSeq}, #{isLike}, DATE_FORMAT(now(),'%Y%m%d%H%i%s'), #{ip})
 	</insert>
 	
-	<delete id="deleteVote">
+	<delete id="deleteVote" parameterType="BoardVoteDto">
 	 DELETE FROM board_vote 
 	  WHERE board_seq = #{boardSeq}
 		AND board_type_seq = #{boardTypeSeq}
@@ -57,7 +57,7 @@
 		AND is_like = #{isLike}
 	</delete>
 	
-	<update id="updateVote">
+	<update id="updateVote" parameterType="BoardVoteDto">
 	 UPDATE board_vote
 		SET is_like = #{isLike},
 			ip = #{ip}

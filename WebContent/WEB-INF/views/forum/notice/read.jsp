@@ -96,20 +96,27 @@ String ctx = request.getContextPath();
                                 <h3>${boardDto.title }</h3>
 
                                 <div class="vote">
-                                    <a href="#">
+                                    <a href="#" id="cThumbUpAnchor" data-thumb=true class="${boardDto.isLike eq 'Y'? 'active':'' }" onclick="javascript:thumbClick(${boardDto.boardSeq }, ${boardDto.boardTypeSeq }, this);">
                                         <span class="lnr lnr-thumbs-up"></span>
                                     </a>
-                                    <a href="#">
+                                    <a href="#" id="cThumbDownAnchor" data-thumb=false class="${boardDto.isLike eq 'N'? 'active':'' }" onclick="javascript:thumbClick(${boardDto.boardSeq }, ${boardDto.boardTypeSeq }, this);">
                                         <span class="lnr lnr-thumbs-down"></span>
                                     </a>
                                 </div>
                                 <!-- end .vote -->
                             </div>
                             <!-- end .title_vote -->
-                            <div class="suppot_query_tag">
-                                <img class="poster_avatar" src="<%=ctx%>/assest/template/images/support_avat1.png" alt="Support Avatar"> ${boardDto.regMemberId }
-                                <span>${boardDto.regDtm }</span>
-                            </div>
+             				<div class="regDtmVote">
+	                            <div class="suppot_query_tag">
+	                                <img class="poster_avatar" src="<%=ctx%>/assest/template/images/support_avat1.png" alt="Support Avatar"> ${boardDto.regMemberId }
+	                                <span>${boardDto.regDtm }</span>
+	                            </div>
+	                            <div class="voteStat">
+	                                <div class="total">like : <span class="voteSum true">${boardDto.likeTotal}</span> </div> 
+	                                <div class="total">unlike: <span class="voteSum false">${boardDto.unlikeTotal}</span></div>
+	                        	</div>
+	                        </div>
+                        	
                             <p style="    margin-bottom: 0; margin-top: 19px;">
                             	${boardDto.content }</p>
                              <br/><br/><br/>
@@ -325,7 +332,8 @@ String ctx = request.getContextPath();
     function thumbClick(boardSeq, boardTypeSeq, elem) {
     	alert('clicked!');
     	
-    	let voteDiv = elem.closest('div.vote');
+//     	let voteDiv = elem.closest('div.vote');
+    	let voteDiv = elem.closest('div.cardify');
     	console.log(boardSeq);
     	console.log(boardTypeSeq);
     	
@@ -333,9 +341,9 @@ String ctx = request.getContextPath();
     	
     	let url = '<%=ctx%>/forum/notice/'
     	url += boardTypeSeq + '/'
-    	url += boardSeq + '/'
-    	url += 'vote.do?isLike='+ elem.getAttribute("data-isLike")
-    	url += '&thumb=' + elem.getAttribute("data-thumb")
+    	url += boardSeq +'/'
+    	url += 'vote.do'
+    	url += '?thumb=' + elem.getAttribute("data-thumb")
     		
     			
     	$.ajax({    
@@ -350,29 +358,40 @@ String ctx = request.getContextPath();
 //     			"Content-Type" : "application/json",
     			"accept" : "application/json"
     		},
-    		dataType : 'text',
+    		dataType : 'json',
     		success : function(result) {
     			// 결과 성공 콜백함수 
-    			console.log("result = " + result);
-    			const response = JSON.parse(result);
+    			console.dir(result)
     			
-    			if(response.code == 0) { //이전 투표 결과가 없는 경우.
-    				voteDiv.querySelector("a[data-thumb="+response.thumb+"]").classList.add('active')
-//	    				$("a[data-thumb="+response.thumb+"]").addClass('active')
-    			} else if (response.code == 1) { //이전 투표결과를 취소
-    				voteDiv.querySelector("a[data-thumb="+response.thumb+"]").classList.remove('active')
-//	    				$("a[data-thumb="+response.thumb+"]").removeClass('active')
+    			if(result.code == 0) { //이전 투표 결과가 없는 경우.
+    				voteDiv.querySelector("a[data-thumb="+result.thumb+"]").classList.add('active')
+
+    				//카운트 반영
+    				let voteSum = voteDiv.querySelector("span.voteSum."+result.thumb)
+    				voteSum.innerText = parseInt(voteSum.innerText) + 1
+    				
+    			} else if (result.code == 1) { //이전 투표결과를 취소
+    				voteDiv.querySelector("a[data-thumb="+result.thumb+"]").classList.remove('active')
+
+    				//카운트 반영
+    				let voteSum = voteDiv.querySelector("span.voteSum."+result.thumb)
+    				voteSum.innerText = parseInt(voteSum.innerText) - 1
     			} else { //이전 투표결과를 반대로 
-    				voteDiv.querySelector("a[data-thumb="+!response.thumb+"]").classList.remove('active')
-    				voteDiv.querySelector("a[data-thumb="+response.thumb+"]").classList.add('active')
-//	    				$("a[data-thumb="+!response.thumb+"]").removeClass('active')
-//	    				$("a[data-thumb="+response.thumb+"]").addClass('active')
+    				voteDiv.querySelector("a[data-thumb="+!result.thumb+"]").classList.remove('active')
+    				voteDiv.querySelector("a[data-thumb="+result.thumb+"]").classList.add('active')
+
+    				//카운트 반영
+    				let voteSum1 = voteDiv.querySelector("span.voteSum."+result.thumb)
+    				let voteSum2 = voteDiv.querySelector("span.voteSum."+!result.thumb)
+    				voteSum1.innerText = parseInt(voteSum1.innerText) + 1
+    				voteSum2.innerText = parseInt(voteSum2.innerText) - 1
+
     			}
 
     		},
     		error : function(request, status, error) {
     			// 결과 에러 콜백함수
-    			alert('failed');
+    			alert('투표 결과 반영에 실패했습니다.');
     			console.log(error)
     		}
     	});
@@ -582,9 +601,7 @@ String ctx = request.getContextPath();
     		dataType : 'json',
     		success : function(result) {
     			// 결과 성공 콜백함수 
-    			alert(result)
     			console.dir(result);
-    			console.dir(result.thumb);
     			
     			if(result.code == 0) { //이전 투표 결과가 없는 경우 (새로 투표 결과 insert)
     				//thumb active 표현

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReplyVoteResponse {
+public class VoteResponse {
 	int code;
 	boolean thumb;
 
