@@ -120,17 +120,20 @@ public class NoticeController {
 	 * @return
 	 */
 	@GetMapping("/readPage.do")
-	public String readPage(Integer boardSeq, Integer boardTypeSeq, Model model) {
+	public String readPage(Integer boardSeq, Integer boardTypeSeq, HttpSession session, Model model) {
+		int memberSeq = (int)session.getAttribute("memberSeq");
+		
 		BoardDto boardDto = boardService.getPost(boardSeq, boardTypeSeq);
 		List<BoardAttachDto> attachDtoList = boardService.getAttFileInfoList(boardSeq, boardTypeSeq);
-		List<CommentDto> comments = commentService.getCommentList(boardSeq, boardTypeSeq);
+		List<CommentDto> comments = commentService.getCommentList(boardSeq, boardTypeSeq, memberSeq);
+		
 		//삭제된 댓글의 경우 카운트에서 제외해야 해서, jsp에서 comments.size()를 쓸 수 없다
 		int commentCnt = (int)comments.stream().filter(dto -> dto.getDeleteDtm()==null).count();
 		
-		log.info("boardDto={}", boardDto);
-		log.info("attachDtoList={}", attachDtoList);
-		log.info("comments={}", comments);
-		log.info("commentCnt={}", commentCnt);
+//		log.info("boardDto={}", boardDto);
+//		log.info("attachDtoList={}", attachDtoList);
+//		log.info("comments={}", comments);
+//		log.info("commentCnt={}", commentCnt);
 		model.addAttribute("attFileList", attachDtoList);
 		model.addAttribute("comments", comments);
 		model.addAttribute("boardDto", boardDto);

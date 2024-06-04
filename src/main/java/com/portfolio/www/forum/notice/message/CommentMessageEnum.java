@@ -11,7 +11,12 @@ public enum CommentMessageEnum {
 	DEL_FAIL("101", "댓글 삭제에 실패했습니다."),
 	
 	MODIFY_SUCCESS("200", "댓글이 성공적으로 수정되었습니다"),
-	MODFY_FAIL("201", "댓글 수정에 실패했습니다");
+	MODFY_FAIL("201", "댓글 수정에 실패했습니다"),
+	
+	NOT_EMPTY("300", "댓글 내용을 입력해주세요"),
+	
+	VOTE_SUCCESS("400", "투표가 성공적으로 반영되었습니다"),
+	VOTE_FAIL("401", "투표가 정상적으로 반영되지 않았습니다");
 	
 	
 	CommentMessageEnum(String code, String msg) {

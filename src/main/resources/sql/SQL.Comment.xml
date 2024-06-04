@@ -61,42 +61,42 @@
 		AND delete_dtm IS NULL
 	</select>
 	
-<!-- 	<select id="getVote" resultType="CommentVoteDto"> -->
-<!-- 	 SELECT * FROM forum.comment_vote -->
-<!-- 	  WHERE comment_seq = #{commentSeq} -->
-<!-- 		AND member_seq = #{memberSeq} -->
-<!-- 	</select> -->
+	<select id="getVote" resultType="CommentVoteDto">
+	 SELECT * FROM forum.comment_vote
+	  WHERE comment_seq = #{commentSeq}
+		AND member_seq = #{memberSeq}
+	</select>
 	
-<!-- 	<insert id="addVote" parameterType="CommentVoteDto"> -->
-<!-- 	 INSERT INTO forum.comment_vote -->
-<!-- 	 (comment_seq, member_seq, is_like, ip, reg_dtm) -->
-<!-- 	 VALUES(#{commentSeq}, #{memberSeq}, #{isLike}, #{ip}, DATE_FORMAT(now(),'%Y%m%d%H%i%s')) -->
-<!-- 	</insert> -->
+	<insert id="addVote" parameterType="CommentVoteDto">
+	 INSERT INTO forum.comment_vote
+	 (comment_seq, member_seq, is_like, ip, reg_dtm)
+	 VALUES(#{commentSeq}, #{memberSeq}, #{isLike}, #{ip}, DATE_FORMAT(now(),'%Y%m%d%H%i%s'))
+	</insert>
 	
-<!-- 	<delete id="deleteVote" parameterType="int"> -->
-<!-- 	 DELETE FROM forum.comment_vote -->
-<!-- 	  WHERE comment_seq = #{commentSeq} -->
-<!-- 	</delete> -->
+	<delete id="deleteVote" parameterType="int">
+	 DELETE FROM forum.comment_vote
+	  WHERE comment_seq = #{commentSeq}
+	</delete>
 	
-<!-- 	<update id="updateVote" parameterType="CommentVoteDto"> -->
-<!-- 	 UPDATE forum.comment_vote -->
-<!-- 	    SET is_like = #{isLike}, -->
-<!-- 		    reg_dtm = DATE_FORMAT(now(),'%Y%m%d%H%i%s'), -->
-<!-- 		    ip = #{ip} -->
-<!-- 	  WHERE comment_seq = #{commentSeq} -->
-<!-- 	</update> -->
+	<update id="updateVote" parameterType="CommentVoteDto">
+	 UPDATE forum.comment_vote
+	    SET is_like = #{isLike},
+		    reg_dtm = DATE_FORMAT(now(),'%Y%m%d%H%i%s'),
+		    ip = #{ip}
+	  WHERE comment_seq = #{commentSeq}
+	</update>
 	
-<!-- 	<select id="getLikeTotal" parameterType="int" resultType="int"> -->
-<!-- 	 SELECT COUNT(comment_seq) -->
-<!-- 	   FROM forum.comment_vote -->
-<!-- 	  WHERE comment_seq = #{commentSeq} -->
-<!-- 	    AND is_like = 'Y' -->
-<!-- 	</select> -->
+	<select id="getLikeTotal" parameterType="int" resultType="int">
+	 SELECT COUNT(comment_seq)
+	   FROM forum.comment_vote
+	  WHERE comment_seq = #{commentSeq}
+	    AND is_like = 'Y'
+	</select>
 	
-<!-- 	<select id="getUnlikeTotal" parameterType="int" resultType="int"> -->
-<!-- 	 SELECT COUNT(comment_seq)  -->
-<!-- 	   FROM forum.comment_vote  -->
-<!-- 	  WHERE comment_seq = #{commentSeq} -->
-<!-- 		AND is_like = 'N' -->
-<!-- 	</select> -->
+	<select id="getUnlikeTotal" parameterType="int" resultType="int">
+	 SELECT COUNT(comment_seq) 
+	   FROM forum.comment_vote 
+	  WHERE comment_seq = #{commentSeq}
+		AND is_like = 'N'
+	</select>
 </mapper>

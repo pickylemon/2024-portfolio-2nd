@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-//@Transactional(readOnly = true)
+@Transactional(readOnly = true)
 public class BoardService {
 	private final BoardRepository boardRepository;
 	private final BoardAttachRepository boardAttachRepository;

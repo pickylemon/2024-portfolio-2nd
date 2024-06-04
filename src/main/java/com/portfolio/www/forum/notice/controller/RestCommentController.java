@@ -1,18 +1,25 @@
 package com.portfolio.www.forum.notice.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.portfolio.www.forum.notice.dto.CommentDto;
+import com.portfolio.www.forum.notice.dto.CommentVoteDto;
+import com.portfolio.www.forum.notice.dto.ReplyVoteResponse;
 import com.portfolio.www.forum.notice.message.CommentMessageEnum;
 import com.portfolio.www.forum.notice.service.CommentService;
 
@@ -41,7 +48,16 @@ public class RestCommentController {
 	 * @return
 	 */
 	@PostMapping("/addComment.do")
-	public ResponseEntity<String> addComment(@RequestBody CommentDto commentDto, HttpSession session) {
+	public ResponseEntity<String> addComment(@Validated @RequestBody CommentDto commentDto, 
+													BindingResult result, HttpSession session) {
+		
+		//QUESTION 사실 innerHTML이 공백이 아님을 검증하고 싶은건데, 태그를 어떻게 거르지??
+		//@NotEmpty로는 <div></div>와 같이 내용없는 빈 태그는 거를 수가 없음.
+		if(result.hasErrors()) {
+			return ResponseEntity.badRequest()
+					.header(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8")
+					.body(CommentMessageEnum.NOT_EMPTY.getMsg());
+		}
 		int memberSeq = (int)session.getAttribute("memberSeq");
 		commentDto.setRegMemberSeq(memberSeq);
 		log.info("commentDto={}",commentDto);
@@ -90,36 +106,39 @@ public class RestCommentController {
 		}
 		
 	}
-//	
-//	/**
-//	 * 댓글 투표 
-//	 * @param commentSeq
-//	 * @param thumb
-//	 * @param session
-//	 * @param request
-//	 * @return
-//	 */
-//	@GetMapping("/{commentSeq}/replyVote.do")
-//	public ResponseEntity<ReplyVoteResponse> vote(@PathVariable("commentSeq") int commentSeq,
-//									@RequestParam("thumb") boolean thumb, 
-//									HttpSession session, HttpServletRequest request) {
-//		log.info("commentSeq={}", commentSeq);
-//		log.info("thumb={}", thumb);
-//		//댓글 등록자
-//		int memberSeq = (int)session.getAttribute("memberSeq");
-//		//ip 주소
-//		String ip = request.getRemoteAddr();
-//		//댓글 투표 정보
-//		String isLike = thumb? "Y" : "N";
-//	
-//		BoardCommentVoteDto commentVoteDto = new BoardCommentVoteDto(commentSeq, memberSeq, isLike, ip);
-//		int code = commentService.vote(commentVoteDto);
-//		ReplyVoteResponse response = new ReplyVoteResponse(code, thumb);
-//		if(code == -1) {
-//			return ResponseEntity.badRequest().body(response);
-//		} else {
-//			return ResponseEntity.ok().body(response);
-//		}
-//	}
+	
+	/**
+	 * 댓글 투표 
+	 * @param commentSeq
+	 * @param thumb : 좋아요면 true, 싫어요면 false
+	 * @param session
+	 * @param request
+	 * @return
+	 */
+	@GetMapping("/{commentSeq}/replyVote.do")
+	public ResponseEntity<ReplyVoteResponse> vote(@PathVariable("commentSeq") int commentSeq,
+									@RequestParam("thumb") boolean thumb, 
+									HttpSession session, HttpServletRequest request) {
+		log.info("commentSeq={}", commentSeq);
+		log.info("thumb={}", thumb);
+		//댓글 등록자
+		int memberSeq = (int)session.getAttribute("memberSeq");
+		//ip 주소
+		String ip = request.getRemoteAddr();
+		//댓글 투표 정보
+		String isLike = thumb? "Y" : "N";
+	
+		CommentVoteDto commentVoteDto = new CommentVoteDto(commentSeq, memberSeq, isLike, ip);
+		int code = commentService.vote(commentVoteDto);
+		
+		ReplyVoteResponse response = new ReplyVoteResponse(code, thumb);
+		
+		//예외가 발생했을 경우 code == -1
+		if(code == -1) {
+			return ResponseEntity.badRequest().body(response);
+		} else {
+			return ResponseEntity.ok().body(response);
+		}
+	}
 
 }
