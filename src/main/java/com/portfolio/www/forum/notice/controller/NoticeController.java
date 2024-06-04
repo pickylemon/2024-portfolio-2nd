@@ -1,11 +1,7 @@
 package com.portfolio.www.forum.notice.controller;
 
 import java.io.File;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -26,11 +22,13 @@ import com.portfolio.www.forum.notice.dto.BoardAttachDto;
 import com.portfolio.www.forum.notice.dto.BoardDto;
 import com.portfolio.www.forum.notice.dto.BoardModifyDto;
 import com.portfolio.www.forum.notice.dto.BoardSaveDto;
+import com.portfolio.www.forum.notice.dto.CommentDto;
 import com.portfolio.www.forum.notice.dto.PageHandler;
 import com.portfolio.www.forum.notice.dto.SearchCondition;
 import com.portfolio.www.forum.notice.exception.FileSaveException;
 import com.portfolio.www.forum.notice.message.BoardMessageEnum;
 import com.portfolio.www.forum.notice.service.BoardService;
+import com.portfolio.www.forum.notice.service.CommentService;
 import com.portfolio.www.forum.notice.util.DownloadInfo;
 
 import lombok.RequiredArgsConstructor;
@@ -44,6 +42,7 @@ import lombok.extern.slf4j.Slf4j;
 //ajax통신은 RestNoticeController에서 담당
 public class NoticeController {
 	private final BoardService boardService;
+	private final CommentService commentService;
 	
 	/**
 	 * 게시글 목록 화면
@@ -124,11 +123,18 @@ public class NoticeController {
 	public String readPage(Integer boardSeq, Integer boardTypeSeq, Model model) {
 		BoardDto boardDto = boardService.getPost(boardSeq, boardTypeSeq);
 		List<BoardAttachDto> attachDtoList = boardService.getAttFileInfoList(boardSeq, boardTypeSeq);
+		List<CommentDto> comments = commentService.getCommentList(boardSeq, boardTypeSeq);
+		//삭제된 댓글의 경우 카운트에서 제외해야 해서, jsp에서 comments.size()를 쓸 수 없다
+		int commentCnt = (int)comments.stream().filter(dto -> dto.getDeleteDtm()==null).count();
 		
 		log.info("boardDto={}", boardDto);
 		log.info("attachDtoList={}", attachDtoList);
+		log.info("comments={}", comments);
+		log.info("commentCnt={}", commentCnt);
 		model.addAttribute("attFileList", attachDtoList);
+		model.addAttribute("comments", comments);
 		model.addAttribute("boardDto", boardDto);
+		model.addAttribute("commentCnt", commentCnt);
 		return "forum/notice/read";
 	}
 	

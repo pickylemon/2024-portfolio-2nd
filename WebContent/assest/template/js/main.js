@@ -363,10 +363,17 @@
 
 
     /* trumbowyg init*/
-    var trmbg_container = $('#trumbowyg-demo');
+    var trmbg_container = $('#content');
     if (trmbg_container.length) {
         trmbg_container.trumbowyg();
     }
+    /* trumbowyg init*/
+    var trmbg_container = $('#comment-edit');
+    if (trmbg_container.length) {
+        trmbg_container.trumbowyg();
+    }
+    
+    
 
 
     /* bootstrap tooltip activation */

@@ -20,8 +20,8 @@ import com.portfolio.www.forum.notice.dto.PageHandler;
 import com.portfolio.www.forum.notice.dto.SearchCondition;
 import com.portfolio.www.forum.notice.exception.FileSaveException;
 import com.portfolio.www.forum.notice.repository.BoardAttachRepository;
-import com.portfolio.www.forum.notice.repository.BoardCommentRepository;
 import com.portfolio.www.forum.notice.repository.BoardRepository;
+import com.portfolio.www.forum.notice.repository.CommentRepository;
 import com.portfolio.www.forum.notice.util.CustomFile;
 import com.portfolio.www.forum.notice.util.FileUtil;
 
@@ -35,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardService {
 	private final BoardRepository boardRepository;
 	private final BoardAttachRepository boardAttachRepository;
-	private final BoardCommentRepository boardcommentRepository;
+	private final CommentRepository commentRepository;
 	private final FileUtil fileUtil;
 	
 	/*
@@ -51,11 +51,11 @@ public class BoardService {
 		for(BoardDto dto : list) {
 			int boardSeq = dto.getBoardSeq();
 			int boardTypeSeq = dto.getBoardTypeSeq();
-//			int attFileCnt = boardAttachRepository.count(boardSeq, boardTypeSeq);
-//			int commentCnt = boardcommentRepository.count(boardSeq, boardTypeSeq);
-//			log.info("commentCnt={}", commentCnt);
-//			dto.setAttFileCnt(attFileCnt);
-//			dto.setBoardCommentCnt(commentCnt);
+			int attFileCnt = boardAttachRepository.count(boardSeq, boardTypeSeq);
+			int commentCnt = commentRepository.count(boardSeq, boardTypeSeq);
+			log.info("commentCnt={}", commentCnt);
+			dto.setAttFileCnt(attFileCnt);
+			dto.setBoardCommentCnt(commentCnt);
 		}
 		return list;
 	}
