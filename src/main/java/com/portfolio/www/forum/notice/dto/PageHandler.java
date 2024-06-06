@@ -1,28 +1,48 @@
 package com.portfolio.www.forum.notice.dto;
 
+import org.springframework.web.util.UriComponentsBuilder;
+
 import lombok.Data;
 
 @Data
 public class PageHandler {
+	
+	private SearchCondition sc;
 	private Integer startPage;
-	private final Integer currPage;
+	//현재 페이지
+	private final Integer page;
 	private Integer endPage;
 	private final Integer naviSize = 10;
-	private final Integer pageSize;
+	//한 페이지의 사이즈
+	private final Integer size;
 	private final Integer offset;
 	private Integer totalPage;
 	
-	public PageHandler(Integer currPage, Integer pageSize) {
-		this.currPage = currPage;
-		this.pageSize = pageSize;
+	public PageHandler(Integer currPage, Integer pageSize, SearchCondition sc) {
+		this.page = currPage;
+		this.size = pageSize;
 		this.offset = (currPage - 1) * pageSize;
+		this.sc = sc;
 	}
 	
 	public void calculatePage(Integer totalPost) {
-		this.startPage = ((currPage-1)/10)*10 + 1;
-		this.totalPage = (totalPost-1) / pageSize + 1;
+		this.startPage = ((page-1)/10)*10 + 1;
+		this.totalPage = (totalPost-1) / size + 1;
 		this.endPage = Math.min(startPage + naviSize - 1, totalPage);
 	}
+	
+	public String makeQueryString() {
+		return UriComponentsBuilder.newInstance()
+								   .queryParam("page", getPage())
+								   .queryParam("size", getSize())
+								   .queryParam("keyword", getSc().getKeyword())
+								   .queryParam("value", getSc().getValue())
+								   .build().toString();
+	}
+	
+//	public String getQueryString() {
+//		
+//	}
 	
 //	public PageHandler(Integer currPage, Integer pageSize, Integer totalPost) {
 //		this.currPage = currPage;
@@ -34,7 +54,7 @@ public class PageHandler {
 //	}
 
 	public void print() {
-		System.out.println("currPage = " + this.currPage);
+		System.out.println("currPage = " + this.page);
 		if(this.startPage != 1) {
 			System.out.print("<< ");
 		}

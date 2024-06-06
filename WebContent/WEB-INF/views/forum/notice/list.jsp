@@ -5,6 +5,7 @@
 <%
 String ctx = request.getContextPath();
 %>
+
     <section class="section--padding2">
         <div class="container">
             <div class="row">
@@ -14,6 +15,8 @@ String ctx = request.getContextPath();
                             <div class="withdraw_module withdraw_history">
                                 <div class="withdraw_table_header">
                                     <h3>공지사항</h3>
+                                    <br>
+                                    <h6>총 ${listSize }개의 글이 있습니다.</h6>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table withdraw__table">
@@ -32,7 +35,8 @@ String ctx = request.getContextPath();
                                         	<tr>
                                         		<td>${item.boardSeq }</td>
                                         		<td>
-                                        		<a href="<c:url value='/forum/notice/readPage.do?boardSeq=${item.boardSeq }&boardTypeSeq=${item.boardTypeSeq }'/>">
+<%--                                         		<a href="<c:url value='/forum/notice/readPage.do?boardSeq=${item.boardSeq }&boardTypeSeq=${item.boardTypeSeq }&page=${ph.page }&size=${ph.size }&keyword=${ph.sc.keyword}&value=${ph.sc.value }'/>"> --%>
+                                        		<a href="<c:url value='/forum/notice/readPage.do${ph.makeQueryString() }&boardSeq=${item.boardSeq }&boardTypeSeq=${item.boardTypeSeq }'/>">
                                         		${item.title } [${item.boardCommentCnt }]
                                         		<c:if test="${item.attFileCnt > 0}">
                                         			<i class="fas fa-solid fa-paperclip"></i>
@@ -54,15 +58,15 @@ String ctx = request.getContextPath();
 				                        <nav class="navigation pagination" role="navigation">
 				                            <div class="nav-links">
 				                              <c:if test="${ph.startPage ne 1 }">
-													<a class="prev page-numbers" href="<c:url value='/forum/notice/listPage.do?page=${ph.startPage-1 }&size=${ph.pageSize }'/>">
+													<a class="prev page-numbers" href="<c:url value='/forum/notice/listPage.do?page=${ph.startPage-1 }&size=${ph.size }&keyword=${ph.sc.keyword }&value=${ph.sc.value }'/>">
 					                                    <span class="lnr lnr-arrow-left"></span>
 					                                </a>
 												</c:if>
 												<c:forEach var="i" begin="${ph.startPage }" end="${ph.endPage }">
-													<a class="page-numbers" href="<c:url value='/forum/notice/listPage.do?page=${i }&size=${ph.pageSize }'/>">${i }</a>
+													<a class="page-numbers pages" href="<c:url value='/forum/notice/listPage.do?page=${i }&size=${ph.size }&keyword=${ph.sc.keyword }&value=${ph.sc.value }'/>">${i }</a>
 												</c:forEach>
 				                                <c:if test="${ph.endPage ne ph.totalPage }">
-													<a class="next page-numbers" href="<c:url value='/forum/notice/listPage.do?page=${ph.endPage+1 }&size=${ph.pageSize }'/>">
+													<a class="next page-numbers" href="<c:url value='/forum/notice/listPage.do?page=${ph.endPage+1 }&size=${ph.size }&keyword=${ph.sc.keyword }&value=${ph.sc.value }'/>">
 					                                    <span class="lnr lnr-arrow-right"></span>
 					                                </a>
 												</c:if>
@@ -77,28 +81,61 @@ String ctx = request.getContextPath();
                 <!-- end .col-md-6 -->
             </div>
             <!-- end .row -->
+            
+           <!-- start .search_box -->
+           <div class="search_box">
+               <form action="<c:url value='/forum/notice/listPage.do'/>" method="get">
+                   <input type="text" class="text_field" name="value" placeholder="검색 키워드를 입력해주세요." required value="${ph.sc.value }" >
+                   <div class="search__select select-wrap">
+                       <select name="keyword" class="select--field" id="blah">
+                           <option value="writer">작성자</option>
+                           <option value="content">내용</option>
+                           <option value="title">제목</option>
+                           <option value="all">전체</option>
+                       </select>
+                       <span class="lnr lnr-chevron-down"></span>
+                   </div>
+                   <button type="submit" class="search-btn btn--lg">검색</button>
+               </form>
+           </div>
+           <!-- end ./search_box -->
+            
         </div>
         <!-- end .container -->
     </section>
-    <script>
-//     let code = '${code}'
-//     let msg = '${msg}'
-//     window.onload = function(){
-//        	if(msg!=''){
-//        		alert(msg)
-//        		console.log(code)
-//        	}
-//     }
-    
+    <script>    
     let msg = '${msgObject.msg}'
     let code = '${msgObject.code}'
+    let currPage = '${pageContext.request.getParameter("page")}'
+    let keyword = '${sc.keyword}'
+    
 
     window.onload = function(){
 	   	if(msg!=''){
 	   		console.log(code)
 	   		alert(msg)
 	   	}
+	   	
+	   	//해당 페이지 색깔 표시하기
+	   	let pageNavi = document.querySelectorAll('a.pages')
+	   	pageNavi.forEach(function(elem) {
+	   		if(elem.innerText == currPage) {
+	   			elem.style.background = '#0674ec'
+	   			elem.style.color = '#fff'
+	   		}
+	   	})
+	   	
+	   	//검색창에 검색 키워드 유지하기
+	   	let options = document.querySelectorAll('option')
+	   	options.forEach(function(elem) {
+	   		if(elem.value == keyword) {
+	   			elem.selected = true
+	   		}
+	   	})
+	   	
     }
-        
+    
+    
+
     </script>
    

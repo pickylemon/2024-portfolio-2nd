@@ -4,6 +4,29 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.portfolio.www.forum.notice.repository.BoardRepository">
+	<sql id="search">
+		<where>
+	 	    <choose>
+		    	<when test='ph.sc.keyword == "writer"'>
+		    		m.member_nm LIKE CONCAT('%',#{ph.sc.value},'%')	
+		    	</when>
+		    	<when test='ph.sc.keyword == "title"'>
+		    		title LIKE CONCAT('%',#{ph.sc.value},'%')
+		    	</when>
+		    	<when test='ph.sc.keyword == "content"'>
+		    		content LIKE CONCAT('%',#{ph.sc.value},'%')
+		    	</when>
+		    	<otherwise>
+		    		m.member_nm LIKE CONCAT('%',#{ph.sc.value},'%')
+		    		OR
+		    		title LIKE CONCAT('%',#{ph.sc.value},'%')
+		    		OR
+		    		content LIKE CONCAT('%',#{ph.sc.value},'%')
+		    	</otherwise>
+		    </choose>  	
+		 </where>
+	</sql>
+	
     <select id="getList" resultType="BoardDto">
      SELECT b.board_seq, b.board_type_seq, b.title, b.content, b.hit, b.del_yn, b.reg_dtm, b.reg_member_seq, b.update_dtm, b.update_member_seq, m.member_id reg_member_id
 	   FROM board b 
@@ -11,8 +34,10 @@
 	     ON b.board_type_seq = bt.board_type_seq 
 	   JOIN member m 
 	     ON b.reg_member_seq = m.member_seq 
+	     
+     <include refid="search"/>
    ORDER BY b.board_seq DESC 
-	  LIMIT ${ph.offset}, ${ph.pageSize}
+	  LIMIT ${ph.offset}, ${ph.size}
 	</select>
 	
 	<!-- 나중에 검색 조건 추가하면 수정할 예정 -->
@@ -23,6 +48,8 @@
 	     ON b.board_type_seq = bt.board_type_seq 
 	   JOIN member m 
 	     ON b.reg_member_seq = m.member_seq 
+	     <include refid="search"/>
+
 	</select>
 	
 	<select id="getOne" resultType="BoardDto">

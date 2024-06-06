@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,22 +54,32 @@ public class NoticeController {
 	 * @return
 	 */
 	@GetMapping("/listPage.do")
-	public String listPage(@RequestParam(defaultValue = "1")Integer page, 
+	public String listPage(@RequestParam(defaultValue = "1") Integer page, 
 							@RequestParam(defaultValue = "10") Integer size,
+							@ModelAttribute SearchCondition sc,
 							Model model) {
-		PageHandler ph = new PageHandler(page, size);
+		log.info("page={}, size={}",page, size);
+		log.info("sc={}",sc);
+		
+		if(sc.isEmpty()) {
+			sc = new SearchCondition("all", "");
+		}
+		
+		//log.info("\n\nsearchCondition={}\n\n", sc);
+		PageHandler ph = new PageHandler(page, size, sc);
 		log.info("ph={}", ph);
-		SearchCondition sc = new SearchCondition();
-		List<BoardDto> list = boardService.getList(ph, sc);
+//		List<BoardDto> list = boardService.getList(ph, sc);
+		List<BoardDto> list = boardService.getList(ph);
+		int listSize = boardService.getTotalCnt(ph);
 		
 		log.info("list={}",list);
 		
+		model.addAttribute("listSize",listSize);
 		model.addAttribute("list", list);
 		model.addAttribute("ph", ph);
-		model.addAttribute("sc", sc);
+//		model.addAttribute("sc", sc);
 		
 		return "forum/notice/list";
-
 	}
 	/**
 	 * 글쓰기 페이지
@@ -121,7 +132,13 @@ public class NoticeController {
 	 * @return
 	 */
 	@GetMapping("/readPage.do")
-	public String readPage(Integer boardSeq, Integer boardTypeSeq, HttpSession session, Model model) {
+	public String readPage(Integer boardSeq, Integer boardTypeSeq, 
+						Integer page, Integer size, SearchCondition sc,
+						HttpSession session, Model model) {
+		
+		log.info("sc={}", sc);
+		
+		PageHandler ph = new PageHandler(page, size, sc);
 		int memberSeq = (int)session.getAttribute("memberSeq");
 		
 		BoardDto boardDto = boardService.getPost(boardSeq, boardTypeSeq);
@@ -142,6 +159,10 @@ public class NoticeController {
 		model.addAttribute("comments", comments);
 		model.addAttribute("boardDto", boardDto);
 		model.addAttribute("commentCnt", commentCnt);
+		model.addAttribute("ph", ph);
+//		model.addAttribute("page", page);
+//		model.addAttribute("size", size);
+//		model.addAttribute("sc",sc);
 		return "forum/notice/read";
 	}
 	
