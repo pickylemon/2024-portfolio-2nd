@@ -20,6 +20,10 @@
                          							  method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label>제목</label>
+                                
+                                <input type="hidden" name="page" value="${page }"/>
+                                <input type="hidden" name="size" value="${size }"/>
+                                
                                 <input type="text" placeholder="Enter title here" required name="title" value="${boardDto.title }">
                                 <!-- model에 담겨오는 이름이 아니라, 클래스 이름을 적어야 에러 메시지가 찍힌다 -->
                                 <spring:hasBindErrors name="boardModifyDto">

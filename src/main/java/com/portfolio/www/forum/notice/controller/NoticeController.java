@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,22 +54,31 @@ public class NoticeController {
 	 * @return
 	 */
 	@GetMapping("/listPage.do")
-	public String listPage(@RequestParam(defaultValue = "1")Integer page, 
+	public String listPage(@RequestParam(defaultValue = "1") Integer page, 
 							@RequestParam(defaultValue = "10") Integer size,
+							@ModelAttribute SearchCondition sc,
 							Model model) {
+		
+		log.info("sc={}",sc);
+		
+		if(sc.isEmpty()) {
+			sc = new SearchCondition("all", "");
+		}
+		
+		//log.info("\n\nsearchCondition={}\n\n", sc);
 		PageHandler ph = new PageHandler(page, size);
 		log.info("ph={}", ph);
-		SearchCondition sc = new SearchCondition();
 		List<BoardDto> list = boardService.getList(ph, sc);
+		int listSize = boardService.getTotalCnt(sc);
 		
 		log.info("list={}",list);
 		
+		model.addAttribute("listSize",listSize);
 		model.addAttribute("list", list);
 		model.addAttribute("ph", ph);
 		model.addAttribute("sc", sc);
 		
 		return "forum/notice/list";
-
 	}
 	/**
 	 * 글쓰기 페이지
@@ -121,7 +131,12 @@ public class NoticeController {
 	 * @return
 	 */
 	@GetMapping("/readPage.do")
-	public String readPage(Integer boardSeq, Integer boardTypeSeq, HttpSession session, Model model) {
+	public String readPage(Integer boardSeq, Integer boardTypeSeq, 
+						Integer page, Integer size, SearchCondition sc,
+						HttpSession session, Model model) {
+		
+		log.info("sc={}", sc);
+		
 		int memberSeq = (int)session.getAttribute("memberSeq");
 		
 		BoardDto boardDto = boardService.getPost(boardSeq, boardTypeSeq);
@@ -142,6 +157,9 @@ public class NoticeController {
 		model.addAttribute("comments", comments);
 		model.addAttribute("boardDto", boardDto);
 		model.addAttribute("commentCnt", commentCnt);
+		model.addAttribute("page", page);
+		model.addAttribute("size", size);
+		model.addAttribute("sc",sc);
 		return "forum/notice/read";
 	}
 	
@@ -156,12 +174,15 @@ public class NoticeController {
 	@GetMapping("/{boardTypeSeq}/{boardSeq}/modifyPage.do")
 	public String modifyPage(@PathVariable("boardSeq") Integer boardSeq, 
 							@PathVariable("boardTypeSeq") Integer boardTypeSeq,
+							Integer page, Integer size, 
 							Model model) {
 		BoardDto boardDto = boardService.getPost(boardSeq, boardTypeSeq);
 		log.info("boardDto.getContent={}", boardDto.getContent());
 		List<BoardAttachDto> attFileList = boardService.getAttFileInfoList(boardSeq, boardTypeSeq);
 		model.addAttribute("boardDto", boardDto);
 		model.addAttribute("attFileList", attFileList);
+		model.addAttribute("page",page);
+		model.addAttribute("size",size);
 		
 		return "forum/notice/modify";
 	}
@@ -189,6 +210,7 @@ public class NoticeController {
 	public String modifyPage(@Validated BoardModifyDto boardModifyDto, BindingResult error, 
 						@PathVariable("boardTypeSeq") Integer boardTypeSeq, 
 						@PathVariable("boardSeq") Integer boardSeq,
+						Integer page, Integer size, 
 						MultipartFile[] attFiles, HttpSession session, RedirectAttributes rattr, Model model) {
 		
 		log.info("boardSaveDto={}", boardModifyDto);
@@ -221,7 +243,7 @@ public class NoticeController {
 			boardService.modify(boardModifyDto, attFiles);
 			//성공적으로 게시글+첨부파일이 수정된 경우
 			rattr.addFlashAttribute("msgObject", BoardMessageEnum.MODIFY_SUCCESS);
-			return "redirect:/forum/notice/listPage.do"; //목록으로 이동
+			return "redirect:/forum/notice/listPage.do?page="+page+"&size="+size; //목록으로 이동
 		} catch (DataAccessException e) {
 			//게시글 수정에 예외 발생
 			model.addAttribute("msgObject", BoardMessageEnum.MODFY_FAIL);

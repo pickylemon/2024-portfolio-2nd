@@ -26,7 +26,7 @@ public interface BoardRepository {
 	int addVote(BoardVoteDto boardVoteDto);
 	
 	int deleteVote(BoardVoteDto boardVoteDto);
-	
+		
 	int updateVote(BoardVoteDto boardVoteDto);
 	
 	int save(BoardSaveDto dto);
