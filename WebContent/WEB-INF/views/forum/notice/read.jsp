@@ -137,9 +137,10 @@ String ctx = request.getContextPath();
                             <br><br>
                             <!-- 수정하기, 삭제하기 버튼은 본인일때만 보여야 하는 버튼 -->
                             <c:if test='${sessionScope.memberSeq eq boardDto.regMemberSeq }'>
-                            	<button class="btn btn--sm btn--round" id="modBtn" onclick="location.href='<c:url value='/forum/notice/${boardDto.boardTypeSeq }/${boardDto.boardSeq }/modifyPage.do?page=${page }&size=${size }&keyword=${sc.keyword}&value=${sc.value}'/>';">글 수정하기</button>
+                            	<button class="btn btn--sm btn--round" id="modBtn" onclick="location.href='<c:url value='/forum/notice/${boardDto.boardTypeSeq }/${boardDto.boardSeq }/modifyPage.do'/>';">글 수정하기</button>
                             	<button class="btn btn--sm btn--round" id="delBtn" onclick="javascript:deletePage()">글 삭제하기</button>
-                            	<button class="btn btn--sm btn--round" id="listBtn" onclick="location.href='<c:url value='/forum/notice/listPage.do?page=${page }&size=${size }&keyword=${sc.keyword}&value=${sc.value}'/>';">목록으로</button>
+<%--                             	<button class="btn btn--sm btn--round" id="listBtn" onclick="location.href='<c:url value='/forum/notice/listPage.do?page=${ph.page }&size=${ph.size }&keyword=${ph.sc.keyword}&value=${ph.sc.value}'/>';">목록으로</button> --%>
+                            	<button class="btn btn--sm btn--round" id="listBtn" onclick="location.href='<c:url value='/forum/notice/listPage.do${ph.makeQueryString() }'/>';">목록으로</button>
 <%--                             	<a href="<c:url value='/forum/notice/${boardDto.boardTypeSeq }/${boardDto.boardSeq }/modifyPage.do'/>" id="modBtn" >글 수정하기</a><br> --%>
 <!--                             	<a href="#" id="delBtn" onclick="javascript:deletePage()">글 삭제하기</a><br> -->
                             </c:if>

@@ -41,11 +41,12 @@ public class BoardService {
 	/*
 	 * 게시글 리스트 가져오기(첨부파일 갯수, 댓글 갯수 목록도 포함시켜서)
 	 */
-	public List<BoardDto> getList(PageHandler ph, SearchCondition sc) {
-		List<BoardDto> list = boardRepository.getList(ph, sc);
+//	public List<BoardDto> getList(PageHandler ph, SearchCondition sc) {
+	public List<BoardDto> getList(PageHandler ph) {
+		List<BoardDto> list = boardRepository.getList(ph);
 		
 		//총 게시물의 수를 읽어와서 페이징에 필요한 나머지 값들을 setting해주기
-		ph.calculatePage(boardRepository.getTotalCnt(sc));
+		ph.calculatePage(boardRepository.getTotalCnt(ph));
 		
 		//각 게시글에 첨부파일 갯수와 댓글 갯수를 조회해서 dto에 set
 		for(BoardDto dto : list) {
@@ -60,8 +61,9 @@ public class BoardService {
 		return list;
 	}
 	
-	public int getTotalCnt(SearchCondition sc) {
-		return boardRepository.getTotalCnt(sc);
+//	public int getTotalCnt(SearchCondition sc) {
+	public int getTotalCnt(PageHandler ph) {
+		return boardRepository.getTotalCnt(ph);
 	}
 	
 	/**

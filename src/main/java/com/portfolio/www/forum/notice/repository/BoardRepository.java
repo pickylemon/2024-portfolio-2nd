@@ -13,9 +13,12 @@ import com.portfolio.www.forum.notice.dto.SearchCondition;
 
 
 public interface BoardRepository {
-	List<BoardDto> getList(@Param("ph") PageHandler ph, @Param("sc") SearchCondition sc);
+	//FIXME ph만 인수로 받도록 수정하기
+//	List<BoardDto> getList(@Param("ph") PageHandler ph, @Param("sc") SearchCondition sc);
+	List<BoardDto> getList(@Param("ph") PageHandler ph);
 	
-	int getTotalCnt(@Param("sc") SearchCondition sc);
+//	int getTotalCnt(@Param("sc") SearchCondition sc);
+	int getTotalCnt(@Param("ph") PageHandler ph);
 	
 	BoardDto getOne(@Param("boardSeq") Integer boardSeq, @Param("boardTypeSeq") Integer boardTypeSeq);
 	

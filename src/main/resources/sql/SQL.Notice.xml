@@ -7,21 +7,21 @@
 	<sql id="search">
 		<where>
 	 	    <choose>
-		    	<when test='sc.keyword == "writer"'>
-		    		m.member_nm LIKE CONCAT('%',#{sc.value},'%')	
+		    	<when test='ph.sc.keyword == "writer"'>
+		    		m.member_nm LIKE CONCAT('%',#{ph.sc.value},'%')	
 		    	</when>
-		    	<when test='sc.keyword == "title"'>
-		    		title LIKE CONCAT('%',#{sc.value},'%')
+		    	<when test='ph.sc.keyword == "title"'>
+		    		title LIKE CONCAT('%',#{ph.sc.value},'%')
 		    	</when>
-		    	<when test='sc.keyword == "content"'>
-		    		content LIKE CONCAT('%',#{sc.value},'%')
+		    	<when test='ph.sc.keyword == "content"'>
+		    		content LIKE CONCAT('%',#{ph.sc.value},'%')
 		    	</when>
 		    	<otherwise>
-		    		m.member_nm LIKE CONCAT('%',#{sc.value},'%')
+		    		m.member_nm LIKE CONCAT('%',#{ph.sc.value},'%')
 		    		OR
-		    		title LIKE CONCAT('%',#{sc.value},'%')
+		    		title LIKE CONCAT('%',#{ph.sc.value},'%')
 		    		OR
-		    		content LIKE CONCAT('%',#{sc.value},'%')
+		    		content LIKE CONCAT('%',#{ph.sc.value},'%')
 		    	</otherwise>
 		    </choose>  	
 		 </where>
@@ -37,7 +37,7 @@
 	     
      <include refid="search"/>
    ORDER BY b.board_seq DESC 
-	  LIMIT ${ph.offset}, ${ph.pageSize}
+	  LIMIT ${ph.offset}, ${ph.size}
 	</select>
 	
 	<!-- 나중에 검색 조건 추가하면 수정할 예정 -->

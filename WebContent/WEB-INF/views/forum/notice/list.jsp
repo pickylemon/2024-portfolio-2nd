@@ -35,7 +35,8 @@ String ctx = request.getContextPath();
                                         	<tr>
                                         		<td>${item.boardSeq }</td>
                                         		<td>
-                                        		<a href="<c:url value='/forum/notice/readPage.do?boardSeq=${item.boardSeq }&boardTypeSeq=${item.boardTypeSeq }&page=${ph.currPage }&size=${ph.pageSize }&keyword=${sc.keyword}&value=${sc.value }'/>">
+<%--                                         		<a href="<c:url value='/forum/notice/readPage.do?boardSeq=${item.boardSeq }&boardTypeSeq=${item.boardTypeSeq }&page=${ph.page }&size=${ph.size }&keyword=${ph.sc.keyword}&value=${ph.sc.value }'/>"> --%>
+                                        		<a href="<c:url value='/forum/notice/readPage.do${ph.makeQueryString() }&boardSeq=${item.boardSeq }&boardTypeSeq=${item.boardTypeSeq }'/>">
                                         		${item.title } [${item.boardCommentCnt }]
                                         		<c:if test="${item.attFileCnt > 0}">
                                         			<i class="fas fa-solid fa-paperclip"></i>
@@ -57,15 +58,15 @@ String ctx = request.getContextPath();
 				                        <nav class="navigation pagination" role="navigation">
 				                            <div class="nav-links">
 				                              <c:if test="${ph.startPage ne 1 }">
-													<a class="prev page-numbers" href="<c:url value='/forum/notice/listPage.do?page=${ph.startPage-1 }&size=${ph.pageSize }&keyword=${sc.keyword }&value=${sc.value }'/>">
+													<a class="prev page-numbers" href="<c:url value='/forum/notice/listPage.do?page=${ph.startPage-1 }&size=${ph.size }&keyword=${ph.sc.keyword }&value=${ph.sc.value }'/>">
 					                                    <span class="lnr lnr-arrow-left"></span>
 					                                </a>
 												</c:if>
 												<c:forEach var="i" begin="${ph.startPage }" end="${ph.endPage }">
-													<a class="page-numbers pages" href="<c:url value='/forum/notice/listPage.do?page=${i }&size=${ph.pageSize }&keyword=${sc.keyword }&value=${sc.value }'/>">${i }</a>
+													<a class="page-numbers pages" href="<c:url value='/forum/notice/listPage.do?page=${i }&size=${ph.size }&keyword=${ph.sc.keyword }&value=${ph.sc.value }'/>">${i }</a>
 												</c:forEach>
 				                                <c:if test="${ph.endPage ne ph.totalPage }">
-													<a class="next page-numbers" href="<c:url value='/forum/notice/listPage.do?page=${ph.endPage+1 }&size=${ph.pageSize }&keyword=${sc.keyword }&value=${sc.value }'/>">
+													<a class="next page-numbers" href="<c:url value='/forum/notice/listPage.do?page=${ph.endPage+1 }&size=${ph.size }&keyword=${ph.sc.keyword }&value=${ph.sc.value }'/>">
 					                                    <span class="lnr lnr-arrow-right"></span>
 					                                </a>
 												</c:if>
@@ -84,7 +85,7 @@ String ctx = request.getContextPath();
            <!-- start .search_box -->
            <div class="search_box">
                <form action="<c:url value='/forum/notice/listPage.do'/>" method="get">
-                   <input type="text" class="text_field" name="value" placeholder="검색 키워드를 입력해주세요." required value="${sc.value }" }>
+                   <input type="text" class="text_field" name="value" placeholder="검색 키워드를 입력해주세요." required value="${ph.sc.value }" >
                    <div class="search__select select-wrap">
                        <select name="keyword" class="select--field" id="blah">
                            <option value="writer">작성자</option>
