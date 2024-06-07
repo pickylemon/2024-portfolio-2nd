@@ -19,5 +19,8 @@ public class PasswdResetDto {
 	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,15}$",
 	message = "비밀번호는 특수문자와 영어대소문자, 숫자를 조합해 8~15자리 내로 입력해주세요.")
 	private String passwd;
+	private Long regDtm;
+	private Long expireDtm;
+	
 
 }

@@ -1,5 +1,6 @@
 package com.portfolio.www.auth.service;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.util.ObjectUtils;
 
 import com.portfolio.www.auth.dto.EmailDto;
 import com.portfolio.www.auth.dto.EmailUtil;
+import com.portfolio.www.auth.dto.MemberAuthDto;
 import com.portfolio.www.auth.dto.MemberDto;
 import com.portfolio.www.auth.dto.PasswdResetDto;
 import com.portfolio.www.auth.dto.ResetPasswdAuthDto;
@@ -19,7 +21,6 @@ import com.portfolio.www.auth.repository.MemberAuthRepository;
 import com.portfolio.www.auth.repository.MemberRepository;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -105,7 +106,16 @@ public class LoginService extends AuthCommonService {
 	}
 	
 	public PasswdResetDto checkAuthUriForPasswdReset(String uri) {
-		return memberAuthRepository.getPasswdResetDto(uri);
+		int code = 1;
+		PasswdResetDto authDto = memberAuthRepository.getPasswdResetDto(uri);
+		
+		log.info("authDto={}", authDto);
+		//1. 인증 주소가 유효한지
+		if(ObjectUtils.isEmpty(authDto) || !isValidTime(authDto.getExpireDtm())) {
+			//유효하지 않은 uri이거나 인증시간이 초과된 경우
+			return null;
+		}
+		return authDto; //유효한 uri, 시간일 때만 1을 반환
 	}
 	
 	@Transactional
@@ -142,5 +152,9 @@ public class LoginService extends AuthCommonService {
 		resetDto.setPasswd(encPasswd);
 		
 		return resetDto;
+	}
+	
+	private boolean isValidTime(long time) {
+		return Calendar.getInstance().getTimeInMillis() < time;
 	}
 }
