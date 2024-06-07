@@ -14,6 +14,9 @@ public interface MemberRepository {
 	int updateAuthValid(int memberSeq) throws DataAccessException;
 	
 	MemberDto findById(String memberId) throws DataRetrievalFailureException;
+	//
+	MemberDto findByIdNoAuth(String memberId) throws DataRetrievalFailureException;
+	
 	MemberDto findBySeq(int memberSeq) throws DataAccessException;
 	
 	int updatePasswd(PasswdResetDto resetDto) throws DataAccessException;

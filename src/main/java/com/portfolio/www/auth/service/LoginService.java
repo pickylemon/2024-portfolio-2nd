@@ -24,9 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class LoginService {
-	private final MemberRepository memberRepository;
-	private final MemberAuthRepository memberAuthRepository;
-	private final EmailUtil emailUtil;
+	protected final MemberRepository memberRepository;
+	protected final MemberAuthRepository memberAuthRepository;
+	protected final EmailUtil emailUtil;
 	
 	
 	/**
@@ -52,7 +52,7 @@ public class LoginService {
 		return code;
 	}
 	
-	public int beforeResetPasswd(String memberId, String userEmail, String contextPath) {
+	public int checkIdAndEmail(String memberId, String userEmail, String contextPath) {
 		int code = -9;
 		MemberDto memberDto = memberRepository.findById(memberId);
 		

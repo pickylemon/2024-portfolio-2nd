@@ -121,7 +121,7 @@ public class LoginController {
 	@PostMapping("/checkIdAndEmail.do")
 	public String verifyId(String memberId, String email, HttpServletRequest request, Model model, RedirectAttributes rattr) {
 		String contextPath = request.getContextPath();
-		int code = loginService.beforeResetPasswd(memberId, email, contextPath);
+		int code = loginService.checkIdAndEmail(memberId, email, contextPath);
 		
 		log.info("memberId={}, email={}", memberId, email);
 		//조회되는 아이디가 없거나, 
