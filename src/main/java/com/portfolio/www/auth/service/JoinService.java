@@ -2,7 +2,9 @@ package com.portfolio.www.auth.service;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -17,17 +19,24 @@ import com.portfolio.www.auth.repository.MemberAuthRepository;
 import com.portfolio.www.auth.repository.MemberRepository;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
-@Transactional(readOnly = true)
-public class JoinService {	
-	private final MemberRepository memberRepository;
-	private final MemberAuthRepository memberAuthRepository;
-	private final EmailUtil emailUtil;
+//@RequiredArgsConstructor
+public class JoinService extends AuthCommonService{	
+//	private final MemberRepository memberRepository;
+//	private final MemberAuthRepository memberAuthRepository;
+//	private final EmailUtil emailUtil;
+	
+	@Autowired
+	public JoinService(MemberRepository memberRepository, 
+					   MemberAuthRepository memberAuthRepository,
+					                          EmailUtil emailUtil) {
+		
+		super(memberRepository, memberAuthRepository, emailUtil);
+	}
+
 	
 	/**
 	 * 회원가입.
@@ -45,21 +54,13 @@ public class JoinService {
 			memberRepository.save(encrypt(memberDto)); 
 			
 			//2. MemberAuth테이블에 insert
-			int memberSeq = memberRepository.getMemberSeq(memberDto.getMemberId());
-			//QUESTION 여기도 사실 selectKey를 활용할 수 있지 않을까??
+			int memberSeq = memberDto.getMemberSeq();
+			//log.info("memberSeq={}", memberSeq);
 			
-			MemberAuthDto authDto = MemberAuthDto.createMemberAuthDto(memberSeq);
-			code = memberAuthRepository.addAuthInfo(authDto);
-			
-			//3. 인증메일 보내기
-			String authUri = authDto.getAuthUri();
-			//관련있는 메일 정보(제목, 내용)을 hashmap 객체에 묶어서 다루고자 함
-			//클래스를 따로 만들까 했지만, 여기서밖에 사용 하지 않을 것 같아서 일단은 map으로만..
-			HashMap<String, String> mailContent = createMailContent(contextPath, authUri);
-			//sender에 대한 정보는 bean으로 등록한 mailSender에서 가져온다.
-			EmailDto emailDto = EmailDto.createEmailDto(receiver, mailContent, true);
-			emailUtil.sendMail(emailDto);
-					
+			Map<String, String> mailComponent = makeMailComponent(contextPath);
+			code = sendAuthMail(mailComponent, receiver, memberDto.getMemberSeq());
+		
+		//FIXME Tx처리를 위해 try-catch 없애기
 		} catch (DuplicateKeyException e) {
 			//memberId는 Unique키 제약조건이 있어서, 
 			//같은 id로 가입시도 하면 exception 발생
@@ -75,8 +76,38 @@ public class JoinService {
 		//나머지 에러는 전부 code = -1
 		return code;
 	}
-	
-	
+
+	public int remail(String memberId, String receiver, String contextPath) {
+		int code = -9;
+		MemberDto memberDto = memberRepository.findByIdNoAuth(memberId);
+		
+		//해당 아이디로 가입된 회원이 없다.
+		if(ObjectUtils.isEmpty(memberDto)) {
+			code = -1; 
+		}
+		
+		//사용자 입력 이메일과 DB에 저장된 이메일이 다르다.
+		if(!passwdOrEmailMatch(receiver, memberDto.getEmail())){
+			code = -2;
+		}
+		
+		Map<String, String> mailComponent = makeMailComponent(contextPath);
+		code = sendAuthMail(mailComponent, receiver, memberDto.getMemberSeq());
+		
+		return code;
+	}
+
+
+	private Map<String, String> makeMailComponent(String contextPath) {
+		Map<String, String> mailComponent = new HashMap<>();
+		mailComponent.put("subject", "회원가입을 위해 메일 인증을 완료해주세요");
+		mailComponent.put("contextPath", contextPath);
+		mailComponent.put("domain", "http://localhost:8080");
+		mailComponent.put("path", "/auth/emailAuth.do?uri=");
+		mailComponent.put("content", "링크를 눌러 인증을 완료해주세요");
+		return mailComponent;
+	}
+
 	
 	/**
 	 * 유저가 발송된 메일의 인증 주소로 접속하면
@@ -105,22 +136,21 @@ public class JoinService {
 		
 		//3. 인증 시간이 유효한지
 		if(!isValidTime(authDto.getExpireDtm())) {
-			//인증시간이 지났다. 메일 재발송
-			//흠......................
+//			if(true) { //테스트
 			
+			//인증시간이 지났다. 
+			//메일을 재발송하려면 암호화되지 않은 메일주소가 필요한데..
+			//일단 인증 시간이 지났음을 유저에게 알리고
+			//아이디랑 메일주소를 재입력받아서 일치하면 다시 그 메일주소로 인증메일을 보내기
+			code = -1;
+			return code;
 		}
-		
-		
-		//TODO 여기 try-catch 없애기. catch에서 exception 받아버리면 Tx도 안됨.....
 		
 		//모든 검증이 끝났을 때 비로소 auth_yn을 y로 업데이트치기
-		try {
-			memberAuthRepository.updateAuthValid(uri);
-			code = memberRepository.updateAuthValid(memberSeq);
-		} catch (DataAccessException e) {
-			log.info(e.getMessage());
-		}
-		return code; //default가 -1
+		memberAuthRepository.updateAuthValid(uri);
+		code = memberRepository.updateAuthValid(memberSeq);
+
+		return code; //default가 -9
 	}
 	
 	
@@ -130,23 +160,6 @@ public class JoinService {
 	}
 	
 
-	//QUESTION 여기가 뭔가 신경쓰인다. 
-	// 메일의 제목/내용에 변경 시 JoinService자체에 변경 포인트가 생긴다는 점이 뭔가..
-	// 메일 컨텐츠 부분만 따로 떼어내서 다룰 수는 없을까. 변경포인트를 분리하고 싶다.
-	private HashMap<String, String> createMailContent(String contextPath, String authUri) {
-		HashMap<String, String> mailContent = new HashMap<>();
-		
-		String subject = "인증을 완료해주세요";
-		String html =  "<a href='http://localhost:8080"
-				+contextPath+"/emailAuth.do?uri="
-				+ authUri + "'>인증하기</a>";
-		
-		mailContent.put("subject", subject);
-		mailContent.put("text", html);
-		return mailContent;
-	}
-	
-	
 	//사용자 입력 이메일, 비밀번호를 암호화 후 다시 dto를 반환하는 메서드
 	private MemberDto encrypt(MemberDto memberDto) {
 		String passwd = memberDto.getPasswd();

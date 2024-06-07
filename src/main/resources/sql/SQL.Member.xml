@@ -6,10 +6,13 @@
 <mapper namespace="com.portfolio.www.auth.repository.MemberRepository">
 
     <insert id="save" parameterType="memberDto">
+  		<selectKey resultType="int" keyProperty="memberSeq" order="AFTER">
+		SELECT LAST_INSERT_ID()
+		</selectKey>
     <!-- indent 주의 -->
     INSERT INTO forum.`member`
-		   (member_id, passwd, member_nm, email, auth_yn, pwd_chng_dtm, join_dtm)
-	VALUES (#{memberId},#{passwd},#{memberNm},#{email},'','', DATE_FORMAT(NOW()  ,'%Y%m%d%H%i%s'))
+		   (member_id, passwd, member_nm, email, join_dtm)
+	VALUES (#{memberId},#{passwd},#{memberNm},#{email}, DATE_FORMAT(NOW()  ,'%Y%m%d%H%i%s'))
 	</insert>
 	
 	<select id="getMemberSeq" parameterType="string" resultType="int">
@@ -26,6 +29,13 @@
 	<select id="findById" parameterType="string" resultType="MemberDto">
 	SELECT * FROM forum.`member` 
 	 WHERE member_id = #{memberId}
+	 AND auth_yn = 'Y'
+	</select>
+	
+	<select id="findByIdNoAuth" parameterType="string" resultType="MemberDto">
+	SELECT * FROM forum.`member` 
+	 WHERE member_id = #{memberId}
+	 AND auth_yn = 'N'
 	</select>
 	
 	

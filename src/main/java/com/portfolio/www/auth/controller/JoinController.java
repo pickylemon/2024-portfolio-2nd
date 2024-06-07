@@ -9,12 +9,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.portfolio.www.auth.dto.MemberDto;
 import com.portfolio.www.auth.message.AuthMessageEnum;
+import com.portfolio.www.auth.service.AuthCommonService;
 import com.portfolio.www.auth.service.JoinService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,11 +25,14 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping("/auth")
 public class JoinController {
 	private final JoinService joinService;
+	private final AuthCommonService authCommonService;
+	
 	
 
-	@GetMapping("/auth/joinPage.do")
+	@GetMapping("/joinPage.do")
 	public ModelAndView join() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("auth/join");
@@ -43,7 +48,7 @@ public class JoinController {
 	 * @return
 	 */
 	
-	@PostMapping("/auth/joinPage.do")
+	@PostMapping("/joinPage.do")
 	public ModelAndView join(@ModelAttribute @Validated MemberDto memberDto, BindingResult result, HttpServletRequest request, Model model, RedirectAttributes rattr ) {
 		log.info("memberDto={}", memberDto);
 		ModelAndView mv = new ModelAndView();
@@ -86,6 +91,18 @@ public class JoinController {
 		
 	}
 	
+	@PostMapping("/remail.do")
+	public String remail(String memberId, String email, HttpServletRequest request, RedirectAttributes rattr) {
+		String contextPath = request.getContextPath();
+		int code = joinService.remail(memberId, email, contextPath);
+		if(code == 1) {
+			rattr.addFlashAttribute("msgObject", AuthMessageEnum.SUCCESS);
+		} else {
+			rattr.addFlashAttribute("msgObject", AuthMessageEnum.MAIL_SEND_FAIL);
+		}
+		return "redirect:/index.do";
+	}
+	
 	//인증메일 확인하기
 	@GetMapping("/emailAuth.do")
 	public String emailAuth(@RequestParam("uri") String uri, RedirectAttributes rattr) {
@@ -104,10 +121,15 @@ public class JoinController {
 		//        -> 있다? member와 memberAuth에 인증 "Y"로 update치기
 		
 		//성공시 다시 홈으로
+		
 		if(code == 1) {
 			rattr.addFlashAttribute("msgObject", AuthMessageEnum.AUTH_MAIL_SUCCESS);
 			//성공시에는 로그인 페이지로 이동하는게 더 낫나..?
+		} else if(code == -1) {
+			//유효시간을 초과한 인증메일
+			rattr.addFlashAttribute("msgObject", AuthMessageEnum.INVALID_AUTH_TIME);
 		} else {
+		
 			rattr.addFlashAttribute("msgObject", AuthMessageEnum.AUTH_MAIL_FAIL);
 		} 
 		return "redirect:/index.do";

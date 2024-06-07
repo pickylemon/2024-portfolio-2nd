@@ -1,7 +1,10 @@
 package com.portfolio.www.auth.service;
 
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
@@ -10,6 +13,7 @@ import org.springframework.util.ObjectUtils;
 
 import com.portfolio.www.auth.dto.EmailDto;
 import com.portfolio.www.auth.dto.EmailUtil;
+import com.portfolio.www.auth.dto.MemberAuthDto;
 import com.portfolio.www.auth.dto.MemberDto;
 import com.portfolio.www.auth.dto.PasswdResetDto;
 import com.portfolio.www.auth.dto.ResetPasswdAuthDto;
@@ -17,16 +21,22 @@ import com.portfolio.www.auth.repository.MemberAuthRepository;
 import com.portfolio.www.auth.repository.MemberRepository;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
-public class LoginService {
-	private final MemberRepository memberRepository;
-	private final MemberAuthRepository memberAuthRepository;
-	private final EmailUtil emailUtil;
+public class LoginService extends AuthCommonService {
+//	protected final MemberRepository memberRepository;
+//	protected final MemberAuthRepository memberAuthRepository;
+//	protected final EmailUtil emailUtil;
+	
+	@Autowired
+	public LoginService(MemberRepository memberRepository, 
+					   MemberAuthRepository memberAuthRepository,
+					                          EmailUtil emailUtil) {
+		
+		super(memberRepository, memberAuthRepository, emailUtil);
+	}
 	
 	
 	/**
@@ -41,9 +51,13 @@ public class LoginService {
 	public int login(String memberId, String passwd){
 		int code = -9;
 		MemberDto memberDto = memberRepository.findById(memberId);
+		MemberDto memberDto2 = memberRepository.findByIdNoAuth(memberId);
 		
 		//해당 아이디로 조회되는 회원이 없는 경우
 		if(ObjectUtils.isEmpty(memberDto)) {
+			if(!ObjectUtils.isEmpty(memberDto2)) {
+				return -8;
+			}
 			return code; 
 		}
 		//아이디로 조회되는 회원이 있으면 
@@ -52,7 +66,7 @@ public class LoginService {
 		return code;
 	}
 	
-	public int beforeResetPasswd(String memberId, String userEmail, String contextPath) {
+	public int sendMailForPasswdReset(String memberId, String userEmail, String contextPath) {
 		int code = -9;
 		MemberDto memberDto = memberRepository.findById(memberId);
 		
@@ -76,8 +90,9 @@ public class LoginService {
 		try {
 			code = memberAuthRepository.addResetPasswdAuthInfo(authDto);
 			//메일 보내기
+			Map<String, String> mailComponent = makeMailComponent(contextPath);
 			EmailDto emailDto = EmailDto.createEmailDto(
-					userEmail, createMailContent(contextPath, authDto.getAuthUri()), true);
+					userEmail, createMailContent(mailComponent, authDto.getAuthUri()), true);
 			log.info("EmailDto={}", emailDto);
 			emailUtil.sendMail(emailDto);
 		} catch (DataAccessException e) {
@@ -91,7 +106,16 @@ public class LoginService {
 	}
 	
 	public PasswdResetDto checkAuthUriForPasswdReset(String uri) {
-		return memberAuthRepository.getPasswdResetDto(uri);
+		int code = 1;
+		PasswdResetDto authDto = memberAuthRepository.getPasswdResetDto(uri);
+		
+		log.info("authDto={}", authDto);
+		//1. 인증 주소가 유효한지
+		if(ObjectUtils.isEmpty(authDto) || !isValidTime(authDto.getExpireDtm())) {
+			//유효하지 않은 uri이거나 인증시간이 초과된 경우
+			return null;
+		}
+		return authDto; //유효한 uri, 시간일 때만 1을 반환
 	}
 	
 	@Transactional
@@ -109,24 +133,16 @@ public class LoginService {
 	}
 	
 	
-	//사용자 입력 비밀번호와 저장된 비밀번호 
-	//또는 사용자 입력 이메일과 저장된 이메일을 비교하는 메서드
-	private boolean passwdOrEmailMatch(String givenString, String savedString) {
-		return BCrypt.verifyer().verify(givenString.toCharArray(), savedString).verified;
+	private Map<String, String> makeMailComponent(String contextPath) {
+		Map<String, String> mailComponent = new HashMap<>();
+		mailComponent.put("subject", "새로운 비밀번호를 설정해주세요");
+		mailComponent.put("contextPath", contextPath);
+		mailComponent.put("domain", "http://localhost:8080");
+		mailComponent.put("path", "/auth/resetPasswd.do?uri=");
+		mailComponent.put("content", "비밀번호 재설정하기");
+		return mailComponent;
 	}
 	
-	private HashMap<String, String> createMailContent(String contextPath, String authUri) {
-		HashMap<String, String> mailContent = new HashMap<>();
-		
-		String subject = "새로운 비밀번호를 설정해주세요";
-		String html =  "<a href='http://localhost:8080"
-				+contextPath+"/auth/resetPasswd.do?uri="
-				+ authUri + "'>비밀번호 재설정하기</a>";
-		
-		mailContent.put("subject", subject);
-		mailContent.put("text", html);
-		return mailContent;
-	}
 	
 	private PasswdResetDto encrypt(PasswdResetDto resetDto) {
 		String passwd = resetDto.getPasswd();
@@ -136,5 +152,9 @@ public class LoginService {
 		resetDto.setPasswd(encPasswd);
 		
 		return resetDto;
+	}
+	
+	private boolean isValidTime(long time) {
+		return Calendar.getInstance().getTimeInMillis() < time;
 	}
 }
