@@ -59,9 +59,8 @@ public class JoinService extends AuthCommonService{
 			
 			Map<String, String> mailComponent = makeMailComponent(contextPath);
 			code = sendAuthMail(mailComponent, receiver, memberDto.getMemberSeq());
-//			code = sendAuthMail(contextPath, receiver, memberSeq);
 		
-		//Tx처리를 위해 try-catch 없애기
+		//FIXME Tx처리를 위해 try-catch 없애기
 		} catch (DuplicateKeyException e) {
 			//memberId는 Unique키 제약조건이 있어서, 
 			//같은 id로 가입시도 하면 exception 발생
@@ -109,24 +108,6 @@ public class JoinService extends AuthCommonService{
 		return mailComponent;
 	}
 
-
-//	private int sendAuthMail(String contextPath, String receiver, int memberSeq) {
-//		int code;
-//		MemberAuthDto authDto = MemberAuthDto.createMemberAuthDto(memberSeq);
-//		code = memberAuthRepository.addAuthInfo(authDto);
-//		
-//		//3. 인증메일 보내기
-//		String authUri = authDto.getAuthUri();
-//		//관련있는 메일 정보(제목, 내용)을 hashmap 객체에 묶어서 다루고자 함
-//		//클래스를 따로 만들까 했지만, 여기서밖에 사용 하지 않을 것 같아서 일단은 map으로만..
-//		HashMap<String, String> mailContent = createMailContent(contextPath, authUri);
-//		//sender에 대한 정보는 bean으로 등록한 mailSender에서 가져온다.
-//		EmailDto emailDto = EmailDto.createEmailDto(receiver, mailContent, true);
-//		emailUtil.sendMail(emailDto);
-//		return code;
-//	}
-//	
-	
 	
 	/**
 	 * 유저가 발송된 메일의 인증 주소로 접속하면
@@ -160,7 +141,7 @@ public class JoinService extends AuthCommonService{
 			//인증시간이 지났다. 
 			//메일을 재발송하려면 암호화되지 않은 메일주소가 필요한데..
 			//일단 인증 시간이 지났음을 유저에게 알리고
-			//아이디랑 메일주소를 재입력받아서 일치하면 다시 그 메일주소로 보낼까? (비번 reset처럼)
+			//아이디랑 메일주소를 재입력받아서 일치하면 다시 그 메일주소로 인증메일을 보내기
 			code = -1;
 			return code;
 		}
@@ -179,23 +160,6 @@ public class JoinService extends AuthCommonService{
 	}
 	
 
-	//QUESTION 여기가 뭔가 신경쓰인다. 
-	// 메일의 제목/내용에 변경 시 JoinService자체에 변경 포인트가 생긴다는 점이 뭔가..
-	// 메일 컨텐츠 부분만 따로 떼어내서 다룰 수는 없을까. 변경포인트를 분리하고 싶다.
-//	private HashMap<String, String> createMailContent(String contextPath, String authUri) {
-//		HashMap<String, String> mailContent = new HashMap<>();
-//		
-//		String subject = "인증을 완료해주세요";
-//		String html =  "<a href='http://localhost:8080"
-//				+contextPath+"/emailAuth.do?uri="
-//				+ authUri + "'>인증하기</a>";
-//		
-//		mailContent.put("subject", subject);
-//		mailContent.put("text", html);
-//		return mailContent;
-//	}
-//	
-	
 	//사용자 입력 이메일, 비밀번호를 암호화 후 다시 dto를 반환하는 메서드
 	private MemberDto encrypt(MemberDto memberDto) {
 		String passwd = memberDto.getPasswd();

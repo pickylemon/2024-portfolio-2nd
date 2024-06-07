@@ -74,6 +74,10 @@ public class LoginController {
 			//(로그인 필터를 통해 이 컨트롤러 메서드에 온 경우가 아닌,
 			//직접적으로 로그인을 한 경우에는 name이 url인 input의 value가 빈 문자열로 넘어온다(null이 아님) 
 			
+		} else if (code == -8) {
+			rattr.addFlashAttribute("msgObject", LoginMessageEnum.USER_NOT_AUTHORIZED);
+			return "redirect:/index.do";
+			
 		} else if (code == -1) {
 			//비밀번호 불일치
 			model.addAttribute("msgObject", LoginMessageEnum.WRONG_PASSWD);
@@ -121,7 +125,7 @@ public class LoginController {
 	@PostMapping("/checkIdAndEmail.do")
 	public String verifyId(String memberId, String email, HttpServletRequest request, Model model, RedirectAttributes rattr) {
 		String contextPath = request.getContextPath();
-		int code = loginService.checkIdAndEmail(memberId, email, contextPath);
+		int code = loginService.sendMailForPasswdReset(memberId, email, contextPath);
 		
 		log.info("memberId={}, email={}", memberId, email);
 		//조회되는 아이디가 없거나, 
