@@ -35,7 +35,7 @@
 	</insert>
 
 	<select id="getPasswdResetDto" parameterType="String" resultType="PasswdResetDto">
-	SELECT reset_passwd_auth_seq, member_seq
+	SELECT *
 	FROM forum.reset_passwd_auth
 	WHERE auth_uri = #{uri}
 	</select>
