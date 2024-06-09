@@ -12,6 +12,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +25,13 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 //파일을 물리적으로 저장하는 역할을 하는 클래스
 public class FileUtil {
-	private static String SAVE_PATH = "C:\\dev\\workspace\\attFile\\";
+//	@Value("#{config['file.save.path']}")
+	@Value("#{config['file.save.path']}")
+//	private static String SAVE_PATH;
+	private String SAVE_PATH;
+//	private static String SAVE_PATH = "C:\\dev\\workspace\\attFile\\";
+	
+	
 	
 	public File saveFiles(MultipartFile mf) {
 		log.info("mf isEmpty?={}", mf.isEmpty());
@@ -39,6 +46,8 @@ public class FileUtil {
 			}
 			
 			destfile = new File(getSavePath(), getUniqueFileNm(mf.getOriginalFilename()));
+			log.info("\n\n destfile={} \n\n", destfile.getAbsolutePath());
+			log.info("\n\n SAVE_PATH={} \n\n", SAVE_PATH);
 			mf.transferTo(destfile);
 			
 			if(ObjectUtils.isEmpty(destfile)) {
