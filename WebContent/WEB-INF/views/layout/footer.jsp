@@ -175,6 +175,44 @@
             </div>
         </div>
     </footer>
+    <script>
+let socket = null; //전역으로 쓰기 위해..
+
+//예제에서는 footer에 두었다. 어느 페이지에 있더라도 alarm을 받을 수 있도록
+window.onload = function(){
+	connect()
+}
+function connect(){
+	//1. 웹소켓 연결(pf-servlet.xml에 설정한 path)
+	let ws = null;
+	try {
+		ws = new WebSocket("ws://localhost/pf/websocket")
+	} catch (e) {
+		console.log('here');
+		console.log(e);
+	}
+	socket = ws
+	//2. open 이벤트리스너 등록
+	ws.addEventListener("open", (event) => {
+		console.log("socket connected")
+	})
+	//3. message 이벤트리스너 등록 (message를 통해 데이터를 수신할 때 발생하는 이벤트)
+	ws.addEventListener("message", (event) => {
+		alert()
+		console.log("Message from server : ", event.data)
+	})
+
+	//4. close 이벤트리스너 등록
+	ws.addEventListener("close", (event) => {
+		console.log("socket closed")
+	})
+	//5. error 이벤트리스너 등록 
+	ws.addEventListener("error", (event) => {
+		console.log("WebSocket Error : ", event)
+	})
+	//2~5는 모두 웹소켓 연결이 이루어진 이후에 의미 있으므로 connect() 내부에서 정의
+}
+</script>
     <!--================================
     END FOOTER AREA
 	=================================-->
