@@ -133,9 +133,7 @@ public class NoticeController {
 	 */
 	@GetMapping("/readPage.do")
 	public String readPage(Integer boardSeq, Integer boardTypeSeq, 
-						@RequestParam(defaultValue = "1") Integer page, 
-						@RequestParam(defaultValue = "10")Integer size, 
-						SearchCondition sc,
+						Integer page, Integer size, SearchCondition sc,
 						HttpSession session, Model model) {
 		
 		log.info("sc={}", sc);
