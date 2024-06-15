@@ -18,10 +18,10 @@ public class PageHandler {
 	private final Integer offset;
 	private Integer totalPage;
 	
-	public PageHandler(Integer currPage, Integer pageSize, SearchCondition sc) {
-		this.page = currPage;
+	public PageHandler(Integer page, Integer pageSize, SearchCondition sc) {
+		this.page = page;
 		this.size = pageSize;
-		this.offset = (currPage - 1) * pageSize;
+		this.offset = (page - 1) * pageSize;
 		this.sc = sc;
 	}
 	

@@ -433,6 +433,19 @@ String ctx = request.getContextPath();
 			data: JSON.stringify(commentDto),
     		success : function(result) {
     			// 결과 성공 콜백함수 
+    			
+    			//타인이 내 게시글에 댓글을 달면, 알림이 온다. (내가 내 게시글에 단 댓글은 알림x)
+    			if(${sessionScope.memberSeq ne boardDto.regMemberSeq }){
+        			let msg = {
+        					commenter : ${sessionScope.memberSeq},
+        					boardSeq : ${boardDto.boardSeq},
+        					boardTypeSEq : ${boardDto.boardTypeSeq}
+        					
+        			}
+        			socket.send(JSON.stringify(msg))
+    			}
+    			
+
     			console.log(result)
     			alert(result)
    				location.href='<%=ctx%>/forum/notice/readPage.do?boardSeq='+boardSeq+'&boardTypeSeq='+boardTypeSeq
@@ -645,6 +658,7 @@ String ctx = request.getContextPath();
     	});
     }
 </script>
+
     <!--================================
             END DASHBOARD AREA
     =================================-->
