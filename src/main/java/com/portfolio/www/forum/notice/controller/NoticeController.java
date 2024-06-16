@@ -94,6 +94,7 @@ public class NoticeController {
 	@PostMapping("/writePage.do")
 	public String write(@Validated BoardSaveDto boardSaveDto, BindingResult error, 
 						MultipartFile[] attFiles, HttpSession session, RedirectAttributes rattr, Model model) {
+		
 		log.info("boardSaveDto={}", boardSaveDto);
 		log.info("attFiles.length={}", attFiles.length);
 		if(error.hasErrors()) { //작성 내용도 유효성 체크 해야함(ex. 공백 x)
@@ -139,6 +140,10 @@ public class NoticeController {
 						HttpSession session, Model model) {
 		
 		log.info("sc={}", sc);
+		
+		if(sc.isEmpty()) {
+			sc = new SearchCondition("all", "");
+		}
 		
 		PageHandler ph = new PageHandler(page, size, sc);
 		int memberSeq = (int)session.getAttribute("memberSeq");

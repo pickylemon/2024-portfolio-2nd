@@ -13,12 +13,13 @@ import lombok.RequiredArgsConstructor;
 public class AlarmService {
 	private final MemberRepository memberRepository;
 	
-	public String getMemberId(int memberSeq) {
-		String memberId = null;
-		MemberDto member = memberRepository.findBySeq(memberSeq);
-		if(!ObjectUtils.isEmpty(member)) {
-			memberId = member.getMemberId();
-		}
-		return memberId;
+	public MemberDto getMember(int memberSeq) {
+//		MemberDto member = null;
+//		MemberDto member = memberRepository.findBySeq(memberSeq);
+//		if(!ObjectUtils.isEmpty(member)) {
+//			memberId = member.getMemberId();
+//		}
+//		return memberId;
+		return memberRepository.findBySeq(memberSeq);
 	}
 }
