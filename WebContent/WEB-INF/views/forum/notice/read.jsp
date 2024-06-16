@@ -437,11 +437,13 @@ String ctx = request.getContextPath();
     			//타인이 내 게시글에 댓글을 달면, 알림이 온다. (내가 내 게시글에 단 댓글은 알림x)
     			if(${sessionScope.memberSeq ne boardDto.regMemberSeq }){
         			let msg = {
-        					commenter : ${sessionScope.memberSeq},
+        					commenterSeq : ${sessionScope.memberSeq},
+        					writerSeq : ${boardDto.regMemberSeq},
         					boardSeq : ${boardDto.boardSeq},
-        					boardTypeSEq : ${boardDto.boardTypeSeq}
+        					boardTypeSeq : ${boardDto.boardTypeSeq}
         					
         			}
+        			console.log(socket)
         			socket.send(JSON.stringify(msg))
     			}
     			

@@ -6,6 +6,7 @@
 <%
 String ctx = request.getContextPath();
 %>
+
 <!-- 로그인 여부에 따라 로그인/로그아웃 버튼이 보인다. -->
 <c:set var="loginOutLink" value="${sessionScope.memberSeq == null ? '/auth/loginPage.do' : '/auth/logout.do'}"/>
 <c:set var="loginOut" value="${sessionScope.memberSeq == null ? 'Login' : 'Logout'} "/>
@@ -14,6 +15,7 @@ String ctx = request.getContextPath();
 	================================= -->
     <!-- start menu-area -->
     <div class="menu-area">
+    <div id="msgAlert" class="alert alert-success" role="alert" style="display:none"></div>
         <!-- start .top-menu-area -->
         <div class="top-menu-area">
             <!-- start .container -->
