@@ -50,7 +50,7 @@
 		<property name="order" value="2" />
 	</bean>
 	
-	<!-- WebSocket Handler-->
+	<!-- WebSocket Handler (for pure WebSocket)-->
 	<bean id="webSocketHandler" class="com.portfolio.www.alarm.WebSocketHandler" />
 	<websocket:handlers>
 	  <websocket:mapping handler="webSocketHandler" path="/websocket.do"/>
@@ -58,8 +58,15 @@
 	  <websocket:handshake-interceptors>
 	    <bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
 	  </websocket:handshake-interceptors>
-<!-- 	  <websocket:sockjs/> -->
 	</websocket:handlers>
+	
+		<!-- STOMP 설정 --> 
+<!--     <websocket:message-broker application-destination-prefix="/app"> -->
+<!--         <websocket:stomp-endpoint path="/portfolio"> -->
+<!--             <websocket:sockjs/> -->
+<!--         </websocket:stomp-endpoint> -->
+<!--         <websocket:simple-broker prefix="/topic, /queue"/> -->
+<!--     </websocket:message-broker> -->
 	
 	
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

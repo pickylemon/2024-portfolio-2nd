@@ -194,7 +194,8 @@ window.onload = function(){
 
 function connect(){
 	//1. 웹소켓 연결(pf-servlet.xml에 설정한 path)
-	let ws = new WebSocket("ws://localhost:8080/pf/websocket.do");
+// 	let ws = new WebSocket("ws://localhost:8080/pf/websocket.do");
+	let ws = new WebSocket("/pf/websocket.do");
 	//socket을 전역으로 사용할 수 있도록
 	socket = ws 
 	
