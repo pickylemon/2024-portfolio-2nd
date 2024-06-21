@@ -310,30 +310,30 @@ String ctx = request.getContextPath();
                                     </li>
                                     
                                     <li class="has_dropdown">
-                                        <a href="all-products-list.html">게시판</a>
+                                        <a href="javascript:void(0)">게시판</a>
                                         <div class="dropdowns dropdown--menu">
                                             <ul>
                                                 <li>
                                                     <a href="<c:url value='/forum/notice/listPage.do'/>">공지사항</a>
                                                 </li>
                                                 <li>
-                                                    <a href="all-products.html">Popular Items</a>
+                                                    <a href="javascript:void(0)">레시피</a>
                                                 </li>
                                                 <li>
-                                                    <a href="index3.html">Free Templates</a>
+                                                    <a href="javascript:void(0)">자유게시판</a>
                                                 </li>
-                                                <li>
-                                                    <a href="#">Follow Feed</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Top Authors</a>
-                                                </li>
+<!--                                                 <li> -->
+<!--                                                     <a href="#">Follow Feed</a> -->
+<!--                                                 </li> -->
+<!--                                                 <li> -->
+<!--                                                     <a href="#">Top Authors</a> -->
+<!--                                                 </li> -->
                                             </ul>
                                         </div>
                                     </li>
                                     
                                     <li>
-                                        <a href="<%=ctx%>/contact.do">contact</a>
+                                        <a href="<c:url value='/chatRoomList.do'/>">채팅방</a>
                                     </li>
                                 </ul>
                             </div>

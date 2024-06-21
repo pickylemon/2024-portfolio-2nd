@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.portfolio.www.chat.repository.ChatDetailRepository">
+    <insert id="save" parameterType="ChatDetailDto">
+   		<selectKey resultType="int" keyProperty="messageSeq" order="AFTER">
+		SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO forum.chat_detail
+		(chatroomSeq, memberSeq, chatStatus, message, regDtm)
+		VALUES(#{chatroomSeq}, #{memberSeq}, 'Y', #{message}, CURRENT_TIMESTAMP);
+	</insert>
+	
+    <select id="get" parameterType="int" resultType="ChatRoomDto">
+		SELECT * FROM forum.chat_detail
+		WHERE chatroomSeq = #{chatroomSeq};
+	</select>
+	
+    <insert id="update" parameterType="ChatDetailDto">
+		INSERT INTO forum.chat_detail
+		(chatroomSeq, memberSeq, chatStatus, regDtm)
+		VALUES(#{chatroomSeq}, #{memberSeq}, 'N', CURRENT_TIMESTAMP);
+	</insert>
+	
+	
+	<select id="getMemberList" parameterType="int" resultType="String">
+		SELECT m.member_nm
+		FROM chat_detail cd1
+		JOIN (SELECT member_seq, MAX(reg_dtm) reg_dtm
+		      FROM chat_detail
+		      GROUP BY member_seq) cd2
+		ON cd1.member_seq = cd2.member_seq
+		AND cd1.reg_dtm = cd2.reg_dtm
+		JOIN member m
+		ON cd1.member_seq = m.member_seq
+		WHERE cd1.chat_status = 'Y'
+		
+<!-- 		SELECT member_seq -->
+<!-- 		FROM chat_detail -->
+<!-- 		WHERE reg_dtm = (SELECT max(reg_dtm)  -->
+<!-- 						 FROM chat_detail -->
+<!-- 					     GROUP BY member_seq) -->
+<!-- 		and chat_status = 'Y' -->
+	</select>
+	
+	
+</mapper>

@@ -177,7 +177,7 @@
     </footer>
     
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script> -->
-    
+ 
 <script>
 //webSocket관련 코드
 
@@ -188,7 +188,7 @@ let socket = null; //socket을 전역으로 쓰기 위해!
 //header에 해당하는 menu에 이 자스코드를 두면 실행이 안되는 것 같다..
 
 window.onload = function(){
-	connect()
+	//connect()
 }	
 
 
@@ -229,6 +229,7 @@ function connect(){
 	//2~5는 모두 웹소켓 연결이 이루어진 이후에 의미 있으므로 connect() 내부에서 정의
 }
 </script>
+
     <!--================================
     END FOOTER AREA
 	=================================-->
