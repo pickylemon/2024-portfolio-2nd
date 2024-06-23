@@ -26,7 +26,7 @@ String ctx = request.getContextPath();
                     <div class="col-lg-3 col-md-3 col-6 v_middle">
                         <div class="logo">                        
                             <a href="<c:url value='/index.do'/>">                            	
-                                <img src="<c:url value='/assest/template/images/logo.png'/>" alt="logo image" class="img-fluid" />
+                                <img src="<c:url value='/assest/template/images/myLogo.png'/>" alt="logo image" class="img-fluid" />
                             </a>
                         </div>
                     </div>

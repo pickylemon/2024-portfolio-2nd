@@ -10,8 +10,8 @@ tmp/
 *.swp
 *~.nib
 local.properties
-db-config.properties
-mail-config.properties
+# db-config.properties
+# mail-config.properties
 .settings/
 .loadpath
 .recommenders

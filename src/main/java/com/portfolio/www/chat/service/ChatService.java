@@ -8,13 +8,17 @@ import org.springframework.stereotype.Service;
 
 import com.portfolio.www.auth.dto.MemberDto;
 import com.portfolio.www.auth.repository.MemberRepository;
+import com.portfolio.www.chat.dto.ChatDetailDto;
+import com.portfolio.www.chat.dto.ChatForm;
 import com.portfolio.www.chat.dto.ChatRoomDto;
 import com.portfolio.www.chat.repository.ChatDetailRepository;
 import com.portfolio.www.chat.repository.ChatRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ChatService {
 	private final ChatRepository chatRepository;
@@ -34,6 +38,10 @@ public class ChatService {
 		return code;
 	}
 	
+	public List<ChatRoomDto> getAllChatRoomList(){
+		return chatRepository.getAll();
+	}
+	
 	//해당 채팅방에 대한 정보 조회
 	public ChatRoomDto getChatRoomInfo(Integer chatroomSeq) {
 		return chatRepository.get(chatroomSeq);
@@ -41,7 +49,17 @@ public class ChatService {
 	
 	//해당 채팅방의 현재 참여 멤버 구하기
 	public List<String> getMemberList(Integer chatroomSeq) {
-		return chatDetailRepository.getMemberList(chatroomSeq);
+		return chatDetailRepository.getMemberNmList(chatroomSeq);
+	}
+	
+	//이미 채팅에 참여중인 멤버인지
+	public boolean isAlreadyParticipating(Integer memberSeq, Integer chatroomSeq) {
+		
+		List<Integer> memberList = chatDetailRepository.getMemberSeqList(chatroomSeq);
+		log.info(">>>>>>>memberList= {}", memberList);
+		log.info(">>>>>>memberSeq={}", memberSeq);
+		
+		return memberList.stream().anyMatch(i -> i.equals(memberSeq));
 	}
 	
 	//해당 memberSeq의 회원 구하기
@@ -49,4 +67,14 @@ public class ChatService {
 		return memberRepository.findBySeq(memberSeq);
 	}
 
+	
+	//채팅방을 나간 member에 대해 status update
+	public int updateMemberStatus(ChatForm chatDto) {
+		return chatDetailRepository.updateStatus(chatDto);
+	}
+	
+	//채팅 메시지 저장
+	public int saveMsg(ChatDetailDto chatDetailDto) {
+		return chatDetailRepository.save(chatDetailDto);
+	}
 }

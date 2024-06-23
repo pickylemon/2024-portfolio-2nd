@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,9 @@ public class JoinService extends AuthCommonService{
 //	private final MemberRepository memberRepository;
 //	private final MemberAuthRepository memberAuthRepository;
 //	private final EmailUtil emailUtil;
+	@Value("#{config['emailsend.domain.path']}")
+//	private static String SAVE_PATH;
+	private String DOMAIN_PATH;
 	
 	@Autowired
 	public JoinService(MemberRepository memberRepository, 
@@ -102,7 +106,7 @@ public class JoinService extends AuthCommonService{
 		Map<String, String> mailComponent = new HashMap<>();
 		mailComponent.put("subject", "회원가입을 위해 메일 인증을 완료해주세요");
 		mailComponent.put("contextPath", contextPath);
-		mailComponent.put("domain", "http://localhost:8080");
+		mailComponent.put("domain", DOMAIN_PATH);
 		mailComponent.put("path", "/auth/emailAuth.do?uri=");
 		mailComponent.put("content", "링크를 눌러 인증을 완료해주세요");
 		return mailComponent;

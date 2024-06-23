@@ -85,20 +85,16 @@ ul.chatList li {
 
                                     <div id="collapse1" class="panel-collapse collapse" aria-labelledby="panel-one" data-parent="#accordion">
                                         <div class="panel-body">
-                          					<ul class="card-content chatList">
+                          					<ul class="card-content chatList" data-category="001">
+                          					<c:forEach var="chatRoom" items="${chatRoomMap.get(\"001\")}">
 			                                    <li>
-			                                        <a href="#">
-			                                            <span class="lnr lnr-chevron-right"></span>일상채팅1
-			                                            <span class="item-count">35</span>
+			                                        <a href="<c:url value='/${chatRoom.chatroomSeq }/${sessionScope.memberSeq }/chatRoom.do'/>" 
+			                                        	onclick="window.open(this.href, '_blank', 'width=800px,height=800px,scrollbars=yes'); return false;" >
+			                                            <span class="lnr lnr-chevron-right"></span>${chatRoom.roomNm }
+			                                            <span class="item-count">${chatRoom.memberCnt } /10</span>
 			                                        </a>
 			                                    </li>
-			                                    <li>
-			                                        <a href="#">
-			                                            <span class="lnr lnr-chevron-right"></span>일상채팅2
-			                                            <span class="item-count">35</span>
-			                                        </a>
-			                                    </li>
-			                                 
+                          					</c:forEach>
                                 			</ul>
                                         </div>
                                     </div>
@@ -116,13 +112,17 @@ ul.chatList li {
 
                                     <div id="collapse2" class="panel-collapse collapse" aria-labelledby="panel-two" data-parent="#accordion">
                                         <div class="panel-body">
-                                            <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceleris
-                                                que the mattis, leo quam aliquet congue placerat mi id nisi interdum mollis.
-                                                Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american
-                                                apparel, butcher. Nunc placerat mi id nisi interdum mollis. Praesent pharetra,
-                                                justo ut sceleris que the mattis, leo quam aliquet congue placerat mi id
-                                                nisi interdum mollis. Aliquip placeat salvia cillum iphone. Seitan aliquip
-                                                quis cardigan american apparel, butcher .</p>
+                          					<ul class="card-content chatList" data-category="002">
+                          					<c:forEach var="chatRoom" items="${chatRoomMap.get(\"002\")}">
+			                                    <li>
+			                                        <a href="<c:url value='/${chatRoom.chatroomSeq }/${sessionScope.memberSeq }/chatRoom.do'/>" 
+			                                        	onclick="window.open(this.href, '_blank', 'width=800px,height=800px,scrollbars=yes'); return false;" >
+			                                            <span class="lnr lnr-chevron-right"></span>${chatRoom.roomNm }
+			                                            <span class="item-count">${chatRoom.memberCnt } / 10</span>
+			                                        </a>
+			                                    </li>
+                          					</c:forEach>
+                                			</ul>
                                         </div>
                                     </div>
                                 </div>
@@ -139,13 +139,17 @@ ul.chatList li {
 
                                     <div id="collapse3" class="panel-collapse collapse" aria-labelledby="panel-three" data-parent="#accordion">
                                         <div class="panel-body">
-                                            <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceleris
-                                                que the mattis, leo quam aliquet congue placerat mi id nisi interdum mollis.
-                                                Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american
-                                                apparel, butcher. Nunc placerat mi id nisi interdum mollis. Praesent pharetra,
-                                                justo ut sceleris que the mattis, leo quam aliquet congue placerat mi id
-                                                nisi interdum mollis. Aliquip placeat salvia cillum iphone. Seitan aliquip
-                                                quis cardigan american apparel, butcher .</p>
+                          					<ul class="card-content chatList" data-category="003">
+                          					<c:forEach var="chatRoom" items="${chatRoomMap.get(\"003\")}">
+			                                    <li>
+			                                        <a href="<c:url value='/${chatRoom.chatroomSeq }/${sessionScope.memberSeq }/chatRoom.do'/>" 
+			                                        	onclick="window.open(this.href, '_blank', 'width=800px,height=800px,scrollbars=yes'); return false;" >
+			                                            <span class="lnr lnr-chevron-right"></span>${chatRoom.roomNm }
+			                                            <span class="item-count">${chatRoom.memberCnt } /10</span>
+			                                        </a>
+			                                    </li>
+                          					</c:forEach>
+                                			</ul>
                                         </div>
                                     </div>
                                 </div>
@@ -162,13 +166,17 @@ ul.chatList li {
 
                                     <div id="collapse4" class="panel-collapse collapse" aria-labelledby="panel-four" data-parent="#accordion">
                                         <div class="panel-body">
-                                            <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceleris
-                                                que the mattis, leo quam aliquet congue placerat mi id nisi interdum mollis.
-                                                Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american
-                                                apparel, butcher. Nunc placerat mi id nisi interdum mollis. Praesent pharetra,
-                                                justo ut sceleris que the mattis, leo quam aliquet congue placerat mi id
-                                                nisi interdum mollis. Aliquip placeat salvia cillum iphone. Seitan aliquip
-                                                quis cardigan american apparel, butcher .</p>
+                          					<ul class="card-content chatList" data-category="004">
+                          					<c:forEach var="chatRoom" items="${chatRoomMap.get(\"004\")}">
+			                                    <li>
+			                                        <a href="<c:url value='/${chatRoom.chatroomSeq }/${sessionScope.memberSeq }/chatRoom.do'/>" 
+			                                        	onclick="window.open(this.href, '_blank', 'width=800px,height=800px,scrollbars=yes'); return false;" >
+			                                            <span class="lnr lnr-chevron-right"></span>${chatRoom.roomNm }
+			                                            <span class="item-count">${chatRoom.memberCnt } /10</span>
+			                                        </a>
+			                                    </li>
+                          					</c:forEach>
+                                			</ul>
                                         </div>
                                     </div>
                                 </div>
@@ -185,13 +193,17 @@ ul.chatList li {
 
                                     <div id="collapse5" class="panel-collapse collapse" aria-labelledby="panel-five" data-parent="#accordion">
                                         <div class="panel-body">
-                                            <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut sceleris
-                                                que the mattis, leo quam aliquet congue placerat mi id nisi interdum mollis.
-                                                Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american
-                                                apparel, butcher. Nunc placerat mi id nisi interdum mollis. Praesent pharetra,
-                                                justo ut sceleris que the mattis, leo quam aliquet congue placerat mi id
-                                                nisi interdum mollis. Aliquip placeat salvia cillum iphone. Seitan aliquip
-                                                quis cardigan american apparel, butcher .</p>
+                          					<ul class="card-content chatList" data-category="005">
+                          					<c:forEach var="chatRoom" items="${chatRoomMap.get(\"005\")}">
+			                                    <li>
+			                                        <a href="<c:url value='/${chatRoom.chatroomSeq }/${sessionScope.memberSeq }/chatRoom.do'/>" 
+			                                        	onclick="window.open(this.href, '_blank', 'width=800px,height=800px,scrollbars=yes'); return false;" >
+			                                            <span class="lnr lnr-chevron-right"></span>${chatRoom.roomNm }
+			                                            <span class="item-count">${chatRoom.memberCnt } /10</span>
+			                                        </a>
+			                                    </li>
+                          					</c:forEach>
+                                			</ul>
                                         </div>
                                     </div>
                                 </div>

@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatDto {
+public class ChatForm {
 	private Integer chatroomSeq;
 	private Integer memberSeq;
 	private ChatMessageEnum msgType;
-	private String msg;
+	private String message;
 
 }

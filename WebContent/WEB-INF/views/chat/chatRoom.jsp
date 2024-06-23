@@ -140,7 +140,8 @@ String ctx = request.getContextPath();
 <!-- <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script> -->
     <script>
     let chatroomSeq = ${chatroomSeq}
-    let memberSeq = ${memberSeq}
+//     let memberSeq = ${memberSeq}
+    let memberSeq = ${sessionScope.memberSeq}
     let chatMsgs = document.querySelector('ul.chatMsgs')
     let sockStomp = null;
     
@@ -168,7 +169,7 @@ String ctx = request.getContextPath();
 	   				
 	   		stompClient.subscribe("/topic/message/"+chatroomSeq, function(response) {
 	   			console.log("event sent from server", response)
-	   			//'나'인지 타인인지 구분해서 화면에 렌더링하기.
+	   			
 	   			let chatDto = JSON.parse(response.body)
 	   			renderMessage(chatDto)
 	   			console.log(chatDto)
@@ -178,29 +179,34 @@ String ctx = request.getContextPath();
     }
     
     function sendMsg(){
-    	let msg = document.querySelector("#chatMsg").value;
+    	let msgInput = document.querySelector("#chatMsg");
     	let chatDto = {
     			chatroomSeq: chatroomSeq,
     			memberSeq: memberSeq,
     			msgType: "CHAT",
-    			msg: msg
-    	}
-    	
+    			message: msgInput.value
+    	}   	
     	sockStomp.send("/chat/groupchat/"+chatroomSeq, {}, JSON.stringify(chatDto))
     	
+    	//메시지를 보낸 후 다시 초기화하기
+    	msgInput.value=''
     	
     }
     
     
 
     function renderMessage(chatDto){
+    	
+    	
     	if(chatDto.msgType == "ENTER" || chatDto.msgType == "LEAVE") {
     		//채팅방 중앙에 메시지를 뿌린다.
     		alignMsg(chatDto, "center")
     		return
     	}
     	
-    	if(chatDto.memberSeq = memberSeq) {
+    	
+    	//'나'인지 타인인지 구분해서 화면에 렌더링하기.
+    	if(chatDto.memberSeq == memberSeq) {
     		//내가 보낸 메시지면 오른쪽에 렌더링
     		alignMsg(chatDto, "right")
     	} else {
@@ -211,8 +217,8 @@ String ctx = request.getContextPath();
     
     function alignMsg(chatDto, direction){
     	const elem = document.createElement("li")
-    	elem.innerHTML = chatDto.msg
-    	elem.style.textAlign = direction
+    	elem.innerHTML = chatDto.message
+    	elem.style.textAlign = ""+direction
     	chatMsgs.appendChild(elem)
     }
     </script>

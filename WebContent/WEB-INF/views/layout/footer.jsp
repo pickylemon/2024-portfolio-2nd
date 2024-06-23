@@ -14,7 +14,7 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="info-footer">
                             <div class="info__logo">
-                                <img src="<c:url value='/assest/template/images/flogo.png'/> " alt="footer logo" />
+                                <img src="<c:url value='/assest/template/images/myLogo.png'/> " alt="footer logo" />
                             </div>
                             <p class="info--text">Nunc placerat mi id nisi interdum they mollis. Praesent pharetra, justo ut scel erisque the mattis,
                                 leo quam.</p>
@@ -188,7 +188,7 @@ let socket = null; //socket을 전역으로 쓰기 위해!
 //header에 해당하는 menu에 이 자스코드를 두면 실행이 안되는 것 같다..
 
 window.onload = function(){
-	//connect()
+	connect()
 }	
 
 

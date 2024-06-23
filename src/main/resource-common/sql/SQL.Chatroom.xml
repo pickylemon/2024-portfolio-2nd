@@ -20,4 +20,8 @@
 		WHERE chatroom_seq = #{chatroomSeq}
 	</select>
 	
+	<select id="getAll" resultType="ChatRoomDto">
+		SELECT * FROM forum.chatroom
+	</select>
+	
 </mapper>
