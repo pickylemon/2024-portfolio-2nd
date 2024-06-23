@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
@@ -23,6 +24,8 @@ import lombok.extern.slf4j.Slf4j;
 public class WebSocketHandler extends TextWebSocketHandler {
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	private final AlarmService alarmService;
+	@Value("#{config['readPage.url']}")
+	private String readPageURL;
 	
 	//memberSeq와 WebSocketSession을 entry
 	private Map<Integer, WebSocketSession> sessionMap = new HashMap<>();
@@ -58,7 +61,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		WebSocketSession writerSession = sessionMap.get(alarmDto.getWriterSeq());
 		MemberDto commenter = alarmService.getMember(alarmDto.getCommenterSeq());
 		
-		String url = "http://localhost:8080/pf/forum/notice/readPage.do?boardSeq="
+		String url = readPageURL+"?boardSeq="
 				+alarmDto.getBoardSeq()+"&boardTypeSeq="
 				+alarmDto.getBoardTypeSeq();
 		

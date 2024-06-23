@@ -10,6 +10,7 @@
 	<typeAliases>
 		<package name="com.portfolio.www.auth.dto" />
 		<package name="com.portfolio.www.forum.notice.dto" />
+		<package name="com.portfolio.www.chat.dto" />
 	</typeAliases>
 
 	<!--  개별로 setting 하는 방법

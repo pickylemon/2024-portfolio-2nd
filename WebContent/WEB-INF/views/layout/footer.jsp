@@ -14,7 +14,7 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="info-footer">
                             <div class="info__logo">
-                                <img src="<c:url value='/assest/template/images/flogo.png'/> " alt="footer logo" />
+                                <img src="<c:url value='/assest/template/images/myLogo.png'/> " alt="footer logo" />
                             </div>
                             <p class="info--text">Nunc placerat mi id nisi interdum they mollis. Praesent pharetra, justo ut scel erisque the mattis,
                                 leo quam.</p>
@@ -177,7 +177,7 @@
     </footer>
     
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script> -->
-    
+ 
 <script>
 //webSocket관련 코드
 
@@ -194,7 +194,8 @@ window.onload = function(){
 
 function connect(){
 	//1. 웹소켓 연결(pf-servlet.xml에 설정한 path)
-	let ws = new WebSocket("ws://localhost:8080/pf/websocket.do");
+// 	let ws = new WebSocket("ws://localhost:8080/pf/websocket.do");
+	let ws = new WebSocket("/pf/websocket.do");
 	//socket을 전역으로 사용할 수 있도록
 	socket = ws 
 	
@@ -228,6 +229,7 @@ function connect(){
 	//2~5는 모두 웹소켓 연결이 이루어진 이후에 의미 있으므로 connect() 내부에서 정의
 }
 </script>
+
     <!--================================
     END FOOTER AREA
 	=================================-->

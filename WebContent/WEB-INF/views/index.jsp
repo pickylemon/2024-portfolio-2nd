@@ -110,19 +110,30 @@
     
     console.log("code="+code)
     console.log("msg="+msg)
-
-    window.onload = function(){
-
-    	if(code == 101) {
+    
+    
+   	if(code == 101) {
     		//인증메일 시간 초과인 경우 다른 메시들과 다르게 처리
     		remail(msg)
-    	} else if (msg!=''){
-    		console.log(code)
-    		alert(msg)
-    	}
+   	} else if (msg!=''){
+   		console.log(code)
+   		alert(msg)
+   	}
     	
 
-    }
+    
+    //window.onload 왜 작동 안하지?
+    		
+//     window.onload = function(){
+//     	console.log("window.onload")
+//     	if(code == 101) {
+//     		//인증메일 시간 초과인 경우 다른 메시들과 다르게 처리
+//     		remail(msg)
+//     	} else if (msg!=''){
+//     		console.log(code)
+//     		alert(msg)
+//     	}
+//     } 
     
     function remail(msg){
    		let remailMsg = msg + '\n인증메일을 다시 받으시겠습니까?'

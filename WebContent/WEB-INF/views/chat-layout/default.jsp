@@ -18,9 +18,10 @@ String ctx = request.getContextPath();
     <meta name="description" content="MartPlace - Complete Online Multipurpose Marketplace HTML Template">
     <meta name="keywords" content="marketplace, easy digital download, digital product, digital, html5">
 
-    <title>박문주의 포트폴리오</title>
+    <title>포트폴리오</title>
 
     <!-- inject:css -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="<%=ctx%>/assest/template/css/animate.css">
     <link rel="stylesheet" href="<%=ctx%>/assest/template/css/font-awesome.min.css">
     <link rel="stylesheet" href="<%=ctx%>/assest/template/css/fontello.css">
@@ -43,17 +44,10 @@ String ctx = request.getContextPath();
 
 <body class="preload home1 mutlti-vendor">
 
-
-    <tiles:insertAttribute name="menu" />
-    
-    <tiles:insertAttribute name="body" />
-    
-    <tiles:insertAttribute name="footer" />
+    <tiles:insertAttribute name="body" />    
+<%--     <tiles:insertAttribute name="footer" /> --%>
     
     <!--//////////////////// JS GOES HERE ////////////////-->
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0C5etf1GVmL_ldVAichWwFFVcDfa1y_c"></script>
-    <!-- inject:js -->
     <script src="<%=ctx%>/assest/template/js/vendor/jquery/jquery-1.12.3.js"></script>
     <script src="<%=ctx%>/assest/template/js/vendor/jquery/popper.min.js"></script>
     <script src="<%=ctx%>/assest/template/js/vendor/jquery/uikit.min.js"></script>

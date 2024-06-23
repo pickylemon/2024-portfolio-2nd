@@ -9,26 +9,53 @@
 		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
 	</definition>
 	
+<!-- 	<definition name="tiles-chat" template="/WEB-INF/views/chat-layout/default.jsp"> -->
+<!-- 	<put-attribute name="side" value="/WEB-INF/views/chat-layout/side.jsp" /> --> 
+<!-- 		<put-attribute name="body" value="" />  -->
+<!-- 		<put-attribute name="footer" value="/WEB-INF/views/chat-layout/footer.jsp" /> -->
+<!-- 	</definition> -->
+	
 	<!-- 회원가입 -->
-	<definition name="auth/join" extends="tiles-default"> 
-	    <put-attribute name="title" value="회원가입" /> 
-	    <put-attribute name="body" value="/WEB-INF/views/auth/join.jsp" /> 
+<!-- 	<definition name="auth/join" extends="tiles-default">  -->
+	<definition name="WILDCARD:auth/*" extends="tiles-default"> 
+<!-- 	    <put-attribute name="title" value="회원가입" />  -->
+<!-- 	    <put-attribute name="body" value="/WEB-INF/views/auth/join.jsp" />  -->
+	    <put-attribute name="body" value="/WEB-INF/views/auth/{1}.jsp" /> 
 	</definition>  
 	<!-- 로그인 -->
-	<definition name="auth/login" extends="tiles-default"> 
-	    <put-attribute name="title" value="로그인" /> 
-	    <put-attribute name="body" value="/WEB-INF/views/auth/login.jsp" /> 
+<!-- 	<definition name="auth/login" extends="tiles-default">  -->
+	<definition name="WILDCARD:forum/notice/*" extends="tiles-default"> 
+<!-- 	    <put-attribute name="title" value="로그인" />  -->
+<!-- 	    <put-attribute name="body" value="/WEB-INF/views/auth/login.jsp" />  -->
+	    <put-attribute name="body" value="/WEB-INF/views/forum/notice/{1}.jsp" /> 
+	</definition>
+	
+	  
+	<definition name="chat/chatRoomList" extends="tiles-default"> 
+	    <put-attribute name="body" value="/WEB-INF/views/chat/chatRoomList.jsp" /> 
 	</definition>  
+	
+	
+<!-- 	<definition name="chat/chatRoom" extends="tiles-chat">  -->
+<!-- 	    <put-attribute name="body" value="/WEB-INF/views/chat-layout/chatRoom.jsp" />  -->
+<!-- 	</definition>   -->
+	
+	<!--  채팅 -->
+<!-- 	<definition name="chat/chatRoom" extends="tiles-default">  -->
+<!-- 	    <put-attribute name="title" value="실시간 채팅" />  -->
+<!-- 	    <put-attribute name="body" value="/WEB-INF/views/chat/chatRoom.jsp" />  -->
+<!-- 	</definition>   -->
 
 	<!-- 모든 요청에 대해 매핑 화면 반환 -->
 	<!-- 해당 결과로 /WEB-INF/views/layout/default.jsp 화면이 반환되며, 해당 화면에는 menu, body, footer가 존재 -->
 	<definition name="WILDCARD:*" extends="tiles-default">
 		<put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
 	</definition>
-	<definition name="WILDCARD:*/*" extends="tiles-default">
-		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
-	</definition>
-	<definition name="WILDCARD:*/*/*" extends="tiles-default">
-		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
-	</definition>
+	
+<!-- 	<definition name="WILDCARD:*/*" extends="tiles-default"> -->
+<!-- 		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" /> -->
+<!-- 	</definition> -->
+<!-- 	<definition name="WILDCARD:*/*/*" extends="tiles-default"> -->
+<!-- 		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" /> -->
+<!-- 	</definition> -->
 </tiles-definitions>
