@@ -1984,7 +1984,8 @@ h6 {
 }
 
 .btn {
-  background: #0674ec;
+/*   background: #0674ec; */
+  background: #5c913b;
   padding: 0;
   margin: 0;
   text-transform: capitalize;
@@ -2113,7 +2114,8 @@ h6 {
 /* btn colors */
 .btn.btn--color1, .btn-secondary, .btn--secondary,
 .btn.btn--color1:hover, .btn-secondary:hover, .btn--secondary:hover {
-  background: #7347c1;
+/*   background: #7347c1; */
+  background: #77b255;
 }
 
 .btn.btn--color1.btn--bordered, .btn-secondary.btn--bordered, .btn--secondary.btn--bordered,
@@ -6268,8 +6270,10 @@ div#ui-datepicker-div tbody tr td a:hover {
   background: $pcolor;
 }*/
 .section--padding {
-  padding-top: 0px;
-  padding-bottom: 120px;
+/*   padding-top: 0px; */
+/*   padding-bottom: 120px; */
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .section--padding2 {
@@ -6933,7 +6937,14 @@ div#ui-datepicker-div tbody tr td a:hover {
 /*--- feature 1 ---*/
 .feature {
   text-align: center;
-  padding: 40px 25px;
+/*   padding: 40px 25px; */
+  padding: 25px 35px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #dfe6fa;
 }
 
 .feature .feature__title {
@@ -7325,7 +7336,7 @@ ul.nav-tabs.nav--tabs2 li a::before {
 	START MENU AREA
 *****************************/
 .top-menu-area {
-  background: #eef1f3;
+  background: #FFF2C0;
 }
 
 .top-menu-area .top__menu ul li {
@@ -7501,6 +7512,12 @@ ul.nav-tabs.nav--tabs2 li a::before {
 }
 
 /* start mainenu area css */
+
+.mainmenu, #navbarNav {
+	background-color: #ffe78d;
+}
+
+
 .mainmenu__menu {
   border: none;
   margin: 0;
@@ -7531,7 +7548,8 @@ ul.nav-tabs.nav--tabs2 li a::before {
   -webkit-transition: 0.3s ease;
   -o-transition: 0.3s ease;
   transition: 0.3s ease;
-  color: #333333;
+/*   color: #333333; */
+  color: #3e6b59;
   text-transform: uppercase;
 }
 
@@ -8667,7 +8685,7 @@ span.counter {
 }
 
 .footer-big {
-  background: #262b30;
+  background: #ffe78d;
 }
 
 .footer-big p, .footer-big ul li, .footer-big .footer-menu ul li a {
@@ -8748,7 +8766,8 @@ span.counter {
 }
 
 .mini-footer {
-  background: #192027;
+/*   background: #192027; */
+  background: #FFF2C0;
   text-align: center;
   padding: 32px 0;
 }

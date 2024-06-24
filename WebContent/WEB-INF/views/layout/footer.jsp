@@ -161,9 +161,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="copyright-text">
-                            <p>&copy; 2019
-                                <a href="#">MartPlace</a>. All rights reserved. Created by
-                                <a href="#">AazzTech</a>
+                            <p>
                             </p>
                         </div>
 
