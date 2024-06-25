@@ -31,41 +31,41 @@
                     <!-- end /.row -->
 
                     <div class="row">
-                        <div class="col-lg-4 col-md-6">
-                            <div class="contact_tile">
-                                <span class="tiles__icon lnr lnr-map-marker"></span>
-                                <h4 class="tiles__title">Office Address</h4>
-                                <div class="tiles__content">
-                                    <p>202 New Hampshire Avenue , Northwest #100, New York-2573</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end /.col-lg-4 col-md-6 -->
+<!--                         <div class="col-lg-4 col-md-6"> -->
+<!--                             <div class="contact_tile"> -->
+<!--                                 <span class="tiles__icon lnr lnr-map-marker"></span> -->
+<!--                                 <h4 class="tiles__title">Office Address</h4> -->
+<!--                                 <div class="tiles__content"> -->
+<!--                                     <p>202 New Hampshire Avenue , Northwest #100, New York-2573</p> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                         end /.col-lg-4 col-md-6 -->
 
-                        <div class="col-lg-4 col-md-6">
-                            <div class="contact_tile">
-                                <span class="tiles__icon lnr lnr-phone"></span>
-                                <h4 class="tiles__title">Phone Number</h4>
-                                <div class="tiles__content">
-                                    <p>1-800-643-4500</p>
-                                    <p>1-800-643-4500</p>
-                                </div>
-                            </div>
-                            <!-- end /.contact_tile -->
-                        </div>
-                        <!-- end /.col-lg-4 col-md-6 -->
+<!--                         <div class="col-lg-4 col-md-6"> -->
+<!--                             <div class="contact_tile"> -->
+<!--                                 <span class="tiles__icon lnr lnr-phone"></span> -->
+<!--                                 <h4 class="tiles__title">Phone Number</h4> -->
+<!--                                 <div class="tiles__content"> -->
+<!--                                     <p>1-800-643-4500</p> -->
+<!--                                     <p>1-800-643-4500</p> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                             end /.contact_tile -->
+<!--                         </div> -->
+<!--                         end /.col-lg-4 col-md-6 -->
 
-                        <div class="col-lg-4 col-md-6">
-                            <div class="contact_tile">
-                                <span class="tiles__icon lnr lnr-inbox"></span>
-                                <h4 class="tiles__title">Phone Number</h4>
-                                <div class="tiles__content">
-                                    <p>support@aazztech.com</p>
-                                    <p>support@aazztech.com</p>
-                                </div>
-                            </div>
-                            <!-- end /.contact_tile -->
-                        </div>
+<!--                         <div class="col-lg-4 col-md-6"> -->
+<!--                             <div class="contact_tile"> -->
+<!--                                 <span class="tiles__icon lnr lnr-inbox"></span> -->
+<!--                                 <h4 class="tiles__title">Phone Number</h4> -->
+<!--                                 <div class="tiles__content"> -->
+<!--                                     <p>support@aazztech.com</p> -->
+<!--                                     <p>support@aazztech.com</p> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                             end /.contact_tile -->
+<!--                         </div> -->
                         <!-- end /.col-lg-4 col-md-6 -->
 
                         <div class="col-md-12">

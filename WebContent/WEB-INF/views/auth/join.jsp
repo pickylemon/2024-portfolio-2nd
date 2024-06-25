@@ -18,9 +18,9 @@ String ctx = request.getContextPath();
                         <div class="cardify signup_form">
                             <div class="login--header">
                                 <h3>Create Your Account</h3>
-                                <p>Please fill the following fields with appropriate information to register a new MartPlace
-                                    account.
-                                </p>
+<!--                                 <p>Please fill the following fields with appropriate information to register a new MartPlace -->
+<!--                                     account. -->
+<!--                                 </p> -->
                             </div>
                             <!-- end .login_header -->
 

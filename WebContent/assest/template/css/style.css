@@ -4285,7 +4285,7 @@ h6 {
 	-- THEME
 *****************************/
 .team_area {
-  background: #f6f7fb;
+/*   background: #f6f7fb; */
 }
 
 .single_team_member {
@@ -6291,7 +6291,7 @@ div#ui-datepicker-div tbody tr td a:hover {
 
 .section-title {
   text-align: center;
-  padding-bottom: 53px;
+  padding-bottom: 40px;
 }
 
 .section-title h1 {
@@ -8323,9 +8323,10 @@ span.counter {
 }
 
 .counter-up .counter .count {
-  font-size: 36px;
+  font-size: 30px;
   margin-top: 35px;
   display: inline-block;
+  font-weight: bold;
 }
 
 .counter-up .counter p {
@@ -8374,7 +8375,7 @@ span.counter {
 *****************************************/
 .testimonial {
   padding: 50px 40px;
-  border-left: 2px solid #0674ec;
+/*   border-left: 2px solid #0674ec; */
   -webkit-box-shadow: 0 2px 50px rgba(0, 0, 0, 0.08);
           box-shadow: 0 2px 50px rgba(0, 0, 0, 0.08);
   background: #fff;
@@ -8392,14 +8393,14 @@ span.counter {
 }
 
 .testimonial .testimonial__about .avatar {
-  height: 80px;
-  width: 80px;
+/*   height: 80px; */
+  width: 100px;
   display: inline-block;
 }
 
 .testimonial .testimonial__about .avatar img {
-  -webkit-border-radius: 50%;
-          border-radius: 50%;
+/*   -webkit-border-radius: 50%; */
+/*           border-radius: 50%; */
   max-width: 100%;
 }
 
@@ -8418,6 +8419,7 @@ span.counter {
 
 .testimonial .testimonial__about .name-designation .name {
   font-size: 20px;
+  font-weight: bold;
   margin-bottom: 4px;
 }
 
@@ -8876,23 +8878,38 @@ span.counter {
 	START PARTNER AREA
 ****************************************/
 .partner-area {
-  background: #f6f7fb no-repeat center;
+/*   background: #f6f7fb no-repeat center; */
 }
 
 .partner-area.partner--area2 {
-  background: #fff  no-repeat center;
+/*   background: #fff  no-repeat center; */
 }
 
 .partners {
   margin-top: 30px;
+  display: flex;
+  flex-direction: column;
 }
 
-.partners .partner {
-  display: inline-block;
+.partners .partners-inner {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.partners .partners-inner .partner {
+/*   display: inline-block; */
+	width: 200px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 30px;
+/* 	margin-left: 90px; */
+  
 }
 
 .partners .partner + .partner {
-  margin-left: 90px;
+/*   margin-left: 90px; */
 }
 
 /***************************************
@@ -13218,7 +13235,7 @@ span.counter {
  ****************************************/
 .contact-area {
   background: #fffbec;
-  padding-top: 20px;
+  padding-top: 50px;
 }
 
 .contact_tile {

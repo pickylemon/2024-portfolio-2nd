@@ -109,30 +109,33 @@ String ctx = request.getContextPath();
     let currPage = '${pageContext.request.getParameter("page")}'
     let keyword = '${sc.keyword}'
     
+    
+    if(msg!=''){
+   		console.log(code)
+   		alert(msg)
+    }
+    
+   	//해당 페이지 색깔 표시하기
+   	let pageNavi = document.querySelectorAll('a.pages')
+   	pageNavi.forEach(function(elem) {
+   		if(elem.innerText == currPage) {
+   			elem.style.background = '#0674ec'
+   			elem.style.color = '#fff'
+   		}
+   	})
+   	
+   	//검색창에 검색 키워드 유지하기
+   	let options = document.querySelectorAll('option')
+   	options.forEach(function(elem) {
+   		if(elem.value == keyword) {
+   			elem.selected = true
+   		}
+   	})
+   
+
 
     window.onload = function(){
-	   	if(msg!=''){
-	   		console.log(code)
-	   		alert(msg)
-	   	}
-	   	
-	   	//해당 페이지 색깔 표시하기
-	   	let pageNavi = document.querySelectorAll('a.pages')
-	   	pageNavi.forEach(function(elem) {
-	   		if(elem.innerText == currPage) {
-	   			elem.style.background = '#0674ec'
-	   			elem.style.color = '#fff'
-	   		}
-	   	})
-	   	
-	   	//검색창에 검색 키워드 유지하기
-	   	let options = document.querySelectorAll('option')
-	   	options.forEach(function(elem) {
-	   		if(elem.value == keyword) {
-	   			elem.selected = true
-	   		}
-	   	})
-	   	
+   	
     }
     
     
