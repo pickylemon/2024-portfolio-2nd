@@ -77,6 +77,8 @@ String ctx = request.getContextPath();
     <!--  swiper  -->
     <script src="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.js"></script>
 	<script src="<%=ctx%>/assest/template/js/swiper.js"></script>
+	
+	<script src="https://kit.fontawesome.com/99823c8069.js" crossorigin="anonymous"></script>
     <!-- endinject -->
 </body>
 

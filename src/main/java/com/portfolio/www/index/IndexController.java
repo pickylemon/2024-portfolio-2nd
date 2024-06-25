@@ -19,10 +19,10 @@ public class IndexController {
 		return mv;
 	}
 	
-	@RequestMapping("/contact.do")
+	@RequestMapping("/contactMe.do")
 	public ModelAndView contact() {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("contact");
+		mv.setViewName("contactMe");
 		return mv;
 	}
 }

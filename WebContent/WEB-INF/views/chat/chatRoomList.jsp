@@ -252,7 +252,7 @@ ul.chatList li {
                                     <label for="con_pass">채팅방 제목</label>
                                     <input id="con_pass" type="text" class="text_field" placeholder="20자 이내로 입력하세요" name="roomNm">
                                 </div>
-								<button class="btn btn-lg btn--round btn-info" onclick="javascript:makeChatRoom()">채팅방 만들기</button>
+								<button class="btn btn-lg btn--round btn-secondary" onclick="javascript:makeChatRoom()">채팅방 만들기</button>
                             </div>
                             <!-- end .login--form -->
                         </div>

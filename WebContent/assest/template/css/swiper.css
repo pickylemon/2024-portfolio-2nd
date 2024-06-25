@@ -1,6 +1,6 @@
 .promotion {
   height: 693px;
-  background-color: #ffffff;
+  background-color: #fffbec;
   position: relative;
   transition: height .4s;
   overflow: hidden; /*영역크기가 줄어들어서 내용이 넘치지 않도록*/

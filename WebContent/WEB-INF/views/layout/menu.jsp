@@ -171,7 +171,7 @@ String ctx = request.getContextPath();
                                         </div>
                                     </li>
                                     <li class="has_dropdown">
-                                        <a href="all-products-list.html">CONTACT ME</a>
+                                        <a href="<c:url value='/contactMe.do'/>">CONTACT ME</a>
                                     </li>   
                                     <li class="has_dropdown">
                                         <a href="javascript:void(0)">BOARD</a>

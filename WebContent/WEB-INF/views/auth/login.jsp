@@ -5,7 +5,6 @@
 String ctx = request.getContextPath();
 %>
 <c:set var="savedId" value="${cookie.memberId.value}"/>
-<c:out value="${savedId }"/>
 
 
 

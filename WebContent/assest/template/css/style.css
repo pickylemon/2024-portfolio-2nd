@@ -199,7 +199,7 @@ select:focus {
 
 .text_field {
   line-height: 50px;
-  background: #f4f5f8;
+  background: #fffbec;
   border: none;
 }
 
@@ -1024,7 +1024,7 @@ a {
 }
 
 .social_icon span.fa-twitter {
-  background: #19b2f5;
+/*   background: #19b2f5; */
 }
 
 .social_icon span.fa-google-plus {
@@ -1385,6 +1385,7 @@ h6 {
 .sidebar-card .card-title, .item-preview .card-title {
   padding: 30px;
   border-bottom: 1px solid #ececec;
+  background-color: #ffd5ac;
 }
 
 .product--sidebar .sidebar-card, .support--sidebar .sidebar-card, .faq--sidebar .sidebar-card, .affliate_rule_module .sidebar-card, .sidebar--blog .sidebar-card, .product--sidebar .item-preview, .support--sidebar .item-preview, .faq--sidebar .item-preview, .affliate_rule_module .item-preview, .sidebar--blog .item-preview {
@@ -1397,6 +1398,7 @@ h6 {
 }
 
 .product--sidebar .sidebar-card .card-title, .support--sidebar .sidebar-card .card-title, .faq--sidebar .sidebar-card .card-title, .affliate_rule_module .sidebar-card .card-title, .sidebar--blog .sidebar-card .card-title, .product--sidebar .item-preview .card-title, .support--sidebar .item-preview .card-title, .faq--sidebar .item-preview .card-title, .affliate_rule_module .item-preview .card-title, .sidebar--blog .item-preview .card-title {
+  margin-top: 60px;
   padding: 30px 30px 28px;
   display: block;
   margin-bottom: 0;
@@ -1414,7 +1416,8 @@ h6 {
 }
 
 .product--sidebar .sidebar-card .collapsible-content, .support--sidebar .sidebar-card .collapsible-content, .faq--sidebar .sidebar-card .collapsible-content, .affliate_rule_module .sidebar-card .collapsible-content, .sidebar--blog .sidebar-card .collapsible-content, .product--sidebar .item-preview .collapsible-content, .support--sidebar .item-preview .collapsible-content, .faq--sidebar .item-preview .collapsible-content, .affliate_rule_module .item-preview .collapsible-content, .sidebar--blog .item-preview .collapsible-content {
-  padding: 0 30px;
+  padding: 30px 30px;
+  background-color: #fffbec;
 }
 
 .product--sidebar .sidebar-card .card-content, .support--sidebar .sidebar-card .card-content, .faq--sidebar .sidebar-card .card-content, .affliate_rule_module .sidebar-card .card-content, .sidebar--blog .sidebar-card .card-content, .product--sidebar .item-preview .card-content, .support--sidebar .item-preview .card-content, .faq--sidebar .item-preview .card-content, .affliate_rule_module .item-preview .card-content, .sidebar--blog .item-preview .card-content {
@@ -2151,14 +2154,14 @@ h6 {
 
 .btn.btn--color4, .btn-info, .btn--info,
 .btn.btn--color4:hover, .btn-info:hover, .btn--info:hover {
-  background: #58c9e9;
+  background: #77b255;
 }
 
 .btn.btn--color4.btn--bordered, .btn-info.btn--bordered, .btn--info.btn--bordered,
 .btn.btn--color4:hover.btn--bordered, .btn-info:hover.btn--bordered, .btn--info:hover.btn--bordered {
   background: none;
-  border: 1px solid #58c9e9;
-  color: #58c9e9;
+/*   border: 1px solid #58c9e9; */
+/*   color: #58c9e9; */
 }
 
 .btn.btn--color5, .btn--danger, .btn-danger,
@@ -2764,12 +2767,12 @@ h6 {
           border-radius: 50%;
 }
 
-.social--color--filled span.fa-facebook, .single_blog_content .share_tags .share .social_share span.fa-facebook {
-  background: #395799;
+.social--color--filled span.fa-github, .single_blog_content .share_tags .share .social_share span.fa-github {
+  background: rgb(0, 0, 0);
 }
 
 .social--color--filled span.fa-twitter, .single_blog_content .share_tags .share .social_share span.fa-twitter {
-  background: #19b2f5;
+/*   background: #19b2f5; */
 }
 
 .social--color--filled span.fa-google-plus, .single_blog_content .share_tags .share .social_share span.fa-google-plus {
@@ -2909,8 +2912,8 @@ h6 {
 	--- BREADCRUMB
 *****************************/
 .breadcrumb-area {
-  padding-top: 52px !important;
-  padding-bottom: 50px;
+  padding-top: 42px !important;
+  padding-bottom: 40px;
 }
 
 .breadcrumb-area .breadcrumb ul li a {
@@ -2995,7 +2998,7 @@ h6 {
 }
 
 .breadcrumb ul li.active a {
-  color: #bfcad7;
+  color: #fff;
 }
 
 .breadcrumb ul {
@@ -3038,15 +3041,17 @@ h6 {
 
 .accordion .accordion__single h4, .accordion .panel-default h4, .panel-group .accordion__single h4, .panel-group .panel-default h4 {
   font-size: 18px;
+  background-color: #FFE8D8;
 }
 
 .accordion .accordion__single h4 a, .accordion .panel-default h4 a, .panel-group .accordion__single h4 a, .panel-group .panel-default h4 a {
   line-height: 26px;
   display: block;
-  background: #eff1f5;
+  background: #FFE8D8;
   color: #333;
   font-weight: 400;
   padding: 15px 27px;
+  
 }
 
 .accordion .accordion__single h4 a i.lnr, .accordion .panel-default h4 a i.lnr, .panel-group .accordion__single h4 a i.lnr, .panel-group .panel-default h4 a i.lnr {
@@ -3065,7 +3070,7 @@ h6 {
 }
 
 .accordion .accordion__single .single_acco_title a.active, .accordion .accordion__single .panel-title a.active, .accordion .panel-default .single_acco_title a.active, .accordion .panel-default .panel-title a.active, .panel-group .accordion__single .single_acco_title a.active, .panel-group .accordion__single .panel-title a.active, .panel-group .panel-default .single_acco_title a.active, .panel-group .panel-default .panel-title a.active {
-  background: #0674ec;
+  background: #FFBD7B;
   color: #fff;
 }
 
@@ -4027,7 +4032,7 @@ h6 {
 }
 
 .social_icon span.fa-twitter {
-  background: #19b2f5;
+/*   background: #19b2f5; */
 }
 
 .social_icon span.fa-google-plus {
@@ -4379,7 +4384,7 @@ h6 {
 }
 
 .single_team_member figure .social ul li a span.fa-twitter, .single_team_member figure .single_blog_content .share_tags .share .social_share ul li a span.fa-twitter, .single_blog_content .share_tags .share .single_team_member figure .social_share ul li a span.fa-twitter {
-  color: #19b2f5;
+/*   color: #19b2f5; */
 }
 
 .single_team_member figure .social ul li a span.fa-google-plus, .single_team_member figure .single_blog_content .share_tags .share .social_share ul li a span.fa-google-plus, .single_blog_content .share_tags .share .single_team_member figure .social_share ul li a span.fa-google-plus {
@@ -4402,7 +4407,7 @@ h6 {
 }
 
 .single_team_member figure .social ul li a:hover span.fa-twitter, .single_team_member figure .single_blog_content .share_tags .share .social_share ul li a:hover span.fa-twitter, .single_blog_content .share_tags .share .single_team_member figure .social_share ul li a:hover span.fa-twitter {
-  background: #19b2f5;
+/*   background: #19b2f5; */
 }
 
 .single_team_member figure .social ul li a:hover span.fa-google-plus, .single_team_member figure .single_blog_content .share_tags .share .social_share ul li a:hover span.fa-google-plus, .single_blog_content .share_tags .share .single_team_member figure .social_share ul li a:hover span.fa-google-plus {
@@ -5250,7 +5255,7 @@ h6 {
 }
 
 .social_icon span.fa-twitter {
-  background: #19b2f5;
+/*   background: #19b2f5; */
 }
 
 .social_icon span.fa-google-plus {
@@ -6270,10 +6275,10 @@ div#ui-datepicker-div tbody tr td a:hover {
   background: $pcolor;
 }*/
 .section--padding {
-/*   padding-top: 0px; */
+  padding-top: 0px;
 /*   padding-bottom: 120px; */
-  padding-top: 10px;
-  padding-bottom: 10px;
+/*   padding-top: 10px; */
+  padding-bottom: 0px;
 }
 
 .section--padding2 {
@@ -6769,7 +6774,7 @@ div#ui-datepicker-div tbody tr td a:hover {
 
 /* cardify any area */
 .cardify, .content_title, .table_module, .card_style1, .card_style2, .credit_modules, .shortcode_modules, .upload_modules, .withdraw_module, .statement_info_card, .statement_table, .thread_sort_area, .author_info, .comment_area, .contact_tile, .featured_event, .google_map .location_address .addres_module {
-  background: #fff;
+  background: #FFE8D8;
   -webkit-border-radius: 4px;
           border-radius: 4px;
   -webkit-box-shadow: 0 2px 4px rgba(108, 111, 115, 0.1);
@@ -6813,7 +6818,7 @@ div#ui-datepicker-div tbody tr td a:hover {
 }
 
 .social_icon span.fa-twitter {
-  background: #19b2f5;
+/*   background: #19b2f5; */
 }
 
 .social_icon span.fa-google-plus {
@@ -6944,7 +6949,7 @@ div#ui-datepicker-div tbody tr td a:hover {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-color: #dfe6fa;
+  background-color: #FFE8D8;
 }
 
 .feature .feature__title {
@@ -8686,10 +8691,12 @@ span.counter {
 
 .footer-big {
   background: #ffe78d;
+  padding-bottom: 20px;
 }
 
 .footer-big p, .footer-big ul li, .footer-big .footer-menu ul li a {
-  color: #ababab;
+  color: #555555;
+  font-weight: bold;
 }
 
 .info-contact {
@@ -8707,16 +8714,17 @@ span.counter {
 }
 
 .info-contact li .info-icon {
-  color: #fff;
+/*   color: #fff; */
+  color: #555555;
 }
 
 .info-contact li .info {
   width: calc(100% - 30px);
-  padding-left: 8px;
+/*   padding-left: 8px; */
 }
 
 .info__logo {
-  margin-bottom: 25px;
+/*   margin-bottom: 25px; */
 }
 
 .footer-menu {
@@ -8903,10 +8911,11 @@ span.counter {
   height: 100%;
   width: 100%;
   position: absolute;
-  background: -webkit-gradient(linear, right top, left top, from(#7347c1), to(#0674ec));
-  background: -webkit-linear-gradient(right, #7347c1, #0674ec);
-  background: -o-linear-gradient(right, #7347c1, #0674ec);
-  background: linear-gradient(to left, #7347c1, #0674ec);
+  background-color: #FFBD7B;
+/*   background: -webkit-gradient(linear, right top, left top, from(#7347c1), to(#0674ec)); */
+/*   background: -webkit-linear-gradient(right, #7347c1, #0674ec); */
+/*   background: -o-linear-gradient(right, #7347c1, #0674ec); */
+/*   background: linear-gradient(to left, #7347c1, #0674ec); */
   opacity: 0.91;
   top: 0;
   left: 0;
@@ -9060,7 +9069,7 @@ span.counter {
 }
 
 .select-wrap.select-wrap2 select {
-  background: #f4f5f8;
+  background: #fffbec;
   height: 50px;
   -webkit-border-radius: 0;
           border-radius: 0;
@@ -12048,10 +12057,11 @@ span.counter {
 	END CHECKOUT CSS
 ****************************************/
 .login_area, .signup_area, .pass_recover_area {
-  background: #ffffff;
+  background: #fffbec;
 }
 
 .login, .signup_form, .recover_pass {
+  margin-top: 60px;
   padding: 60px 0;
 }
 
@@ -12091,7 +12101,7 @@ span.counter {
 	START SUPPORT AREA CSS
 ****************************************/
 .support_threads_area {
-  background: #ffffff;
+  background: #fffbec;
 }
 
 .thread_sort_area {
@@ -13207,7 +13217,8 @@ span.counter {
        START CONTACT AREA
  ****************************************/
 .contact-area {
-  background: #eff1f5;
+  background: #fffbec;
+  padding-top: 20px;
 }
 
 .contact_tile {
