@@ -4,71 +4,173 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+<%
+String ctx = request.getContextPath();
+%>
+
+<!-- swiper -->
+<link rel="stylesheet" href="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.css" />
+<link rel="stylesheet" href="<%=ctx%>/assest/template/css/swiper.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
 	<!--================================
 	    START FEATURE AREA
 	=================================-->
     <section class="features section--padding modal-open" >
-        <!-- start container -->
-        <div class="container">
-            <!-- start row -->
-            <div class="row">
-                <!-- start search-area -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="feature">
-                        <div class="feature__img">
-                            <img src="<c:url value='/assest/template/images/feature1.png'/>" alt="feature" />
-                        </div>
-                        <div class="feature__title">
-                            <h3>Best UX Research</h3>
-                        </div>
-                        <div class="feature__desc">
-                            <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis,
-                                leo quam aliquet diam congue is laoreet elit metus.</p>
-                        </div>
-                    </div>
-                    <!-- end /.feature -->
-                </div>
-                <!-- end /.col-lg-4 col-md-6 -->
-
-                <!-- start search-area -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="feature">
-                        <div class="feature__img">
-                            <img src="<c:url value='/assest/template/images/feature2.png'/>" alt="feature" />
-                        </div>
-                        <div class="feature__title">
-                            <h3>Fully Responsive</h3>
-                        </div>
-                        <div class="feature__desc">
-                            <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis,
-                                leo quam aliquet diam congue is laoreet elit metus.</p>
-                        </div>
-                    </div>
-                    <!-- end /.feature -->
-                </div>
-                <!-- end /.col-lg-4 col-md-6 -->
-
-                <!-- start search-area -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="feature">
-                        <div class="feature__img">                        
-                            <img src="<c:url value='/assest/template/images/feature3.png'/>" alt="feature" />
-                        </div>
-                        <div class="feature__title">
-                            <h3>Buy & Sell Easily</h3>
-                        </div>
-                        <div class="feature__desc">
-                            <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis,
-                                leo quam aliquet diam congue is laoreet elit metus.</p>
-                        </div>
-                    </div>
-                    <!-- end /.feature -->
-                </div>
-                <!-- end /.col-lg-4 col-md-6 -->
-            </div>
-            <!-- end /.row -->
+    
+    <div class="promotion">
+      <div class="swiper-container">
+      <!-- swiper wrapper -->
+        <div class="swiper-wrapper">
+        
+          <div class="swiper-slide">
+          	<div class="feature">
+              <img src="<c:url value='/assest/template/images/lemon.png'/>" width="50px" height="50px"/>
+              <div class="feature__title">
+                  <h3>Best UX Research</h3>
+              </div>
+              <div class="feature__desc">
+                  <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis,
+                      leo quam aliquet diam congue is laoreet elit metus.</p>
+              </div>
+              <a href="javascript:void(0)" class="swiper-btn">자세히 보기</a>
+          	</div>
+          </div>
+          
+          <div class="swiper-slide">
+          	<div class="feature">
+              <img src="<c:url value='/assest/template/images/lemon.png'/>" width="50px" height="50px"/>
+              <div class="feature__title">
+                  <h3>Best UX Research</h3>
+              </div>
+              <div class="feature__desc">
+                  <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis,
+                      leo quam aliquet diam congue is laoreet elit metus.</p>
+              </div>
+              <a href="javascript:void(0)" class="swiper-btn">자세히 보기</a>
+          	</div>
+          </div>
+          
+          <div class="swiper-slide">
+          	<div class="feature">
+              <img src="<c:url value='/assest/template/images/lemon.png'/>" width="50px" height="50px"/>
+              <div class="feature__title">
+                  <h3>Best UX Research</h3>
+              </div>
+              <div class="feature__desc">
+                  <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis,
+                      leo quam aliquet diam congue is laoreet elit metus.</p>
+              </div>
+			  <a href="javascript:void(0)" class="swiper-btn">자세히 보기</a>
+          	</div>
+          </div>
+          
+          <div class="swiper-slide">
+          	<div class="feature">
+              <img src="<c:url value='/assest/template/images/lemon.png'/>" width="50px" height="50px"/>
+              <div class="feature__title">
+                  <h3>Best UX Research</h3>
+              </div>
+              <div class="feature__desc">
+                  <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis,
+                      leo quam aliquet diam congue is laoreet elit metus.</p>
+              </div>
+              <a href="javascript:void(0)" class="swiper-btn">자세히 보기</a>
+          	</div>
+          </div>
+          
+          <div class="swiper-slide">
+          	<div class="feature">
+              <img src="<c:url value='/assest/template/images/lemon.png'/>" width="50px" height="50px"/>
+              <div class="feature__title">
+                  <h3>Best UX Research</h3>
+              </div>
+              <div class="feature__desc">
+                  <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis,
+                      leo quam aliquet diam congue is laoreet elit metus.</p>
+              </div>
+              <a href="javascript:void(0)" class="swiper-btn">자세히 보기</a>
+          	</div>
+            
+          </div>
+        
         </div>
-        <!-- end /.container -->
+        <!-- swiper wrapper end -->
+        
+      </div>
+      
+      <div class="swiper-pagination"></div>
+      <div class="swiper-prev">
+        <div class="material-icons" >arrow_back</div>
+      </div>
+      <div class="swiper-next">
+        <div class="material-icons">arrow_forward</div>
+      </div>
+      
+    </div>
+    <!-- promotion end -->
+    
+        <!-- start container -->
+<!--         <div class="container"> -->
+<!--             start row -->
+<!--             <div class="row"> -->
+<!--                 start search-area -->
+<!--                 <div class="col-lg-4 col-md-6"> -->
+<!--                     <div class="feature"> -->
+<!--                         <div class="feature__img"> -->
+<%--                             <img src="<c:url value='/assest/template/images/feature1.png'/>" alt="feature" /> --%>
+<!--                         </div> -->
+<!--                         <div class="feature__title"> -->
+<!--                             <h3>Best UX Research</h3> -->
+<!--                         </div> -->
+<!--                         <div class="feature__desc"> -->
+<!--                             <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis, -->
+<!--                                 leo quam aliquet diam congue is laoreet elit metus.</p> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                     end /.feature -->
+<!--                 </div> -->
+<!--                 end /.col-lg-4 col-md-6 -->
+
+<!--                 start search-area -->
+<!--                 <div class="col-lg-4 col-md-6"> -->
+<!--                     <div class="feature"> -->
+<!--                         <div class="feature__img"> -->
+<%--                             <img src="<c:url value='/assest/template/images/feature2.png'/>" alt="feature" /> --%>
+<!--                         </div> -->
+<!--                         <div class="feature__title"> -->
+<!--                             <h3>Fully Responsive</h3> -->
+<!--                         </div> -->
+<!--                         <div class="feature__desc"> -->
+<!--                             <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis, -->
+<!--                                 leo quam aliquet diam congue is laoreet elit metus.</p> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                     end /.feature -->
+<!--                 </div> -->
+<!--                 end /.col-lg-4 col-md-6 -->
+
+<!--                 start search-area -->
+<!--                 <div class="col-lg-4 col-md-6"> -->
+<!--                     <div class="feature"> -->
+<!--                         <div class="feature__img">                         -->
+<%--                             <img src="<c:url value='/assest/template/images/feature3.png'/>" alt="feature" /> --%>
+<!--                         </div> -->
+<!--                         <div class="feature__title"> -->
+<!--                             <h3>Buy & Sell Easily</h3> -->
+<!--                         </div> -->
+<!--                         <div class="feature__desc"> -->
+<!--                             <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis, -->
+<!--                                 leo quam aliquet diam congue is laoreet elit metus.</p> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                     end /.feature -->
+<!--                 </div> -->
+<!--                 end /.col-lg-4 col-md-6 -->
+<!--             </div> -->
+<!--             end /.row -->
+<!--         </div> -->
+<!--         end /.container -->
         
    <!-- Modals -->
     <div class="modal fade remail" id="myModal1">

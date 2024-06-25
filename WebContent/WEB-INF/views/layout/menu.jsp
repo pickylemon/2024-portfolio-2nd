@@ -16,7 +16,7 @@ String ctx = request.getContextPath();
     <!-- start menu-area -->
     <div class="menu-area">
     <div id="msgAlert" class="alert alert-success" role="alert" style="display:none"></div>
-        <!-- start .top-menu-area -->
+        <!-- start .top-menu-area -->  
         <div class="top-menu-area">
             <!-- start .container -->
             <div class="container">
@@ -40,7 +40,8 @@ String ctx = request.getContextPath();
                                 <ul>
                                     <li class="has_dropdown">
                                         <div class="icon_wrap">
-                                            <span class="lnr lnr-cart"></span>
+                                        	<img src="<c:url value='/assest/template/images/lemon.png'/>" alt="logo image" class="img-fluid" width="40px" height="40px"/>
+<!--                                             <span class="lnr lnr-cart"></span> -->
                                             <span class="notification_count purch">2</span>
                                         </div>
 
@@ -145,33 +146,20 @@ String ctx = request.getContextPath();
                             <div class="collapse navbar-collapse" id="navbarNav">
                                 <ul class="navbar-nav">
                                     <li class="has_dropdown">
-                                        <a href="index.html">HOME</a>
-                                        <div class="dropdowns dropdown--menu">
-                                            <ul>
-                                                <li>
-                                                    <a href="index.html">Home Multi Vendor</a>
-                                                </li>
-                                                <li>
-                                                    <a href="index-single.html">Home Two Single User</a>
-                                                </li>
-                                                <li>
-                                                    <a href="index3.html">Home Three Product</a>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                        <a href="<c:url value='/index.do'/>">HOME</a>
                                     </li>
                                     <li class="has_dropdown">
-                                        <a href="all-products-list.html">all product</a>
+                                        <a href="all-products-list.html">ABOUT ME</a>
                                         <div class="dropdowns dropdown--menu">
                                             <ul>
                                                 <li>
-                                                    <a href="all-products.html">Recent Items</a>
+                                                    <a href="all-products.html">이력서</a>
                                                 </li>
                                                 <li>
-                                                    <a href="all-products.html">Popular Items</a>
+                                                    <a href="all-products.html">자기소개서</a>
                                                 </li>
                                                 <li>
-                                                    <a href="index3.html">Free Templates</a>
+                                                    <a href="index3.html">Github</a>
                                                 </li>
                                                 <li>
                                                     <a href="#">Follow Feed</a>
@@ -183,134 +171,10 @@ String ctx = request.getContextPath();
                                         </div>
                                     </li>
                                     <li class="has_dropdown">
-                                        <a href="#">categories</a>
-                                        <div class="dropdowns dropdown--menu">
-                                            <ul>
-                                                <li>
-                                                    <a href="category-grid.html">Popular Items</a>
-                                                </li>
-                                                <li>
-                                                    <a href="category-grid.html">Admin Templates</a>
-                                                </li>
-                                                <li>
-                                                    <a href="category-grid.html">Blog / Magazine / News</a>
-                                                </li>
-                                                <li>
-                                                    <a href="category-grid.html">Creative</a>
-                                                </li>
-                                                <li>
-                                                    <a href="category-grid.html">Corporate Business</a>
-                                                </li>
-                                                <li>
-                                                    <a href="category-grid.html">Resume Portfolio</a>
-                                                </li>
-                                                <li>
-                                                    <a href="category-grid.html">eCommerce</a>
-                                                </li>
-                                                <li>
-                                                    <a href="category-grid.html">Entertainment</a>
-                                                </li>
-                                                <li>
-                                                    <a href="category-grid.html">Landing Pages</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="has_megamenu">
-                                        <a href="#">Elements</a>
-                                        <div class="dropdown_megamenu contained">
-                                            <div class="megamnu_module">
-                                                <div class="menu_items">
-                                                    <div class="menu_column">
-                                                        <ul>
-                                                            <li>
-                                                                <a href="accordion.html">Accordion</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="alert.html">Alert</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="brands.html">Brands</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="buttons.html">Buttons</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="cards.html">Cards</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="charts.html">Charts</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="content-block.html">Content Block</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="dropdowns.html">Drpdowns</a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-
-                                                    <div class="menu_column">
-                                                        <ul>
-                                                            <li>
-                                                                <a href="features.html">Features</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="footer.html">Footer</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="info-box.html">Info Box</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="menu.html">Menu</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="modal.html">Modal</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="pagination.html">Pagination</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="peoples.html">Peoples</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="products.html">Products</a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-
-                                                    <div class="menu_column">
-                                                        <ul>
-                                                            <li>
-                                                                <a href="progressbar.html">Progressbar</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="social.html">Social</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="tab.html">Tabs</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="table.html">Table</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="testimonials.html">Testimonials</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="timeline.html">Timeline</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="typography.html">Typography</a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    
+                                        <a href="<c:url value='/contactMe.do'/>">CONTACT ME</a>
+                                    </li>   
                                     <li class="has_dropdown">
-                                        <a href="javascript:void(0)">게시판</a>
+                                        <a href="javascript:void(0)">BOARD</a>
                                         <div class="dropdowns dropdown--menu">
                                             <ul>
                                                 <li>
@@ -333,7 +197,10 @@ String ctx = request.getContextPath();
                                     </li>
                                     
                                     <li>
-                                        <a href="<c:url value='/chatRoomList.do'/>">채팅방</a>
+                                        <a href="<c:url value='/chatRoomList.do'/>">CHATROOM</a>
+                                    </li>
+                                    <li>
+                                        <a href="<c:url value='/chatRoomList.do'/>">ALBUM</a>
                                     </li>
                                 </ul>
                             </div>

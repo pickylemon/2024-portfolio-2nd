@@ -1,0 +1,131 @@
+.promotion {
+  height: 693px;
+  background-color: #fffbec;
+  position: relative;
+  transition: height .4s;
+  overflow: hidden; /*영역크기가 줄어들어서 내용이 넘치지 않도록*/
+}
+
+.promotion.hide {
+  height: 0;
+}
+.promotion .swiper-container {
+  width: calc(819px * 3 + 10px * 2); /*2477px를 그대로 입력하는 것보다 좋음*/
+  height: 553px;
+/*   background-color: orange; */
+  text-align: center;
+  font-size: 200px; 
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  margin-left: calc((819px * 3 + 10px * 2) / -2); 
+  /*2477의 절반*/
+  /*많이 쓰인다. left로 밀고 다시 절반만큼 당겨오는...
+    화면을 축소 확대해도 계속 화면의 가운데에 위치*/
+}
+
+.promotion .swiper-slide {
+  opacity: .5;
+  transition: opacity 1s;
+  position: relative;
+}
+
+.promotion .swiper-slide-active {
+  opacity: 1;
+}
+
+.promotion .swiper-slide .btn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  /*width는 공통으로 130px으로 가지고 있어서 별도로 적지 않는다.*/
+}
+.promotion .swiper-pagination {
+  bottom: 40px;
+  left: 0;
+  right: 0; /*Swiper 라이브러리 내에 이미 position값이 지정되어 있음. 따로 정렬x*/
+}
+
+/*직접 개발자도구를 열어서 코드를 확인하는 연습이 필요하다. bullet같은것 라이브러리에 의해 자동으로 만들어짐*/
+.promotion .swiper-pagination .swiper-pagination-bullet {
+  background-color: transparent;
+  background-image: url("../images/promotion_slide_pager.png");
+  width: 12px;
+  height: 12px;
+  margin-right: 6px;
+  outline: none; /*파란색 포커스 잡히는 것을 없앰*/
+}
+.promotion .swiper-pagination .swiper-pagination-bullet:last-child {
+  margin-right: 0;
+}
+.promotion .swiper-pagination .swiper-pagination-bullet-active {
+  background-image: url("../images/promotion_slide_pager_on.png");
+}
+.promotion .swiper-prev,
+.promotion .swiper-next  {
+  width: 42px;
+  height: 42px;
+  border: 2px solid #333;
+/*   border: 2px solid orange; */
+  border-radius: 50%;
+  position: absolute;
+  top: 300px;
+  z-index: 1;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center; /*material icons을 가운데 배치하기 위해 flex*/
+  transition: .4s;
+
+}
+.promotion .swiper-prev {
+  left: 50%;
+  margin-left: -480px;
+}
+.promotion .swiper-next {
+  right: 50%;
+  margin-right: -480px;
+}
+.promotion .swiper-prev:hover,
+.promotion .swiper-next:hover  {
+  background-color: #333;
+/*   background-color: orange; */
+  color:#fff;
+  
+}
+
+
+.swiper-btn {
+  width: 130px;
+  padding: 10px;
+/*   border: 2px solid #5168C4; */
+  border: 2px solid #9FACE1;
+  border-radius: 4px;
+  color: #5168C4;
+  color: #fff;
+  background-color: #9FACE1;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  display: block; 
+  transition: .4s;
+}
+.swiper-btn:hover {
+  border: 2px solid #5168C4;
+  background-color: #5168C4;
+/*   background-color: orange; */
+  color: #fff;
+}
+
+/* .material-icons { */
+/* 	color: orange */
+/* } */
+
+/* .material-icons:hover { */
+/* 	color: #fff; */
+/* } */

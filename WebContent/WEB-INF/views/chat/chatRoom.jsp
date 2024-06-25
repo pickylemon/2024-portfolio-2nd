@@ -91,7 +91,7 @@ String ctx = request.getContextPath();
 	.chat-field, .chat-btn {
 		display: inline-block;
 	}
-	
+
 /* 	.chat-field { */
 /* 		width : 70%; */
 /* 	} */

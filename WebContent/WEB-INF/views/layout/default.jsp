@@ -73,6 +73,12 @@ String ctx = request.getContextPath();
     <script src="<%=ctx%>/assest/template/js/dashboard.js"></script>
     <script src="<%=ctx%>/assest/template/js/main.js"></script>
     <script src="<%=ctx%>/assest/template/js/map.js"></script>
+    
+    <!--  swiper  -->
+    <script src="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.js"></script>
+	<script src="<%=ctx%>/assest/template/js/swiper.js"></script>
+	
+	<script src="https://kit.fontawesome.com/99823c8069.js" crossorigin="anonymous"></script>
     <!-- endinject -->
 </body>
 
