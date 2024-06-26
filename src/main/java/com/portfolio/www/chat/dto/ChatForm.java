@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class ChatForm {
 	private Integer chatroomSeq;
 	private Integer memberSeq;
-	private ChatMessageEnum msgType;
+	private ChatMessageEnum messageType;
 	private String message;
 
 }

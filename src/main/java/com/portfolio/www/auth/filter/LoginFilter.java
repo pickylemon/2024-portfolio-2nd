@@ -55,7 +55,8 @@ public class LoginFilter implements Filter {
 		BOARD("/forum"),
 		SALES("/sales"),
 		QA("/qa"),
-		SUPPORT("/support");
+		SUPPORT("/support"),
+		CHAT("/chat");
 		
 		private final String url;
 		

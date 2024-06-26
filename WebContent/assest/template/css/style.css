@@ -2833,7 +2833,7 @@ h6 {
   -webkit-transition: 0.3s ease;
   -o-transition: 0.3s ease;
   transition: 0.3s ease;
-  background: #fff;
+  background: #fffbec;
   -webkit-border-radius: 25px;
           border-radius: 25px;
   font-weight: 500;
@@ -6779,6 +6779,12 @@ div#ui-datepicker-div tbody tr td a:hover {
           border-radius: 4px;
   -webkit-box-shadow: 0 2px 4px rgba(108, 111, 115, 0.1);
   box-shadow: 0 2px 4px rgba(108, 111, 115, 0.1);
+}
+
+.forum--replays.cardify, .question-form.cardify.p-4 {	
+  background: #fffbec;
+	
+	
 }
 
 /* common toggle module css */

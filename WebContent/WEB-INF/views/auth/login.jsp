@@ -19,7 +19,7 @@ String ctx = request.getContextPath();
                         <div class="cardify login">
                             <div class="login--header">
                                 <h3>Welcome Back</h3>
-                                <p>You can sign in with your Id</p>
+                                <p>ID와 비밀번호를 입력해주세요</p>
                             </div>
                             <!-- end .login_header -->
 
@@ -33,7 +33,7 @@ String ctx = request.getContextPath();
 
                                 <div class="form-group">
                                     <label for="pass">Password</label>
-                                    <input id="pass" type="text" class="text_field" placeholder="Enter your password..." name="passwd">
+                                    <input id="pass" type="password" class="text_field" placeholder="Enter your password..." name="passwd">
                                 </div>
 
                                 <div class="form-group">
@@ -48,7 +48,7 @@ String ctx = request.getContextPath();
                                     </div>
                                 </div>
 
-                                <button class="btn btn--md btn--round" type="submit">Login Now</button>
+                                <button class="btn btn--md btn--round" type="submit">로그인</button>
 
                                 <div class="login_assist">
                                     <p class="recover">Lost your
@@ -119,6 +119,8 @@ String ctx = request.getContextPath();
     	}
     	return true;
     }
+    
+
     
     </script>
     <!--================================
