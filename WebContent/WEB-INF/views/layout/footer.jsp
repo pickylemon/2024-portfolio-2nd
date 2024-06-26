@@ -44,17 +44,17 @@
 					<div class="social social--color--filled">
                         <ul>
                             <li>
-                                <a href="<c:url value='/contactMe.do'/>">
+                                <a href="<c:url value='/contactMe.do'/>" target="_blank">
                                     <img src="<c:url value='/assest/template/images/lemon.png'/>" width="40px" height="40px"/>
                                 </a>
                             </li>
                             <li>
-                                <a href="https://github.com/pickylemon/2024-portfolio-2nd">
+                                <a href="https://github.com/pickylemon/2024-portfolio-2nd" target="_blank">
                                     <img src="<c:url value='/assest/template/images/github.png'/>" width="40px" height="40px"/>
                                 </a>
                             </li>
                             <li>
-                                <a href="https://velog.io/@melodie104/series/Exception-%EB%AA%A8%EC%9D%8C">
+                                <a href="https://velog.io/@melodie104/series/Exception-%EB%AA%A8%EC%9D%8C" target="_blank">
                                    <img src="<c:url value='/assest/template/images/velog.png'/>" width="40px" height="40px"/>
                                 </a>
                             </li>

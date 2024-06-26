@@ -25,4 +25,11 @@ public class IndexController {
 		mv.setViewName("contactMe");
 		return mv;
 	}
+	
+	@RequestMapping("/aboutMe.do")
+	public ModelAndView introduce() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("aboutMe");
+		return mv;
+	}
 }

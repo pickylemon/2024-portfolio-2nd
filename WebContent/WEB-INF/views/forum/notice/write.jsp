@@ -112,7 +112,7 @@
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn--md btn-primary">Submit Request</button>
-                            	<a href="<c:url value='/forum/notice/listPage.do'/>" class="btn btn--md btn-light">Cancel</a>
+                            	<a href="<c:url value='/forum/notice/listPage.do'/>" class="btn btn--md btn-warning">Cancel</a>
                             </div>
                         </form>
                     </div><!-- ends: .question-form -->

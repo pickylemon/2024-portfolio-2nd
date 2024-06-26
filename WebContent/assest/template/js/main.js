@@ -89,10 +89,10 @@
     });
 
     /*COUNTER UP*/
-    $('.count').counterUp({
-        delay: 10,
-        time: 1500
-    });
+//    $('.count').counterUp({
+//        delay: 10,
+//        time: 1500
+//    });
 
 
     // jquery ui range
@@ -290,24 +290,24 @@
 
 
     /* partners slider */
-    $('.partners').owlCarousel({
-        items: 5,
-        autoplay: true,
-        responsive: {
-            0: {
-                items: 1
-            },
-            480: {
-                items: 2
-            },
-            768: {
-                items: 3
-            },
-            992: {
-                items: 5
-            }
-        }
-    });
+//    $('.partners').owlCarousel({
+//        items: 5,
+//        autoplay: true,
+//        responsive: {
+//            0: {
+//                items: 1
+//            },
+//            480: {
+//                items: 2
+//            },
+//            768: {
+//                items: 3
+//            },
+//            992: {
+//                items: 5
+//            }
+//        }
+//    });
 
 
     /* sponsors slider */

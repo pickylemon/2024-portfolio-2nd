@@ -6,13 +6,22 @@
 String ctx = request.getContextPath();
 %>
 
-    <section class="section--padding2">
+<style>
+
+.boardList {
+	background: #fffbec;
+
+}
+
+</style>
+
+    <section class="section--padding2 boardList">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="">
                         <div class="modules__content">
-                            <div class="withdraw_module withdraw_history">
+                            <div class="withdraw_module withdraw_history boardList">
                                 <div class="withdraw_table_header">
                                     <h3>공지사항</h3>
                                     <br>
@@ -58,15 +67,15 @@ String ctx = request.getContextPath();
 				                        <nav class="navigation pagination" role="navigation">
 				                            <div class="nav-links">
 				                              <c:if test="${ph.startPage ne 1 }">
-													<a class="prev page-numbers" href="<c:url value='/forum/notice/listPage.do?page=${ph.startPage-1 }&size=${ph.size }&keyword=${ph.sc.keyword }&value=${ph.sc.value }'/>">
+													<a class="prev page-numbers boardList" href="<c:url value='/forum/notice/listPage.do?page=${ph.startPage-1 }&size=${ph.size }&keyword=${ph.sc.keyword }&value=${ph.sc.value }'/>">
 					                                    <span class="lnr lnr-arrow-left"></span>
 					                                </a>
 												</c:if>
 												<c:forEach var="i" begin="${ph.startPage }" end="${ph.endPage }">
-													<a class="page-numbers pages" href="<c:url value='/forum/notice/listPage.do?page=${i }&size=${ph.size }&keyword=${ph.sc.keyword }&value=${ph.sc.value }'/>">${i }</a>
+													<a class="page-numbers pages boardList" href="<c:url value='/forum/notice/listPage.do?page=${i }&size=${ph.size }&keyword=${ph.sc.keyword }&value=${ph.sc.value }'/>">${i }</a>
 												</c:forEach>
 				                                <c:if test="${ph.endPage ne ph.totalPage }">
-													<a class="next page-numbers" href="<c:url value='/forum/notice/listPage.do?page=${ph.endPage+1 }&size=${ph.size }&keyword=${ph.sc.keyword }&value=${ph.sc.value }'/>">
+													<a class="next page-numbers boardList" href="<c:url value='/forum/notice/listPage.do?page=${ph.endPage+1 }&size=${ph.size }&keyword=${ph.sc.keyword }&value=${ph.sc.value }'/>">
 					                                    <span class="lnr lnr-arrow-right"></span>
 					                                </a>
 												</c:if>
@@ -83,7 +92,7 @@ String ctx = request.getContextPath();
             <!-- end .row -->
             
            <!-- start .search_box -->
-           <div class="search_box">
+           <div class="search_box boardList">
                <form action="<c:url value='/forum/notice/listPage.do'/>" method="get">
                    <input type="text" class="text_field" name="value" placeholder="검색 키워드를 입력해주세요." required value="${ph.sc.value }" >
                    <div class="search__select select-wrap">
@@ -109,30 +118,33 @@ String ctx = request.getContextPath();
     let currPage = '${pageContext.request.getParameter("page")}'
     let keyword = '${sc.keyword}'
     
+    
+    if(msg!=''){
+   		console.log(code)
+   		alert(msg)
+    }
+    
+   	//해당 페이지 색깔 표시하기
+   	let pageNavi = document.querySelectorAll('a.pages')
+   	pageNavi.forEach(function(elem) {
+   		if(elem.innerText == currPage) {
+   			elem.style.background = '#0674ec'
+   			elem.style.color = '#fff'
+   		}
+   	})
+   	
+   	//검색창에 검색 키워드 유지하기
+   	let options = document.querySelectorAll('option')
+   	options.forEach(function(elem) {
+   		if(elem.value == keyword) {
+   			elem.selected = true
+   		}
+   	})
+   
+
 
     window.onload = function(){
-	   	if(msg!=''){
-	   		console.log(code)
-	   		alert(msg)
-	   	}
-	   	
-	   	//해당 페이지 색깔 표시하기
-	   	let pageNavi = document.querySelectorAll('a.pages')
-	   	pageNavi.forEach(function(elem) {
-	   		if(elem.innerText == currPage) {
-	   			elem.style.background = '#0674ec'
-	   			elem.style.color = '#fff'
-	   		}
-	   	})
-	   	
-	   	//검색창에 검색 키워드 유지하기
-	   	let options = document.querySelectorAll('option')
-	   	options.forEach(function(elem) {
-	   		if(elem.value == keyword) {
-	   			elem.selected = true
-	   		}
-	   	})
-	   	
+   	
     }
     
     

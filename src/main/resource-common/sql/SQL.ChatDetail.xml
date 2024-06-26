@@ -8,8 +8,8 @@
 		SELECT LAST_INSERT_ID()
 		</selectKey>
 		INSERT INTO forum.chat_detail
-		(chatroom_seq, member_seq, chat_status, message, reg_dtm)
-		VALUES(#{chatroomSeq}, #{memberSeq}, 'Y', #{message}, CURRENT_TIMESTAMP);
+		(chatroom_seq, member_seq, chat_status, message, message_type, reg_dtm)
+		VALUES(#{chatroomSeq}, #{memberSeq}, 'Y', #{message}, #{messageType}, CURRENT_TIMESTAMP);
 	</insert>
 	
     <select id="get" parameterType="int" resultType="ChatDetailDto">

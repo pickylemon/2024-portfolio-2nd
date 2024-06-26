@@ -14,7 +14,7 @@ public class ChatDetailDto {
 	private Integer chatroomSeq;
 	private Integer memberSeq;
 	private String chatStatus;
-	private ChatMessageEnum msgType;
+	private ChatMessageEnum messageType;
 	private String message;
 	private LocalDateTime regDtm;
 	
@@ -23,7 +23,7 @@ public class ChatDetailDto {
 		dto.setChatroomSeq(chatDto.getChatroomSeq());
 		dto.setMemberSeq(chatDto.getMemberSeq());
 		dto.setMessage(chatDto.getMessage());
-		dto.setMsgType(chatDto.getMsgType());
+		dto.setMessageType(chatDto.getMessageType());
 		return dto;
 	}
 }

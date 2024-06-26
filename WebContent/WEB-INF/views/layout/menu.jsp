@@ -45,66 +45,69 @@ String ctx = request.getContextPath();
                                             <span class="notification_count purch">2</span>
                                         </div>
 
-                                        <div class="dropdowns dropdown--cart">
-                                            <div class="cart_area">
-                                                <div class="cart_product">
-                                                    <div class="product__info">
-                                                        <div class="thumbn">
-                                                            <img src="<c:url value='/assest/template/images/capro1.jpg'/>" alt="cart product thumbnail" />
-                                                        </div>
+<!--                                         <div class="dropdowns dropdown--cart"> -->
+<!--                                             <div class="cart_area"> -->
+<!--                                                 <div class="cart_product"> -->
+<!--                                                     <div class="product__info"> -->
+<!--                                                         <div class="thumbn"> -->
+<%--                                                             <img src="<c:url value='/assest/template/images/capro1.jpg'/>" alt="cart product thumbnail" /> --%>
+<!--                                                         </div> -->
 
-                                                        <div class="info">
-                                                            <a class="title" href="single-product.html">Finance and
-                                                                Consulting Business Theme</a>
-                                                            <div class="cat">
-                                                                <a href="#">
-                                                                    <img src="<c:url value='/assest/template/images/catword.png'/>" alt="" />Wordpress
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+<!--                                                         <div class="info"> -->
+<!--                                                             <a class="title" href="single-product.html">Finance and -->
+<!--                                                                 Consulting Business Theme</a> -->
+<!--                                                             <div class="cat"> -->
+<!--                                                                 <a href="#"> -->
+<%--                                                                     <img src="<c:url value='/assest/template/images/catword.png'/>" alt="" />Wordpress --%>
+<!--                                                                 </a> -->
+<!--                                                             </div> -->
+<!--                                                         </div> -->
+<!--                                                     </div> -->
 
-                                                    <div class="product__action">
-                                                        <a href="#">
-                                                            <span class="lnr lnr-trash"></span>
-                                                        </a>
-                                                        <p>$60</p>
-                                                    </div>
-                                                </div>
-                                                <div class="cart_product">
-                                                    <div class="product__info">
-                                                        <div class="thumbn">
-                                                            <img src="<c:url value='/assest/template/images/capro2.jpg'/>" alt="cart product thumbnail" />
-                                                        </div>
+<!--                                                     <div class="product__action"> -->
+<!--                                                         <a href="#"> -->
+<!--                                                             <span class="lnr lnr-trash"></span> -->
+<!--                                                         </a> -->
+<!--                                                         <p>$60</p> -->
+<!--                                                     </div> -->
+<!--                                                 </div> -->
+<!--                                                 <div class="cart_product"> -->
+<!--                                                     <div class="product__info"> -->
+<!--                                                         <div class="thumbn"> -->
+<%--                                                             <img src="<c:url value='/assest/template/images/capro2.jpg'/>" alt="cart product thumbnail" /> --%>
+<!--                                                         </div> -->
 
-                                                        <div class="info">
-                                                            <a class="title" href="single-product.html">Flounce -
-                                                                Multipurpose OpenCart Theme</a>
-                                                            <div class="cat">
-                                                                <a href="#">
-                                                                    <img src="<c:url value='/assest/template/images/catword.png'/>" alt="" />Wordpress
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+<!--                                                         <div class="info"> -->
+<!--                                                             <a class="title" href="single-product.html">Flounce - -->
+<!--                                                                 Multipurpose OpenCart Theme</a> -->
+<!--                                                             <div class="cat"> -->
+<!--                                                                 <a href="#"> -->
+<%--                                                                     <img src="<c:url value='/assest/template/images/catword.png'/>" alt="" />Wordpress --%>
+<!--                                                                 </a> -->
+<!--                                                             </div> -->
+<!--                                                         </div> -->
+<!--                                                     </div> -->
 
-                                                    <div class="product__action">
-                                                        <a href="#">
-                                                            <span class="lnr lnr-trash"></span>
-                                                        </a>
-                                                        <p>$60</p>
-                                                    </div>
-                                                </div>
-                                                <div class="total">
-                                                    <p>
-                                                        <span>Total :</span>$80</p>
-                                                </div>
-                                                <div class="cart_action">
-                                                    <a class="go_cart" href="cart.html">View Cart</a>
-                                                    <a class="go_checkout" href="checkout.html">Checkout</a>
-                                                </div>
-                                            </div>
-                                        </div>
+<!--                                                     <div class="product__action"> -->
+<!--                                                         <a href="#"> -->
+<!--                                                             <span class="lnr lnr-trash"></span> -->
+<!--                                                         </a> -->
+<!--                                                         <p>$60</p> -->
+<!--                                                     </div> -->
+<!--                                                 </div> -->
+<!--                                                 <div class="total"> -->
+<!--                                                     <p> -->
+<!--                                                         <span>Total :</span>$80</p> -->
+<!--                                                 </div> -->
+<!--                                                 <div class="cart_action"> -->
+<!--                                                     <a class="go_cart" href="cart.html">View Cart</a> -->
+<!--                                                     <a class="go_checkout" href="checkout.html">Checkout</a> -->
+<!--                                                 </div> -->
+<!--                                             </div> -->
+<!--                                              end of cart area -->
+<!--                                         </div> -->
+<!--                                          end of drop down -->
+                                        
                                     </li>
                                 </ul>
                             </div>
@@ -149,23 +152,23 @@ String ctx = request.getContextPath();
                                         <a href="<c:url value='/index.do'/>">HOME</a>
                                     </li>
                                     <li class="has_dropdown">
-                                        <a href="all-products-list.html">ABOUT ME</a>
+                                        <a href="<c:url value='/aboutMe.do'/>">ABOUT ME</a>
                                         <div class="dropdowns dropdown--menu">
                                             <ul>
                                                 <li>
-                                                    <a href="all-products.html">이력서</a>
+                                                    <a href="<c:url value='/aboutMe.do'/>">ABOUT ME</a>
                                                 </li>
                                                 <li>
-                                                    <a href="all-products.html">자기소개서</a>
+                                                    <a href="https://www.notion.so/BackEnd-bb12744efdf74a1b849bdc0b8db03238?pvs=4" target="_blank">이력서</a>
                                                 </li>
                                                 <li>
-                                                    <a href="index3.html">Github</a>
+                                                    <a href="https://www.notion.so/fe17ff272aef4e4b9fa419596c0e2c76?pvs=4" target="_blank">자기소개서</a>
                                                 </li>
                                                 <li>
-                                                    <a href="#">Follow Feed</a>
+                                                    <a href="https://github.com/pickylemon" target="_blank">Github</a>
                                                 </li>
                                                 <li>
-                                                    <a href="#">Top Authors</a>
+                                                    <a href="https://velog.io/@melodie104/posts" target="_blank">Velog</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -174,7 +177,7 @@ String ctx = request.getContextPath();
                                         <a href="<c:url value='/contactMe.do'/>">CONTACT ME</a>
                                     </li>   
                                     <li class="has_dropdown">
-                                        <a href="javascript:void(0)">BOARD</a>
+                                        <a href="<c:url value='/forum/notice/listPage.do'/>">BOARD</a>
                                         <div class="dropdowns dropdown--menu">
                                             <ul>
                                                 <li>
@@ -186,12 +189,6 @@ String ctx = request.getContextPath();
                                                 <li>
                                                     <a href="javascript:void(0)">자유게시판</a>
                                                 </li>
-<!--                                                 <li> -->
-<!--                                                     <a href="#">Follow Feed</a> -->
-<!--                                                 </li> -->
-<!--                                                 <li> -->
-<!--                                                     <a href="#">Top Authors</a> -->
-<!--                                                 </li> -->
                                             </ul>
                                         </div>
                                     </li>

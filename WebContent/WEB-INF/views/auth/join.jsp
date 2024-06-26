@@ -18,9 +18,9 @@ String ctx = request.getContextPath();
                         <div class="cardify signup_form">
                             <div class="login--header">
                                 <h3>Create Your Account</h3>
-                                <p>Please fill the following fields with appropriate information to register a new MartPlace
-                                    account.
-                                </p>
+<!--                                 <p>Please fill the following fields with appropriate information to register a new MartPlace -->
+<!--                                     account. -->
+<!--                                 </p> -->
                             </div>
                             <!-- end .login_header -->
 
@@ -58,7 +58,7 @@ String ctx = request.getContextPath();
 
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input id="password" type="text" class="text_field" placeholder="Enter your password..." name="passwd" >
+                                    <input id="password" type="password" class="text_field" placeholder="Enter your password..." name="passwd" >
                                      <spring:hasBindErrors name="memberDto">
                                      <c:if test="${errors.hasFieldErrors('passwd') }">
                                     	<strong style="color:red">${errors.getFieldError('passwd').defaultMessage }</strong>
@@ -68,13 +68,13 @@ String ctx = request.getContextPath();
 
                                 <div class="form-group">
                                     <label for="con_pass">Confirm Password</label>
-                                    <input id="con_pass" type="text" class="text_field" placeholder="Confirm password" name="passwd2">
+                                    <input id="con_pass" type="password" class="text_field" placeholder="Confirm password" name="passwd2">
                                 </div>
 
-                                <button class="btn btn--md btn--round register_btn" type="submit">Register Now</button>
+                                <button class="btn btn--md btn--round register_btn" type="submit">회원가입</button>
 
                                 <div class="login_assist">
-                                    <p>Already have an account?
+                                    <p>계정이 이미 있으신가요?
                                         <a href="<c:url value='/auth/loginPage.do'/>">Login</a>
                                     </p>
                                 </div>
@@ -126,12 +126,14 @@ String ctx = request.getContextPath();
     
     let msg = '${msgObject.msg}'
     let code = '${msgObject.code}'
+    
+   	if(msg!=''){
+   		console.log(code)
+   		alert(msg)
+   	}
 
     window.onload = function(){
-	   	if(msg!=''){
-	   		console.log(code)
-	   		alert(msg)
-	   	}
+
     }
     
     </script>

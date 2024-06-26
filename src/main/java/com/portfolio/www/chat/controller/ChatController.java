@@ -6,10 +6,12 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.event.EventListener;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import com.portfolio.www.auth.dto.MemberDto;
 import com.portfolio.www.chat.dto.ChatDetailDto;
@@ -123,9 +126,9 @@ public class ChatController {
 		MemberDto member = chatService.getMember(chatForm.getMemberSeq());	
 		String memberNm = member.getMemberNm();
 		
-		if(chatForm.getMsgType() == ChatMessageEnum.ENTER) { //입장의 경우
+		if(chatForm.getMessageType() == ChatMessageEnum.ENTER) { //입장의 경우
 			chatForm.setMessage(member.getMemberNm() + "님이 채팅방에 들어왔습니다. 환영해주세요");
-		} else if (chatForm.getMsgType() == ChatMessageEnum.LEAVE) { //퇴장의 경우
+		} else if (chatForm.getMessageType() == ChatMessageEnum.LEAVE) { //퇴장의 경우
 			//chatDetail에 update
 			chatService.updateMemberStatus(chatForm);
 			chatForm.setMessage(member.getMemberNm() + "님이 퇴장하셨습니다");
@@ -137,6 +140,17 @@ public class ChatController {
 		}
 		
 		return chatForm;
+	}
+	
+	
+	//웹소켓 세션이 끊겼을 때
+	@EventListener
+	public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
+        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+        String sessionId = headerAccessor.getSessionId();
+
+        log.info("Session Disconnected: " + sessionId);
+		
 	}
 	
 	

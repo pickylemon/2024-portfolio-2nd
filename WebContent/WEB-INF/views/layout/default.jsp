@@ -34,7 +34,7 @@ String ctx = request.getContextPath();
     <!-- endinject -->
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<%=ctx%>/assest/template/images/favicon.png">    
+    <link rel="icon" type="image/png" sizes="16x16" href="<%=ctx%>/assest/template/images/lemon.png">    
 	<script type="text/javascript">
 		var ctx = '<%= request.getContextPath() %>';
 	</script>	

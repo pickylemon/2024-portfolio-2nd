@@ -79,6 +79,12 @@ String ctx = request.getContextPath();
 	    display: inline-block;
 	    padding: 0 8px;
     }
+    
+    
+    .cardify.forum--issue, forum--replays cardify {
+    	background: #fffbec;
+    
+    }
 </style>    
     
     
@@ -140,10 +146,10 @@ String ctx = request.getContextPath();
                             	<button class="btn btn--sm btn--round" id="modBtn" onclick="location.href='<c:url value='/forum/notice/${boardDto.boardTypeSeq }/${boardDto.boardSeq }/modifyPage.do'/>';">글 수정하기</button>
                             	<button class="btn btn--sm btn--round" id="delBtn" onclick="javascript:deletePage()">글 삭제하기</button>
 <%--                             	<button class="btn btn--sm btn--round" id="listBtn" onclick="location.href='<c:url value='/forum/notice/listPage.do?page=${ph.page }&size=${ph.size }&keyword=${ph.sc.keyword}&value=${ph.sc.value}'/>';">목록으로</button> --%>
-                            	<button class="btn btn--sm btn--round" id="listBtn" onclick="location.href='<c:url value='/forum/notice/listPage.do${ph.makeQueryString() }'/>';">목록으로</button>
 <%--                             	<a href="<c:url value='/forum/notice/${boardDto.boardTypeSeq }/${boardDto.boardSeq }/modifyPage.do'/>" id="modBtn" >글 수정하기</a><br> --%>
 <!--                             	<a href="#" id="delBtn" onclick="javascript:deletePage()">글 삭제하기</a><br> -->
                             </c:if>
+                            	<button class="btn btn--sm btn--round" id="listBtn" onclick="location.href='<c:url value='/forum/notice/listPage.do${ph.makeQueryString() }'/>';">목록으로</button>
                         </div>
                         <!-- end .forum_issue -->
 
@@ -237,7 +243,7 @@ String ctx = request.getContextPath();
                                 <div class="media comment-form support__comment">
                                     <div class="media-left">
                                         <a href="#">
-										<img class="media-object" src="<%=ctx%>/assest/template/images/m7.png" alt="Commentator Avatar">                                        
+										<img class="media-object" src="<%=ctx%>/assest/template/images/lemon.png" alt="Commentator Avatar" width="70px" height="70px">                                        
 										</a>
                                     </div>
 	                                   <div class="media-body">
@@ -260,7 +266,7 @@ String ctx = request.getContextPath();
                                 <div class="media comment-form support__comment">
                                     <div class="media-left">
                                         <a href="#">
-                                            <img class="media-object" src="<%=ctx%>/assest/template/images/m7.png"  alt="Commentator Avatar">
+                                            <img class="media-object" src="<%=ctx%>/assest/template/images/lemon.png"  alt="Commentator Avatar" width="70px" height="70px">
                                         </a>
                                     </div>
                                     <div class="media-body">

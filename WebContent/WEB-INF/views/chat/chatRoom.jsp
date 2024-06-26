@@ -18,7 +18,7 @@ String ctx = request.getContextPath();
     <meta name="description" content="MartPlace - Complete Online Multipurpose Marketplace HTML Template">
     <meta name="keywords" content="marketplace, easy digital download, digital product, digital, html5">
 
-    <title>포트폴리오</title>
+    <title>CHATROOM</title>
 
     <!-- inject:css -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -32,10 +32,11 @@ String ctx = request.getContextPath();
     <link rel="stylesheet" href="<%=ctx%>/assest/template/css/trumbowyg.min.css">
     <link rel="stylesheet" href="<%=ctx%>/assest/template/css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="<%=ctx%>/assest/template/css/style.css">
+    <script src="https://kit.fontawesome.com/99823c8069.js" crossorigin="anonymous"></script>
     <!-- endinject -->
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<%=ctx%>/assest/template/images/favicon.png">    
+    <link rel="icon" type="image/png" sizes="16x16" href="<%=ctx%>/assest/template/images/lemon.png">    
 	<script type="text/javascript">
 		var ctx = '<%= request.getContextPath() %>';
 	</script>	
@@ -44,6 +45,7 @@ String ctx = request.getContextPath();
 	html, body {
 		width: 100%;
 		height: 100%;
+		
 	}
 	
 	.contentContainer {
@@ -66,39 +68,84 @@ String ctx = request.getContextPath();
 	
 	}
 	header {
-		background-color: orange;
+		background-color: #ffe78d;
 /*         height: 100%; */
         height: 80%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
 	}
 	section {
 		background-color: white;
         height: 500%;
+        background: #fffbec;
 	}
 	aside {
-		background-color: green;
+	    padding: 40px 30px;
+		display: flex;
+		flex-direction: column;
+		background-color: #FFF2C0;
 		width: 100%;
+	}
+	
+	aside p {
+		font-size: 20px;
+	    line-height: 26px;
+	    margin: 15px;
+	    color: #333;
+	    font-weight: 600;
+	    padding-bottom: 12px;
+/* 	    padding: 15px 27px; */
+	}
+	
+	
+	aside ul li, .chatMsgs li  {
+		font-size: 16px;
+		line-height: 20px;
+		margin : 15px;
+	}
+	
+	.chatMsgs li.center {
+		color: #9FACE1;
+		font-weight: bold;
+	
 	}
 	
 	footer {
 		display: flex;
+/* 		width: 100%; */
 		flex-direction: row;
+		padding: 0 10px;
 		justify-content: space-around;
 		align-items: center;
-		background-color: purple;
+		background-color: #FFE8D8;
 		height: 70%;
 	}
 	
-	.chat-field, .chat-btn {
-		display: inline-block;
+	.chatRoomTitle {
+	    color: #9FACE1;
+	    font-weight: 500;
+	    font-size: 23px;
+	    font-weight: 600;
+/* 		text-align: center; */
 	}
-
-/* 	.chat-field { */
-/* 		width : 70%; */
+	
+/* 	.chat-field, .chat-btn { */
+/* 		display: inline-block; */
 /* 	} */
 	
-/* 	.chat-btn { */
-/* 		width: 20%; */
-/* 	} */
+ 	.chat-field { 
+ 		flex: 0 0 70%; 
+	
+ 	} 
+	
+ 	.chat-btn { 
+ 		flex: 0 0 10%; 
+ 		background: #9FACE1
+ 	} 
+
+ 	
 	</style>
 </head>
 <body>
@@ -106,8 +153,8 @@ String ctx = request.getContextPath();
 		<div class="contentBox">
 			<div class="innerBox">
 				<header>
-				<div>
-					<p>'${chatRoomDto.roomNm }'에 오신 것을 환영합니다.</p>
+				<div class="chatRoomTitle">
+					"${chatRoomDto.roomNm }"에 오신 것을 환영합니다.
 				</div>
 				</header>
 				<section>
@@ -120,8 +167,8 @@ String ctx = request.getContextPath();
 			</div>
 			<aside>
 			<p>채팅 멤버</p>
-			<ul>
-				<li>방장 : ${chatRoomDto.managerNm }</li>
+			<ul>						
+				<li> <i class="fas fa-solid fa-crown" style="color:#ffc900;"></i> ${chatRoomDto.managerNm }</li>
 				<c:forEach var="member" items="${memberList}">
 					<li> ${ member } </li>
 				</c:forEach>
@@ -130,7 +177,7 @@ String ctx = request.getContextPath();
 		</div>
 		<footer class="chat-form">
             <input type="text" class="text_field chat-field" id="chatMsg" name="value" style="width:70%;">
-            <button type="submit" class="search-btn btn--lg chat-btn" style="width:20%;" onclick="sendMsg()">전송</button>
+            <button type="submit" class="search-btn btn--sm chat-btn" style="width:120px;" onclick="sendMsg()">전송</button>
 		</footer>
 	</div>
 </body>
@@ -218,6 +265,9 @@ String ctx = request.getContextPath();
     function alignMsg(chatDto, direction){
     	const elem = document.createElement("li")
     	elem.innerHTML = chatDto.message
+    	if(direction == "center") {
+    		elem.classList.add("center");
+    	}
     	elem.style.textAlign = ""+direction
     	chatMsgs.appendChild(elem)
     }
