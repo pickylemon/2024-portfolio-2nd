@@ -17,24 +17,28 @@
 		WHERE chatroomSeq = #{chatroomSeq};
 	</select>
 	
+	
+	<!-- 이거랑 updateStatus랑 뭐가 달라? -->
     <insert id="update" parameterType="ChatDetailDto">
 		INSERT INTO forum.chat_detail
-		(chatroomSeq, memberSeq, chatStatus, regDtm)
-		VALUES(#{chatroomSeq}, #{memberSeq}, 'N', CURRENT_TIMESTAMP);
+		(chatroomSeq, memberSeq, chatStatus, message_type, regDtm)
+		VALUES(#{chatroomSeq}, #{memberSeq}, 'N', #{messageType}, CURRENT_TIMESTAMP);
 	</insert>
 	
 	
-	<select id="getMemberNmList" parameterType="int" resultType="String">
-		SELECT m.member_nm
+	<select id="getMemberIdList" parameterType="int" resultType="String">
+		SELECT m.member_id
 		FROM chat_detail cd1
-		JOIN (SELECT member_seq, MAX(reg_dtm) reg_dtm
+		JOIN (SELECT member_seq, chatroom_seq, MAX(reg_dtm) reg_dtm
 		      FROM chat_detail
-		      GROUP BY member_seq) cd2
+		      GROUP BY member_seq, chatroom_seq) cd2
 		ON cd1.member_seq = cd2.member_seq
 		AND cd1.reg_dtm = cd2.reg_dtm
+		AND cd1.chatroom_seq = cd2.chatroom_seq
 		JOIN member m
 		ON cd1.member_seq = m.member_seq
 		WHERE cd1.chat_status = 'Y'
+		and cd1.chatroom_seq = #{chatroomSeq}
 		
 <!-- 		SELECT member_seq -->
 <!-- 		FROM chat_detail -->
@@ -47,13 +51,14 @@
 	<select id="getMemberSeqList" parameterType="int" resultType="int">
 		SELECT cd1.member_seq
 		FROM chat_detail cd1
-		JOIN (SELECT member_seq, MAX(reg_dtm) reg_dtm
+		JOIN (SELECT member_seq, chatroom_seq, MAX(reg_dtm) reg_dtm
 		      FROM chat_detail
-		      GROUP BY member_seq) cd2
+		      GROUP BY member_seq, chatroom_seq ) cd2
 		ON cd1.member_seq = cd2.member_seq
 		AND cd1.reg_dtm = cd2.reg_dtm
+		AND cd1.chatroom_seq = cd2.chatroom_seq
 		WHERE cd1.chat_status = 'Y'
-		and chatroom_seq = #{chatroomSeq}
+		and cd1.chatroom_seq = #{chatroomSeq}
 		
 <!-- 		SELECT member_seq -->
 <!-- 		FROM chat_detail -->
@@ -64,13 +69,29 @@
 	</select>
 	
 	<insert id="updateStatus" parameterType="ChatForm">
-   		<selectKey resultType="int" keyProperty="messageSeq" order="AFTER">
-		SELECT LAST_INSERT_ID()
-		</selectKey>
+<!--    		<selectKey resultType="int" keyProperty="messageSeq" order="AFTER"> -->
+<!-- 		SELECT LAST_INSERT_ID() -->
+<!-- 		</selectKey> -->
 		INSERT INTO forum.chat_detail
-		(chatroom_seq, member_seq, chat_status, message, reg_dtm)
-		VALUES(#{chatroomSeq}, #{memberSeq}, 'N', CURRENT_TIMESTAMP);
+		(chatroom_seq, member_seq, chat_status, message_type, reg_dtm)
+		VALUES(#{chatroomSeq}, #{memberSeq}, 'N', #{messageType}, CURRENT_TIMESTAMP);
 	</insert>
+	
+	
+	<!-- 특정 member가 현재 접속해 있는 모든 채팅방 구하기 -->
+	<select id="getChatroomsByMemberSeq" parameterType="int" resultType="ChatForm">
+		SELECT cd1.*
+		FROM chat_detail cd1
+		JOIN (SELECT member_seq, chatroom_seq, MAX(reg_dtm) reg_dtm
+		      FROM chat_detail
+		      GROUP BY member_seq, chatroom_seq ) cd2
+		ON cd1.member_seq = cd2.member_seq
+		AND cd1.reg_dtm = cd2.reg_dtm
+		AND cd1.chatroom_seq = cd2.chatroom_seq
+		WHERE cd1.chat_status = 'Y'
+		and cd1.member_seq = #{memberSeq}
+	
+	</select>
 	
 	
 </mapper>

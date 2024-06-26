@@ -13,7 +13,14 @@ import lombok.NoArgsConstructor;
 public class ChatForm {
 	private Integer chatroomSeq;
 	private Integer memberSeq;
+	private String memberId;
 	private ChatMessageEnum messageType;
 	private String message;
+	
+	public ChatForm(Integer memberSeq, String memberId, ChatMessageEnum messageType) {
+		this.memberSeq = memberSeq;
+		this.memberId = memberId;
+		this.messageType = messageType;
+	}
 
 }

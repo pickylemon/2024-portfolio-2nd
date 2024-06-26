@@ -22,4 +22,5 @@ public interface ChatRepository {
 	
 	//채팅방 업데이트(멤버 in/out)
 	public int update(@Param("chatroomSeq") Integer chatroomSeq);
+
 }

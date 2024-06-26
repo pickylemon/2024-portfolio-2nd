@@ -11,6 +11,7 @@ import com.portfolio.www.auth.repository.MemberRepository;
 import com.portfolio.www.chat.dto.ChatDetailDto;
 import com.portfolio.www.chat.dto.ChatForm;
 import com.portfolio.www.chat.dto.ChatRoomDto;
+import com.portfolio.www.chat.message.ChatMessageEnum;
 import com.portfolio.www.chat.repository.ChatDetailRepository;
 import com.portfolio.www.chat.repository.ChatRepository;
 
@@ -49,7 +50,7 @@ public class ChatService {
 	
 	//해당 채팅방의 현재 참여 멤버 구하기
 	public List<String> getMemberList(Integer chatroomSeq) {
-		return chatDetailRepository.getMemberNmList(chatroomSeq);
+		return chatDetailRepository.getMemberIdList(chatroomSeq);
 	}
 	
 	//이미 채팅에 참여중인 멤버인지
@@ -73,8 +74,22 @@ public class ChatService {
 		return chatDetailRepository.updateStatus(chatDto);
 	}
 	
+	public void updateMemberStatus(Integer memberSeq) {
+		List<ChatForm> chatrooms = chatDetailRepository.getChatroomsByMemberSeq(memberSeq);
+		log.info("현재 참여중인 채팅방 목록 : " + chatrooms);
+		for(ChatForm form : chatrooms) {
+			form.setMessageType(ChatMessageEnum.LEAVE);
+			chatDetailRepository.updateStatus(form);
+		}
+	}
+	
+	
+	
+	
 	//채팅 메시지 저장
 	public int saveMsg(ChatDetailDto chatDetailDto) {
 		return chatDetailRepository.save(chatDetailDto);
 	}
+	
+
 }
