@@ -45,69 +45,6 @@ String ctx = request.getContextPath();
                                             <span class="notification_count purch">2</span>
                                         </div>
 
-<!--                                         <div class="dropdowns dropdown--cart"> -->
-<!--                                             <div class="cart_area"> -->
-<!--                                                 <div class="cart_product"> -->
-<!--                                                     <div class="product__info"> -->
-<!--                                                         <div class="thumbn"> -->
-<%--                                                             <img src="<c:url value='/assest/template/images/capro1.jpg'/>" alt="cart product thumbnail" /> --%>
-<!--                                                         </div> -->
-
-<!--                                                         <div class="info"> -->
-<!--                                                             <a class="title" href="single-product.html">Finance and -->
-<!--                                                                 Consulting Business Theme</a> -->
-<!--                                                             <div class="cat"> -->
-<!--                                                                 <a href="#"> -->
-<%--                                                                     <img src="<c:url value='/assest/template/images/catword.png'/>" alt="" />Wordpress --%>
-<!--                                                                 </a> -->
-<!--                                                             </div> -->
-<!--                                                         </div> -->
-<!--                                                     </div> -->
-
-<!--                                                     <div class="product__action"> -->
-<!--                                                         <a href="#"> -->
-<!--                                                             <span class="lnr lnr-trash"></span> -->
-<!--                                                         </a> -->
-<!--                                                         <p>$60</p> -->
-<!--                                                     </div> -->
-<!--                                                 </div> -->
-<!--                                                 <div class="cart_product"> -->
-<!--                                                     <div class="product__info"> -->
-<!--                                                         <div class="thumbn"> -->
-<%--                                                             <img src="<c:url value='/assest/template/images/capro2.jpg'/>" alt="cart product thumbnail" /> --%>
-<!--                                                         </div> -->
-
-<!--                                                         <div class="info"> -->
-<!--                                                             <a class="title" href="single-product.html">Flounce - -->
-<!--                                                                 Multipurpose OpenCart Theme</a> -->
-<!--                                                             <div class="cat"> -->
-<!--                                                                 <a href="#"> -->
-<%--                                                                     <img src="<c:url value='/assest/template/images/catword.png'/>" alt="" />Wordpress --%>
-<!--                                                                 </a> -->
-<!--                                                             </div> -->
-<!--                                                         </div> -->
-<!--                                                     </div> -->
-
-<!--                                                     <div class="product__action"> -->
-<!--                                                         <a href="#"> -->
-<!--                                                             <span class="lnr lnr-trash"></span> -->
-<!--                                                         </a> -->
-<!--                                                         <p>$60</p> -->
-<!--                                                     </div> -->
-<!--                                                 </div> -->
-<!--                                                 <div class="total"> -->
-<!--                                                     <p> -->
-<!--                                                         <span>Total :</span>$80</p> -->
-<!--                                                 </div> -->
-<!--                                                 <div class="cart_action"> -->
-<!--                                                     <a class="go_cart" href="cart.html">View Cart</a> -->
-<!--                                                     <a class="go_checkout" href="checkout.html">Checkout</a> -->
-<!--                                                 </div> -->
-<!--                                             </div> -->
-<!--                                              end of cart area -->
-<!--                                         </div> -->
-<!--                                          end of drop down -->
-                                        
                                     </li>
                                 </ul>
                             </div>
@@ -183,12 +120,12 @@ String ctx = request.getContextPath();
                                                 <li>
                                                     <a href="<c:url value='/forum/notice/listPage.do'/>">공지사항</a>
                                                 </li>
-                                                <li>
-                                                    <a href="javascript:void(0)">레시피</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0)">자유게시판</a>
-                                                </li>
+<!--                                                 <li> -->
+<!--                                                     <a href="javascript:void(0)">레시피</a> -->
+<!--                                                 </li> -->
+<!--                                                 <li> -->
+<!--                                                     <a href="javascript:void(0)">자유게시판</a> -->
+<!--                                                 </li> -->
                                             </ul>
                                         </div>
                                     </li>
@@ -196,9 +133,9 @@ String ctx = request.getContextPath();
                                     <li>
                                         <a href="<c:url value='/chatRoomList.do'/>">CHATROOM</a>
                                     </li>
-                                    <li>
-                                        <a href="<c:url value='/chatRoomList.do'/>">ALBUM</a>
-                                    </li>
+<!--                                     <li> -->
+<%--                                         <a href="<c:url value='/chatRoomList.do'/>">ALBUM</a> --%>
+<!--                                     </li> -->
                                 </ul>
                             </div>
                             <!-- /.navbar-collapse -->

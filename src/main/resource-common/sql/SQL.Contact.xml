@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.portfolio.www.contact.repository.ContactRepository">
+    <insert id="save" parameterType="ContactDto">
+		INSERT INTO forum.contact
+		(contact_nm, contact_email, contact_msg, reg_dtm)
+		VALUES(#{contactNm}, #{contactEmail}, #{contactMsg}, CURRENT_TIMESTAMP);
+	</insert>
+
+	
+	<select id="getAll" resultType="ContactDto">
+		SELECT * FROM forum.contact
+	</select>
+	
+</mapper>

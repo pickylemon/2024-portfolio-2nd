@@ -198,7 +198,7 @@ String ctx = request.getContextPath();
 	                                    <!-- 대댓글의 경우(lvl이 0이 아님) 대댓글 마크 표현 -->
 	                                    <div class="contentBtn">
 	                                    	<p> 
-	                                    		<div>[self : ${comment.commentSeq}] [parent : ${comment.parentCommentSeq}]</div>
+<%-- 	                                    		<div>[self : ${comment.commentSeq}] [parent : ${comment.parentCommentSeq}]</div> --%>
 	                                    		<div class="commentContent">
 	                                    		<c:if test="${comment.mentionMemberNm ne null && comment.deleteDtm eq null}">
 	                                    			<span class="mention">@${comment.mentionMemberNm}</span>
@@ -340,7 +340,7 @@ String ctx = request.getContextPath();
 	    
     //게시글에 대한 좋아요/싫어요 투표
     function thumbClick(boardSeq, boardTypeSeq, elem) {
-    	alert('clicked!');
+//     	alert('clicked!');
     	
 //     	let voteDiv = elem.closest('div.vote');
     	let voteDiv = elem.closest('div.cardify');
@@ -601,7 +601,7 @@ String ctx = request.getContextPath();
     
   //각각 댓글에 대한 좋아요 싫어요
     function replyThumbClick(commentSeq, elem) {
-    	alert('clicked!');
+//     	alert('clicked!');
 //     	let replyDiv = elem.closest('div.reply.vote');
     	let replyDiv = elem.closest('div.forum_single_reply');
     	console.log(replyDiv)

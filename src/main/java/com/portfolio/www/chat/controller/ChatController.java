@@ -27,7 +27,6 @@ import com.portfolio.www.chat.dto.ChatDetailDto;
 import com.portfolio.www.chat.dto.ChatForm;
 import com.portfolio.www.chat.dto.ChatRoomDto;
 import com.portfolio.www.chat.message.ChatMessageEnum;
-import com.portfolio.www.chat.repository.ChatDetailRepository;
 import com.portfolio.www.chat.service.ChatService;
 
 import lombok.RequiredArgsConstructor;
@@ -38,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class ChatController {
 	private final ChatService chatService;	
-	private final ChatDetailRepository chatDetailRepository;
+
 	
 	
 	
@@ -128,10 +127,8 @@ public class ChatController {
 	@MessageMapping("/groupchat/{chatroomSeq}") //
 	@SendTo("/topic/message/{chatroomSeq}") //MessageBroker
 	public ChatForm message(@DestinationVariable("chatroomSeq") Integer chatroomSeq, 
-							ChatForm chatForm, StompHeaderAccessor headerAccessor) {
+																	ChatForm chatForm) {
 		
-		headerAccessor.addNativeHeader("memberSeq", ""+chatForm.getMemberSeq());
-		log.info("\n\n headerAccessor={}",headerAccessor);	
 		log.info(">>>>>chatDto={}", chatForm);
 		
 		MemberDto member = chatService.getMember(chatForm.getMemberSeq());	
@@ -181,7 +178,7 @@ public class ChatController {
 	
 	//웹소켓 세션이 끊겼을 때
 	@EventListener
-	public ChatForm handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
+	public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
 
         String sessionId = headerAccessor.getSessionId();
@@ -193,11 +190,6 @@ public class ChatController {
         
         //DB에 Session이 끊긴 유저는 LEAVE로 업데이트 해주기(다음번에 재접속이 가능하도록)
 		chatService.updateMemberStatus(Integer.parseInt(memberSeq));
-		MemberDto member = chatService.getMember(Integer.parseInt(memberSeq));
-		ChatForm chatForm = new ChatForm(member.getMemberSeq(), member.getMemberId(), ChatMessageEnum.LEAVE);
-		chatForm.setMessage(member.getMemberId() + "님이 퇴장하셨습니다");
-		
-		return chatForm;
 	}
 	
 	

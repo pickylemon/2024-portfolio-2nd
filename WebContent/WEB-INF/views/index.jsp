@@ -27,13 +27,21 @@ String ctx = request.getContextPath();
           	<div class="feature">
               <img src="<c:url value='/assest/template/images/lemon.png'/>" width="50px" height="50px"/>
               <div class="feature__title">
-                  <h3>Best UX Research</h3>
+                  <h3 style="font-weight: 600;">About This Portfolio</h3>
               </div>
-              <div class="feature__desc">
-                  <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis,
-                      leo quam aliquet diam congue is laoreet elit metus.</p>
+              <div class="feature__desc" style="text-align:left;">
+                  <p><span style="font-weight: 600; padding-top: 30px;"> 💡 목표 </span> 
+                  : 웹 페이지의 기본 기능을 전체적으로 스스로 구현해보고 AWS를 활용해 직접 배포하기</p>
+                  <p><span style="font-weight: 600;"> 💡 기능 요약 </span><p>
+                  <div style="padding-left: 30px;">
+					  <p>1. 회원가입 및 로그인, 비밀번호 찾기</p>
+					  <p>2. 게시판 CRUD, 댓글, 좋아요/싫어요</p> 
+					  <p>3. 파일 첨부 및 다운로드</p>
+					  <p>4. WebSocket을 활용한 댓글 알림</p>
+					  <p>5. STOMP를 활용한 채팅방 구현</p>
+                  </div>
               </div>
-              <a href="javascript:void(0)" class="swiper-btn">자세히 보기</a>
+              <a href="https://pacific-soil-139.notion.site/1d2d062cb6ed41d0a3e0efc66cab4cbf?pvs=4" target="_blank" class="swiper-btn">자세히 보기</a>
           	</div>
           </div>
           
@@ -41,13 +49,24 @@ String ctx = request.getContextPath();
           	<div class="feature">
               <img src="<c:url value='/assest/template/images/lemon.png'/>" width="50px" height="50px"/>
               <div class="feature__title">
-                  <h3>Best UX Research</h3>
+                  <h3 style="font-weight: 600;">ABOUT ME</h3>
               </div>
-              <div class="feature__desc">
-                  <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis,
-                      leo quam aliquet diam congue is laoreet elit metus.</p>
+              <div class="feature__desc" style="text-align:left;">
+                  <h5 style="font-weight: 600;text-align:center;"> 💻 집중력과 꼼꼼함을 갖춘 신입 BackEnd개발자 박문주입니다. </h5>
+<!--                   <p><span style="font-weight: 600;"> 💡 SKILL </span><p> -->
+                  <div style="padding-top: 30px;">
+                  <p>  안녕하세요! 저는 몰입과 꼼꼼함, 빠른 이해력을 바탕으로 문제 해결력을 발휘하는 열정적인 신입 개발자 박문주입니다.
+				  <br>&nbsp;&nbsp;새로운 지식을 탐구하는 것을 좋아해 생명과학 대학원에 진학했으나, 스스로 직접 무언가를 만드는 일에 희열을 느끼는 성향임을 깨닫고 
+				  제과 학교에 진학 후 파티셰로서 일을 하던 중 우연히 프로그래밍의 매력에 빠지게 되어 개발자의 길을 선택하게 되었습니다. 
+ 				  <br>&nbsp;&nbsp; 크라우드 펀딩을 주제로 한 팀 프로젝트와, 회원가입 및 로그인/게시판/채팅 등의 기능을 구현한 개인 프로젝트를 진행한 경험이 있습니다.
+				  <br>&nbsp;&nbsp; 주변으로 받은 도움을 잊지 않고 연차가 쌓일수록 의미있는 지식과 경험을 주변에 나눌 수 있는 개발자가 되고 싶습니다. </p>
+<!-- 					  <p>Backend : SpringFramework, SpringBoot, Java, JSP</p> -->
+<!-- 					  <p>Frontend : HTML, CSS, Javascript, JQuery</p>  -->
+<!-- 					  <p>Database : MySQL, Oracle</p> -->
+<!-- 					  <p>Else : Git, Github, AWS, Nginx, MobaXterm</p> -->
+                  </div>
               </div>
-              <a href="javascript:void(0)" class="swiper-btn">자세히 보기</a>
+              <a href="<c:url value='/aboutMe.do'/>" class="swiper-btn">자세히 보기</a>
           	</div>
           </div>
           
@@ -55,13 +74,25 @@ String ctx = request.getContextPath();
           	<div class="feature">
               <img src="<c:url value='/assest/template/images/lemon.png'/>" width="50px" height="50px"/>
               <div class="feature__title">
-                  <h3>Best UX Research</h3>
+                  <h3 style="font-weight: 600;">TroubleShooting 1</h3>
               </div>
-              <div class="feature__desc">
-                  <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis,
-                      leo quam aliquet diam congue is laoreet elit metus.</p>
+              <div class="feature__desc" style="text-align:left;">
+                  <h5 style="font-weight: 600;text-align:center;"> zip파일로 전체 파일 다운로드 구현시 원본 파일 이름을 유지하기 </h5>
+                  <p style="padding-top: 30px;"><span style="font-weight: 600;"> 🚨 문제 상황 </span></p>
+                  <div style="padding-left: 30px;">
+					  <p>- 게시글에 첨부된 파일이 2개 이상일 경우, zip 파일로 한번에 다운 받는 옵션이 있다.
+					  <br>- 기존 zip파일을 만드는 메서드에서는 File타입의 List를 인자로 받고 있기 때문에,
+					  <br> 유저가 zip파일을 다운로드 받아서 압축을 해제시, 업로드시의 원본 파일명을 얻을 수 없다.</p>
+                  </div>
+                  <p><span style="font-weight: 600;"> 💡 해결 </span><p>
+                  <div style="padding-left: 30px;">
+					  <p>- File 클래스를 상속받는 CustomFile 클래스를 정의하고 orgFileNm을 필드에 추가했다.
+					  <br>- zip파일을 만드는 메서드에서 CustomFile 타입의 List를 인자로 받아
+					  <br>- 유저가 zip파일 압축 해제시, 원본 파일명으로 파일을 얻을 수 있게 개선했다.</p>
+                  </div>
+
               </div>
-			  <a href="javascript:void(0)" class="swiper-btn">자세히 보기</a>
+              <a href="https://pacific-soil-139.notion.site/1d2d062cb6ed41d0a3e0efc66cab4cbf?pvs=97#2d2a43726add44529b10c3a0f1189c6f" target="_blank" class="swiper-btn">자세히 보기</a>
           	</div>
           </div>
           
@@ -69,13 +100,25 @@ String ctx = request.getContextPath();
           	<div class="feature">
               <img src="<c:url value='/assest/template/images/lemon.png'/>" width="50px" height="50px"/>
               <div class="feature__title">
-                  <h3>Best UX Research</h3>
+                  <h3 style="font-weight: 600;">TroubleShooting 2</h3>
               </div>
-              <div class="feature__desc">
-                  <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis,
-                      leo quam aliquet diam congue is laoreet elit metus.</p>
+              <div class="feature__desc" style="text-align:left;">
+                  <h5 style="font-weight: 600;text-align:center;"> 민감한 설정파일 암호화하기 </h5>
+                  <p style="padding-top: 30px;"><span style="font-weight: 600;"> 🚨 문제 상황 </span></p>
+                  <div style="padding-left: 30px;">
+					  <p>- DB나 JavaMailSender 관련 설정들은 개인정보가 코드에 그대로 노출되게 된다.
+					  <br>- .gitignore로 해당 파일들을 깃으로 관리하지 않을 수 있지만, war파일 배포시 해당 파일들의 정보가 필요한 경우도 있으므로 단순히 설정 파일을 올리지 않는 것이 해결책이 될 수가 없었다.</p>
+                  </div>
+  
+                  <p><span style="font-weight: 600;"> 💡 해결 </span><p>
+                  <div style="padding-left: 30px;">
+					  <p>- Jasypt 라이브러리를 이용하여 설정 정보를 암호화했다.
+					  <br>- 민감한 정보들을 암호화함으로써 파일이 노출되어도 안전을 보장받을 수 있다.
+					  <br>- 암호화 key를 환경변수로 직접 등록하는 방식을 택함으로써, key를 노출시키지 않을 수 있다.</p>
+                  </div>
+
               </div>
-              <a href="javascript:void(0)" class="swiper-btn">자세히 보기</a>
+              <a href="https://velog.io/@melodie104/Jasypt를-이용한-설정-정보-암호화" target="_blank" class="swiper-btn">자세히 보기</a>
           	</div>
           </div>
           
@@ -83,15 +126,23 @@ String ctx = request.getContextPath();
           	<div class="feature">
               <img src="<c:url value='/assest/template/images/lemon.png'/>" width="50px" height="50px"/>
               <div class="feature__title">
-                  <h3>Best UX Research</h3>
+                  <h3 style="font-weight: 600;">TroubleShooting 3</h3>
               </div>
-              <div class="feature__desc">
-                  <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis,
-                      leo quam aliquet diam congue is laoreet elit metus.</p>
+              <div class="feature__desc" style="text-align:left;">
+                  <h5 style="font-weight: 600;text-align:center;"> EC2환경에서 WebSocket Connection Error 해결하기 </h5>
+                  <p style="padding-top: 30px;"><span style="font-weight: 600;"> 🚨 문제 상황 </span></p>
+                  <div style="padding-left: 30px;">
+					  <p>- 로컬 환경에서는 잘 생성되던 WebSocket Connection이 war파일을 원격 서버에 올리자 연결되지 않는 현상이 발생했다.
+                  </div>
+                  <p><span style="font-weight: 600;"> 💡 해결 </span><p>
+                  <div style="padding-left: 30px;">
+					  <p>- upgrade 헤더는 proxy server로 전달되지 않으니 프록시 설정에 직접 upgrade 관련된 헤더를 명시해줌으로써 해결이 가능했다.
+					  <br>- 프록시를 설정한 pf.conf 파일에 직접 upgrade 관련 헤더를 명시해주었더니 원격 환경에서도 로컬에서와 같이 WebSocket연결이 성공적으로 이루어짐을 확인할 수 있었다.</p>
+                  </div>
+
               </div>
-              <a href="javascript:void(0)" class="swiper-btn">자세히 보기</a>
-          	</div>
-            
+              <a href="https://velog.io/@melodie104/EC2-환경에서-WebSocket-Connection-Error-해결" target="_blank" class="swiper-btn">자세히 보기</a>
+          	</div>        
           </div>
         
         </div>
@@ -108,69 +159,7 @@ String ctx = request.getContextPath();
       </div>
       
     </div>
-    <!-- promotion end -->
-    
-        <!-- start container -->
-<!--         <div class="container"> -->
-<!--             start row -->
-<!--             <div class="row"> -->
-<!--                 start search-area -->
-<!--                 <div class="col-lg-4 col-md-6"> -->
-<!--                     <div class="feature"> -->
-<!--                         <div class="feature__img"> -->
-<%--                             <img src="<c:url value='/assest/template/images/feature1.png'/>" alt="feature" /> --%>
-<!--                         </div> -->
-<!--                         <div class="feature__title"> -->
-<!--                             <h3>Best UX Research</h3> -->
-<!--                         </div> -->
-<!--                         <div class="feature__desc"> -->
-<!--                             <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis, -->
-<!--                                 leo quam aliquet diam congue is laoreet elit metus.</p> -->
-<!--                         </div> -->
-<!--                     </div> -->
-<!--                     end /.feature -->
-<!--                 </div> -->
-<!--                 end /.col-lg-4 col-md-6 -->
 
-<!--                 start search-area -->
-<!--                 <div class="col-lg-4 col-md-6"> -->
-<!--                     <div class="feature"> -->
-<!--                         <div class="feature__img"> -->
-<%--                             <img src="<c:url value='/assest/template/images/feature2.png'/>" alt="feature" /> --%>
-<!--                         </div> -->
-<!--                         <div class="feature__title"> -->
-<!--                             <h3>Fully Responsive</h3> -->
-<!--                         </div> -->
-<!--                         <div class="feature__desc"> -->
-<!--                             <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis, -->
-<!--                                 leo quam aliquet diam congue is laoreet elit metus.</p> -->
-<!--                         </div> -->
-<!--                     </div> -->
-<!--                     end /.feature -->
-<!--                 </div> -->
-<!--                 end /.col-lg-4 col-md-6 -->
-
-<!--                 start search-area -->
-<!--                 <div class="col-lg-4 col-md-6"> -->
-<!--                     <div class="feature"> -->
-<!--                         <div class="feature__img">                         -->
-<%--                             <img src="<c:url value='/assest/template/images/feature3.png'/>" alt="feature" /> --%>
-<!--                         </div> -->
-<!--                         <div class="feature__title"> -->
-<!--                             <h3>Buy & Sell Easily</h3> -->
-<!--                         </div> -->
-<!--                         <div class="feature__desc"> -->
-<!--                             <p>Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut scelerisque the mattis, -->
-<!--                                 leo quam aliquet diam congue is laoreet elit metus.</p> -->
-<!--                         </div> -->
-<!--                     </div> -->
-<!--                     end /.feature -->
-<!--                 </div> -->
-<!--                 end /.col-lg-4 col-md-6 -->
-<!--             </div> -->
-<!--             end /.row -->
-<!--         </div> -->
-<!--         end /.container -->
         
    <!-- Modals -->
     <div class="modal fade remail" id="myModal1">

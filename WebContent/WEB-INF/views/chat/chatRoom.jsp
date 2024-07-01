@@ -346,13 +346,8 @@ String ctx = request.getContextPath();
     	
     	sockStomp.send("/chat/groupchat/"+chatroomSeq, {}, JSON.stringify(chatForm))
     	sockStomp.ws.close()
-    	
     }
     	
-    
-    
-    
-
     </script>
 </html>
 
