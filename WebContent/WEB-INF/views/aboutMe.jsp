@@ -124,7 +124,7 @@ p.skill {
                     <p>&emsp;부트캠프 당시 크라우드 펀딩을 주제로한 팀 프로젝트를 진행하였고, 데이터 모델링부터 HTML, CSS를 통한 템플릿을 제작, 백엔드 로직까지 
                     웹개발의 모든 파트를 직접 구현한 경험이 있습니다.
                     또한 지난 3월 부트캠프 수료 후 스프링, JPA 스터디에 참여해 스프링의 기본 원리를 다시 복습하고, ORM 기술을 체계적으로 학습했습니다.
-                    아울러 개인 프로젝트로 해당 사이트를 만들어 어떠어떠한 기능을 구현하였고, AWS EC2, RDS와 Nginx를 웹서버로 활용해 배포함으로써 웹 개발에 대해 더 깊은 이해할 수 있었습니다.</p>
+                    아울러 개인 프로젝트로 해당 사이트를 만들어 로그인, 회원가입, 게시판, 파일 업/다운로드, 채팅 등의 기능을 구현하였고, AWS EC2, RDS와 Nginx를 웹서버로 활용해 배포함으로써 웹 개발에 대해 더 깊은 이해할 수 있었습니다.</p>
                     
                     <p>&emsp;개발 공부를 시작할 때 많은 분들의 도움을 받았기에, 그 감사함을 잊지 않고 연차가 쌓일수록 의미있는 지식과 경험을 주변에 도움이 되는 개발자가 되고 싶습니다. 
                     업무에 대해 같이 고민하고 협력할 수 있는 동료, 믿을 수 있고 함께 일 하고 싶은 구성원이 되고 싶고, 동료들과 더불어 성장하는 개발자가 되고 싶습니다.</p>
@@ -333,7 +333,7 @@ p.skill {
 	                         </ul>
                      </div>
                      <div class="btn-pj">
-					 	<a href="https://www.notion.so/Fundly-52bc32bc991b46a789760a5b952df59f?pvs=4" target="_blank" class="btn btn--icon btn-sm btn--round btn-info"> MORE </a>                     
+					 	<a href="https://pacific-soil-139.notion.site/Fundly-52bc32bc991b46a789760a5b952df59f" target="_blank" class="btn btn--icon btn-sm btn--round btn-info"> MORE </a>                     
                      </div>
                  </div>
                  
@@ -357,7 +357,7 @@ p.skill {
 	                         </ul>
                      </div>
                      <div class="btn-pj">
-					 	<a href="https://www.notion.so/1d2d062cb6ed41d0a3e0efc66cab4cbf?pvs=4" target="_blank" class="btn btn--icon btn-sm btn--round btn-info"> MORE </a>                     
+					 	<a href="https://pacific-soil-139.notion.site/1d2d062cb6ed41d0a3e0efc66cab4cbf?pvs=4" target="_blank" class="btn btn--icon btn-sm btn--round btn-info"> MORE </a>                     
                      </div>
                      </div>
                  </div>

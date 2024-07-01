@@ -144,6 +144,10 @@ String ctx = request.getContextPath();
  		flex: 0 0 10%; 
  		background: #9FACE1
  	} 
+ 	
+ 	.fa-crown {
+ 		padding-right: 10px;
+ 	}
 
  	
 	</style>
@@ -167,10 +171,10 @@ String ctx = request.getContextPath();
 			</div>
 			<aside>
 			<p>채팅 멤버</p>
-			<ul>						
-				<li> <i class="fas fa-solid fa-crown" style="color:#ffc900;"></i> ${chatRoomDto.managerNm }</li>
+			<ul class="chatMemberList">						
+				<li> <i class="fas fa-solid fa-crown" style="color:#ffc900;"></i><span>${chatRoomDto.managerId }</span></li>
 				<c:forEach var="member" items="${memberList}">
-					<li> ${ member } </li>
+					<li><span> ${ member }</span> </li>
 				</c:forEach>
 			</ul>
 			</aside>
@@ -191,49 +195,77 @@ String ctx = request.getContextPath();
     let memberSeq = ${sessionScope.memberSeq}
     let chatMsgs = document.querySelector('ul.chatMsgs')
     let sockStomp = null;
+
+    
     
     window.onload = function(){
     	connectStomp()
+    	
+    	console.log("scokStomp")
+    	console.log(sockStomp)
+
     }
+    
+
 
     function connectStomp(){
     	
        	let sock = new SockJS("/pf/stomp")
        	let stompClient = Stomp.over(sock)
+       	
 
     	sockStomp = stompClient
-
-    	stompClient.connect({}, function(frame){
+    	
+    	let headers = {
+       		memberSeq : memberSeq
+       	}
+    	stompClient.connect(headers, function(frame){
     		console.log('Connected : ' + frame)
     		
     		let newMember = {
     			chatroomSeq: chatroomSeq,
     			memberSeq: memberSeq,
-    			msgType: "ENTER"
+    			messageType: "ENTER"
     		}
     		
-	   		stompClient.send("/chat/groupchat/"+chatroomSeq, {}, JSON.stringify(newMember))
-	   				
+	   		stompClient.send("/chat/groupchat/"+chatroomSeq, headers, JSON.stringify(newMember))
+	   		
 	   		stompClient.subscribe("/topic/message/"+chatroomSeq, function(response) {
+
 	   			console.log("event sent from server", response)
 	   			
-	   			let chatDto = JSON.parse(response.body)
-	   			renderMessage(chatDto)
-	   			console.log(chatDto)
-	   			console.log("msg="+ chatDto.msg)
+	   			let chatForm = JSON.parse(response.body)
+	   			
+
+	   			if(chatForm.messageType == 'ENTER') {
+		   			//새 멤버가 들어오면 목록에 추가하고
+	   				addMemberList(chatForm.memberId)	   				
+	   			} else if(chatForm.messageType == 'LEAVE') {
+		   			//나간 멤버가 있다면 리스트에서 제외하기
+		   			removeMemberList(chatForm.memberId)
+	   			}
+   			
+	   			//받은 메시지를 렌더링
+	   			renderMessage(chatForm)
+	   			console.log(chatForm)
+	   			console.log("message="+ chatForm.message)
 	   		})
     	})
+    	
+    	//sockStomp.ws.close = leaveChatRoom
+    	window.addEventListener('beforeunload', leaveChatRoom);
     }
     
     function sendMsg(){
     	let msgInput = document.querySelector("#chatMsg");
-    	let chatDto = {
+    	let chatForm = {
     			chatroomSeq: chatroomSeq,
     			memberSeq: memberSeq,
-    			msgType: "CHAT",
+    			messageType: "CHAT",
     			message: msgInput.value
     	}   	
-    	sockStomp.send("/chat/groupchat/"+chatroomSeq, {}, JSON.stringify(chatDto))
+    	sockStomp.send("/chat/groupchat/"+chatroomSeq, {}, JSON.stringify(chatForm))
+//     	sockStomp.send("/chat/groupchat", {}, JSON.stringify(chatForm))
     	
     	//메시지를 보낸 후 다시 초기화하기
     	msgInput.value=''
@@ -242,35 +274,80 @@ String ctx = request.getContextPath();
     
     
 
-    function renderMessage(chatDto){
+    function renderMessage(chatForm){
     	
+    	let message = chatForm.message
+    	console.log("message=" + message)
     	
-    	if(chatDto.msgType == "ENTER" || chatDto.msgType == "LEAVE") {
+    	if(chatForm.messageType == "ENTER" || chatForm.messageType == "LEAVE") {
     		//채팅방 중앙에 메시지를 뿌린다.
-    		alignMsg(chatDto, "center")
+    		alignMsg(message, "center")
     		return
     	}
     	
-    	
     	//'나'인지 타인인지 구분해서 화면에 렌더링하기.
-    	if(chatDto.memberSeq == memberSeq) {
+    	if(chatForm.memberSeq == memberSeq) {
     		//내가 보낸 메시지면 오른쪽에 렌더링
-    		alignMsg(chatDto, "right")
+    		alignMsg(message, "right")
     	} else {
     		//타인이 보낸 메시지면 왼쪽에 렌더링
-    		alignMsg(chatDto, "left")
+    		message = chatForm.memberId + " : " + message
+    		console.log("타인의 메시지 : " + message)
+    		alignMsg(message, "left")
     	}
     }
     
-    function alignMsg(chatDto, direction){
+    function alignMsg(message, direction){
     	const elem = document.createElement("li")
-    	elem.innerHTML = chatDto.message
+    	elem.innerHTML = message
     	if(direction == "center") {
     		elem.classList.add("center");
     	}
+    	
     	elem.style.textAlign = ""+direction
     	chatMsgs.appendChild(elem)
     }
+    
+    //새로 채팅방에 들어온 멤버를 추가하기
+    function addMemberList(memberId) {
+    	let chatMembers = document.querySelectorAll('ul.chatMemberList > li > span')
+    	let memberArr = []
+    	chatMembers.forEach(el => memberArr.push(el.innerText))
+    	
+    	if(!memberArr.includes(memberId)) {
+            let chatMemberList = document.querySelector('ul.chatMemberList')
+        	let newMemberLi = document.createElement("li");
+            let newMemberSpan = document.createElement("span");
+            newMemberSpan.innerText = memberId
+        	newMemberLi.appendChild(newMemberSpan)
+        	chatMemberList.appendChild(newMemberLi)
+    	}
+    }
+    
+    function removeMemberList(memberId) {
+    	let chatMembers = document.querySelectorAll('ul.chatMemberList > li')
+    	for(member of chatMembers) {
+    		if(member.querySelector('span').innerText == memberId) {
+    			member.remove()
+    		}
+    	}
+    	
+    }
+    
+    function leaveChatRoom(event) {
+
+    	console.log("leave event")
+    	console.log(event)
+    	let chatForm = {
+    			chatroomSeq: chatroomSeq,
+    			memberSeq: memberSeq,
+    			messageType: "LEAVE",
+    	}   
+    	
+    	sockStomp.send("/chat/groupchat/"+chatroomSeq, {}, JSON.stringify(chatForm))
+    	sockStomp.ws.close()
+    }
+    	
     </script>
 </html>
 

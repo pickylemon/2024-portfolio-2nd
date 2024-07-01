@@ -119,7 +119,7 @@ public class LoginController {
 	
 	@GetMapping("/checkIdAndEmail.do")
 	public String enterIdPage() {
-		return "/auth/checkIdAndEmail";
+		return "auth/checkIdAndEmail";
 	}
 	
 	@PostMapping("/checkIdAndEmail.do")
@@ -156,7 +156,7 @@ public class LoginController {
 		//유저 입력값을 다시 form으로 전달하며 메시지도 같이 전달
 		model.addAttribute("memberId", memberId);
 		model.addAttribute("email",email);
-		return "/auth/checkIdAndEmail";
+		return "auth/checkIdAndEmail";
 	}
 	
 	@GetMapping("/resetPasswd.do")
@@ -167,7 +167,7 @@ public class LoginController {
 		log.info("authDto={}", dto);
 		if(dto != null) {
 			model.addAttribute("dto", dto);
-			return "/auth/resetPasswd";
+			return "auth/resetPasswd";
 		} else {
 			return "redirect:/index.do"; //TODO 잘못된 접근 404페이지로 수정하기
 		}
@@ -181,7 +181,7 @@ public class LoginController {
 		if(result.hasErrors()) {
 			result.getAllErrors().forEach(System.out::println);
 			model.addAttribute("memberSeq", memberSeq);
-			return "/auth/resetPasswd";
+			return "auth/resetPasswd";
 		}
 		
 		int code = loginService.resetPasswd(passwdResetDto);
@@ -191,7 +191,7 @@ public class LoginController {
 			
 		} else {
 			model.addAttribute("dto", passwdResetDto);
-			return "/auth/resetPasswd";
+			return "auth/resetPasswd";
 		}
 		
 	}

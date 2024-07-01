@@ -19,12 +19,6 @@ public class IndexController {
 		return mv;
 	}
 	
-	@RequestMapping("/contactMe.do")
-	public ModelAndView contact() {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("contactMe");
-		return mv;
-	}
 	
 	@RequestMapping("/aboutMe.do")
 	public ModelAndView introduce() {

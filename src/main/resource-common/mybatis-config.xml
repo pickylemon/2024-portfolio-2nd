@@ -11,6 +11,7 @@
 		<package name="com.portfolio.www.auth.dto" />
 		<package name="com.portfolio.www.forum.notice.dto" />
 		<package name="com.portfolio.www.chat.dto" />
+		<package name="com.portfolio.www.contact.dto" />
 	</typeAliases>
 
 	<!--  개별로 setting 하는 방법

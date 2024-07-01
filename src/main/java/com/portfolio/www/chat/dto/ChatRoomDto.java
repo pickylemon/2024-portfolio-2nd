@@ -17,9 +17,10 @@ public class ChatRoomDto {
 	private String roomNm;
 	private Integer chatroomSeq; // <selectKey로 채우기>
 	private Integer roomManager;
-	private String managerNm;
+//	private String managerNm;
+	private String managerId;
 	private Integer memberSeq;
-	private String memberNm;
+	private String memberId;
 	private Integer memberCnt;
 	private LocalDateTime regDtm;
 	private LocalDateTime delDtm;

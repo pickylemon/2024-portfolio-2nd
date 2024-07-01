@@ -13,7 +13,7 @@
 	</insert>
 	
 	<select id="get" resultType="ChatRoomDto">
-		SELECT c.*, m.member_nm managerNm
+		SELECT c.*, m.member_id managerId
 		FROM forum.chatroom c
 		JOIN member m
 		ON c.room_manager = m.member_seq
