@@ -12,7 +12,8 @@ public enum AuthMessageEnum {
 	INVALID_AUTH_TIME("101", "인증 시간이 초과되었습니다."),
 	AUTH_MAIL_FAIL("102", "이메일 인증에 실패했습니다."),
 	
-	MAIL_SEND_FAIL("103", "인증 메일 전송에 실패했습니다");
+	MAIL_SEND_FAIL("103", "인증 메일 전송에 실패했습니다"), 
+	ALREADY_AUTHORIZED("104", "이미 인증된 회원입니다. 로그인을 해주세요.");
 	
 	private AuthMessageEnum(String code, String msg) {
 		this.code = code;

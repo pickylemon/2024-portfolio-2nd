@@ -42,6 +42,19 @@ String ctx = request.getContextPath();
         </div>
         <!-- end .container -->
     </section>
+    <script>
+    let msg = '${msgObject.msg}'
+    let code = '${msgObject.code}'
+
+    console.log("code="+code)
+    console.log("msg="+msg)
+    
+	if(msg!=''){
+		console.log(code)
+		alert(msg)
+	}
+    
+    </script>
     <!--================================
             END DASHBOARD AREA
     =================================-->

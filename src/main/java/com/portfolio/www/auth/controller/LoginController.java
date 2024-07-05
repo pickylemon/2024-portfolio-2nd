@@ -67,9 +67,16 @@ public class LoginController {
 			Cookie cookie = makeCookie(memberId, rememberMe);
 			response.addCookie(cookie);
 			
+			
 			rattr.addFlashAttribute("msgObject", LoginMessageEnum.LOGIN_SUCCESS);
+//			rattr.addFlashAttribute("msg", LoginMessageEnum.LOGIN_SUCCESS.getMsg());
+//			rattr.addFlashAttribute("code", LoginMessageEnum.LOGIN_SUCCESS.getCode());
+			
 
 			return "redirect:"+(url==""? "/index.do" : url); 
+			
+			
+			
 			//로그인 성공시 원래 요청페이지로 이동(없으면 홈)
 			//(로그인 필터를 통해 이 컨트롤러 메서드에 온 경우가 아닌,
 			//직접적으로 로그인을 한 경우에는 name이 url인 input의 value가 빈 문자열로 넘어온다(null이 아님) 

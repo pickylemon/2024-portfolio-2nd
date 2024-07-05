@@ -56,6 +56,15 @@ String ctx = request.getContextPath();
     =================================-->
 </html>
 <script>
+
+let msg = '${msgObject.msg}'
+let code = '${msgObject.code}'
+
+
+if(msg!=''){
+	console.log(code)
+	alert(msg)
+}
 <!-- 비밀번호 확인 실패하면 submit 안되게 -->
 function pwdEquals(elem) { 
 	console.log(elem)
@@ -86,13 +95,5 @@ function pwdEquals(elem) {
 	}
 }
 
-    let msg = '${msgObject.msg}'
-    let code = '${msgObject.code}'
 
-    window.onload = function(){
-    	if(msg!=''){
-    		console.log(code)
-    		alert(msg)
-    	}
-    }
 </script>

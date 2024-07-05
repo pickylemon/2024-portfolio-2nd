@@ -138,6 +138,12 @@ public class JoinService extends AuthCommonService{
 			return code; 
 		}
 		
+		//2-2. 이미 인증이 된 회원가입일 경우(링크를 또 클릭했을 때)
+		if(authDto.getAuthYn().equals("Y")) {
+			code = 0;
+			return code;
+		}
+		
 		//3. 인증 시간이 유효한지
 		if(!isValidTime(authDto.getExpireDtm())) {
 //			if(true) { //테스트

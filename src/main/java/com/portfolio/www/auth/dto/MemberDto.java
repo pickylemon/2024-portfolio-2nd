@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class MemberDto {
 	private int memberSeq;
 	@NotNull(message = "아이디는 필수값입니다.")
-	@Pattern(regexp = "^[0-9a-z]{5,8}$", message = "아이디는 영어 소문자와 숫자의 구성으로 5~8자리 내로 입력해주세요.")
+	@Pattern(regexp = "^[0-9a-z]{4,12}$", message = "아이디는 영어 소문자와 숫자의 구성으로 4~12자리 내로 입력해주세요.")
 	private String memberId;
 	@NotNull
 	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,15}$",

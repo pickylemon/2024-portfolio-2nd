@@ -97,10 +97,10 @@ String ctx = request.getContextPath();
                    <input type="text" class="text_field" name="value" placeholder="검색 키워드를 입력해주세요." required value="${ph.sc.value }" >
                    <div class="search__select select-wrap">
                        <select name="keyword" class="select--field" id="blah">
-                           <option value="writer">작성자</option>
-                           <option value="content">내용</option>
-                           <option value="title">제목</option>
-                           <option value="all">전체</option>
+                           <option value="writer" <c:if test='${ph.sc.keyword eq "writer"}'> selected </c:if>>작성자</option>
+                           <option value="content" <c:if test='${ph.sc.keyword eq "content"}'> selected </c:if>>내용</option>
+                           <option value="title" <c:if test='${ph.sc.keyword eq "title"}'> selected </c:if>>제목</option>
+                           <option value="all" <c:if test='${ph.sc.keyword eq "all" }'> selected </c:if>>전체</option>
                        </select>
                        <span class="lnr lnr-chevron-down"></span>
                    </div>
@@ -134,12 +134,12 @@ String ctx = request.getContextPath();
    	})
    	
    	//검색창에 검색 키워드 유지하기
-   	let options = document.querySelectorAll('option')
-   	options.forEach(function(elem) {
-   		if(elem.value == keyword) {
-   			elem.selected = true
-   		}
-   	})
+//    	let options = document.querySelectorAll('option')
+//    	options.forEach(function(elem) {
+//    		if(elem.value == keyword) {
+//    			elem.selected = true
+//    		}
+//    	})
    
 
 

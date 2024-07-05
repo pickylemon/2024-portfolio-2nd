@@ -20,7 +20,8 @@
 		   expire_dtm, 
 		   auth_yn
 	 FROM forum.member_auth 
-    WHERE auth_uri = #{uri} AND auth_yn = 'N'
+<!--     WHERE auth_uri = #{uri} AND auth_yn = 'N' -->
+    WHERE auth_uri = #{uri} 
 	</select>
 	<update id="updateAuthValid" parameterType="String">
 	UPDATE forum.member_auth

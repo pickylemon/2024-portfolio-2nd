@@ -121,6 +121,8 @@ public class JoinController {
 		//        -> 있다? member와 memberAuth에 인증 "Y"로 update치기
 		
 		//성공시 다시 홈으로
+		log.info("\n\n >>> JoinController.class <<<<");
+		log.info("code={}", code);
 		
 		if(code == 1) {
 			rattr.addFlashAttribute("msgObject", AuthMessageEnum.AUTH_MAIL_SUCCESS);
@@ -128,8 +130,10 @@ public class JoinController {
 		} else if(code == -1) {
 			//유효시간을 초과한 인증메일
 			rattr.addFlashAttribute("msgObject", AuthMessageEnum.INVALID_AUTH_TIME);
+		}  else if(code == 0) {
+			//이미 회원인증을 했는데 링크를 또 클릭했을 경우
+			rattr.addFlashAttribute("msgObject", AuthMessageEnum.ALREADY_AUTHORIZED);
 		} else {
-		
 			rattr.addFlashAttribute("msgObject", AuthMessageEnum.AUTH_MAIL_FAIL);
 		} 
 		return "redirect:/index.do";
