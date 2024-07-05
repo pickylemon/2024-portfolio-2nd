@@ -27,7 +27,7 @@ String ctx = request.getContextPath();
                             <div class="login--form">
                                 <div class="form-group">
                                     <label for="urname">Your Name</label>
-                                    <input id="urname" type="text" class="text_field" placeholder="Enter your Name" name="memberNm" value="${memberDto.memberNm }">
+                                    <input id="urname" type="text" class="text_field" placeholder="이름을 입력해주세요." name="memberNm" value="${memberDto.memberNm }">
 <%--                                     <form:errors value="${error.defaultMessage }"/> --%>
                             		<spring:hasBindErrors name="memberDto">
                                     <c:if test="${errors.hasFieldErrors('memberNm') }">
@@ -38,7 +38,7 @@ String ctx = request.getContextPath();
 
                                 <div class="form-group">
                                     <label for="email_ad">Email Address</label>
-                                    <input id="email_ad" type="text" class="text_field" placeholder="Enter your email address" name="email" value="${memberDto.email }">
+                                    <input id="email_ad" type="text" class="text_field" placeholder="이메일을 입력해주세요." name="email" value="${memberDto.email }">
                                     <spring:hasBindErrors name="memberDto">
                                     <c:if test="${errors.hasFieldErrors('email') }">
                                     	<strong style="color:red">${errors.getFieldError('email').defaultMessage }</strong>
@@ -48,7 +48,7 @@ String ctx = request.getContextPath();
 
                                 <div class="form-group">
                                     <label for="user_name">Id</label>
-                                    <input id="user_name" type="text" class="text_field" placeholder="Enter your username..." name="memberId" value="${memberDto.memberId }">
+                                    <input id="user_name" type="text" class="text_field" placeholder="영어 소문자와 숫자 조합 4~12자리" name="memberId" value="${memberDto.memberId }">
                                     <spring:hasBindErrors name="memberDto">
                                     <c:if test="${errors.hasFieldErrors('memberId') }">
                                     	<strong style="color:red">${errors.getFieldError('memberId').defaultMessage }</strong>
@@ -58,7 +58,7 @@ String ctx = request.getContextPath();
 
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input id="password" type="password" class="text_field" placeholder="Enter your password..." name="passwd" >
+                                    <input id="password" type="password" class="text_field" placeholder="특수문자와 영어대소문자, 숫자 조합 8~15자리" name="passwd" >
                                      <spring:hasBindErrors name="memberDto">
                                      <c:if test="${errors.hasFieldErrors('passwd') }">
                                     	<strong style="color:red">${errors.getFieldError('passwd').defaultMessage }</strong>
@@ -68,7 +68,7 @@ String ctx = request.getContextPath();
 
                                 <div class="form-group">
                                     <label for="con_pass">Confirm Password</label>
-                                    <input id="con_pass" type="password" class="text_field" placeholder="Confirm password" name="passwd2">
+                                    <input id="con_pass" type="password" class="text_field" placeholder="비밀번호를 다시 한번 확인해주세요." name="passwd2">
                                 </div>
 
                                 <button class="btn btn--md btn--round register_btn" type="submit">회원가입</button>

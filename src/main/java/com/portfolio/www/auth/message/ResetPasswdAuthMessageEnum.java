@@ -6,12 +6,15 @@ import lombok.Getter;
 public enum ResetPasswdAuthMessageEnum {
 	MAIL_SEND_SUCCESS("000", "메일이 발송되었습니다. 확인해주세요."), 
 	NO_SUCH_MEMBER("001", "존재하지 않는 회원입니다."),
+	WRONG_EMAIL("002", "가입시 입력한 이메일을 정확히 입력해주세요."),
+	INVALID_PATH("003", "유효하지 않은 링크입니다."),
 	
-	INVALID_AUTH_TIME("101", "인증 시간이 초과되었습니다."),
+	INVALID_AUTH_TIME("101", "메일 인증 시간이 초과되었습니다. 아이디와 이메일을 다시 입력해주세요."),
 	AUTH_MAIL_FAIL("102", "이메일 발송 중 오류가 발생했습니다."),
 	FAIL("103", "오류가 발생했습니다."),
 	
 	PASSWD_RESET_SUCCESS("200", "비밀번호가 성공적으로 변경되었습니다");
+	
 	
 	private ResetPasswdAuthMessageEnum(String code, String msg) {
 		this.code = code;

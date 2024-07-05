@@ -21,6 +21,8 @@ public class PasswdResetDto {
 	private String passwd;
 	private Long regDtm;
 	private Long expireDtm;
+	private String resetPwdYn;
+
 	
 
 }

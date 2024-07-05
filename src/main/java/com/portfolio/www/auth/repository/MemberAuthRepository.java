@@ -13,5 +13,6 @@ public interface MemberAuthRepository {
 	//비밀번호 찾기시 메일로 보낼 인증주소를 등록
 	public int addResetPasswdAuthInfo(ResetPasswdAuthDto dto);
 	public PasswdResetDto getPasswdResetDto(String uri);
+//	public ResetPasswdAuthDto getPasswdResetDto(String uri);
 	public int updateResetPasswdAuthYn(PasswdResetDto dto);
 }

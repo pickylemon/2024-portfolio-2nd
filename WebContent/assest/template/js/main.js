@@ -365,12 +365,40 @@
     /* trumbowyg init*/
     var trmbg_container = $('#content');
     if (trmbg_container.length) {
-        trmbg_container.trumbowyg();
+//        trmbg_container.trumbowyg();
+        trmbg_container.trumbowyg({
+		    btns: [
+			        ['viewHTML'],
+			        ['undo', 'redo'], // Only supported in Blink browsers
+			        ['formatting'],
+			        ['strong', 'em', 'del'],
+			        ['superscript', 'subscript'],
+			        ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+			        ['unorderedList', 'orderedList'],
+			        ['horizontalRule'],
+			        ['removeformat'],
+			        ['fullscreen']
+				]
+		});
     }
     /* trumbowyg init*/
     var trmbg_container = $('#comment-edit');
     if (trmbg_container.length) {
-        trmbg_container.trumbowyg();
+//        trmbg_container.trumbowyg();
+        trmbg_container.trumbowyg({
+		    btns: [
+			        ['viewHTML'],
+			        ['undo', 'redo'], // Only supported in Blink browsers
+			        ['formatting'],
+			        ['strong', 'em', 'del'],
+			        ['superscript', 'subscript'],
+			        ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+			        ['unorderedList', 'orderedList'],
+			        ['horizontalRule'],
+			        ['removeformat'],
+			        ['fullscreen']
+				]
+		});
     }
     
     

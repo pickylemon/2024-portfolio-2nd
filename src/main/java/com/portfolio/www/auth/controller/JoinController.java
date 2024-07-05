@@ -92,15 +92,19 @@ public class JoinController {
 	}
 	
 	@PostMapping("/remail.do")
-	public String remail(String memberId, String email, HttpServletRequest request, RedirectAttributes rattr) {
+	public String remail(String memberId, String email, HttpServletRequest request, RedirectAttributes rattr, Model model) {
 		String contextPath = request.getContextPath();
 		int code = joinService.remail(memberId, email, contextPath);
 		if(code == 1) {
 			rattr.addFlashAttribute("msgObject", AuthMessageEnum.SUCCESS);
+			return "redirect:/index.do";
 		} else {
-			rattr.addFlashAttribute("msgObject", AuthMessageEnum.MAIL_SEND_FAIL);
+			model.addAttribute("msgObject", AuthMessageEnum.MAIL_SEND_FAIL);
+			model.addAttribute("memberId", memberId);
+			model.addAttribute("email", email);
+			return "index";
 		}
-		return "redirect:/index.do";
+		
 	}
 	
 	//인증메일 확인하기

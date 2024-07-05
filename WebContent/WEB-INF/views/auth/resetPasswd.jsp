@@ -23,7 +23,7 @@ String ctx = request.getContextPath();
                             <div class="login--form">
                                 <div class="form-group">
                                     <label for="passwd">Enter your New Password</label>
-                                    <input id="passwd" type="text" class="text_field" placeholder="Reset your password" name="passwd" value="${dto.passwd }">
+                                    <input id="passwd" type="password" class="text_field" placeholder="특수문자와 영어대소문자, 숫자 조합 8~15자리" name="passwd" value="${dto.passwd }">
                                     <spring:hasBindErrors name="passwdResetDto">
 	                                    <c:if test="${errors.hasFieldErrors('passwd') }">
 	                                    	<strong style="color:red">${errors.getFieldError('passwd').defaultMessage }</strong>
@@ -34,11 +34,11 @@ String ctx = request.getContextPath();
                                 </div>
                                 <div class="form-group">
                                     <label for="passwd2">Check your New Password Again</label>
-                                    <input id="passwd2" type="text" class="text_field" placeholder="Check your password again" name="passwd2">
+                                    <input id="passwd2" type="password" class="text_field" placeholder="비밀번호를 다시 한번 확인해주세요." name="passwd2">
                                 </div>
                                 
 
-                                <button class="btn btn--md btn--round register_btn" type="submit">Reset your password</button>
+                                <button class="btn btn--md btn--round register_btn" type="submit">비밀번호 재설정</button>
                             </div>
                             <!-- end .login--form -->
                         </div>

@@ -216,7 +216,11 @@ String ctx = request.getContextPath();
         if(code == 101) {
                 //인증메일 시간 초과인 경우 다른 메시들과 다르게 처리
                 remail(msg)
+        } else if (code == 103) {
+        		//인증메일 재전송시 아이디 또는 이메일 잘못 입력한 경우
+        		remail(msg)
         } else if (msg!=''){
+        	
             console.log(code)
             alert(msg)
         }

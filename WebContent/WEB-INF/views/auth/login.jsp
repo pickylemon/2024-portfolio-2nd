@@ -26,7 +26,7 @@ String ctx = request.getContextPath();
                             <div class="login--form">
                                 <div class="form-group">
                                     <label for="user_name">Id</label>
-                                    <input id="user_name" type="text" class="text_field" placeholder="테스트 id는 testpf입니다." name="memberId" value="${savedId ne null? savedId : memberId}">
+                                    <input id="user_name" type="text" class="text_field" placeholder="테스트 id는 test1 또는 test2입니다." name="memberId" value="${savedId ne null? savedId : memberId}">
                                     <input type="hidden" name="url" value="${url}">
 <%--                                     <c:out value="${request.}"/> --%>
                                 </div>

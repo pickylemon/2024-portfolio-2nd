@@ -88,11 +88,13 @@ public class JoinService extends AuthCommonService{
 		//해당 아이디로 가입된 회원이 없다.
 		if(ObjectUtils.isEmpty(memberDto)) {
 			code = -1; 
+			return code;
 		}
 		
 		//사용자 입력 이메일과 DB에 저장된 이메일이 다르다.
 		if(!passwdOrEmailMatch(receiver, memberDto.getEmail())){
 			code = -2;
+			return code;
 		}
 		
 		Map<String, String> mailComponent = makeMailComponent(contextPath);
