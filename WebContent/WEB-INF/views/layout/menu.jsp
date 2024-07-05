@@ -96,10 +96,10 @@ String ctx = request.getContextPath();
                                                     <a href="<c:url value='/aboutMe.do'/>">ABOUT ME</a>
                                                 </li>
                                                 <li>
-                                                    <a href="https://www.notion.so/BackEnd-bb12744efdf74a1b849bdc0b8db03238?pvs=4" target="_blank">이력서</a>
+                                                    <a href="https://pacific-soil-139.notion.site/BackEnd-bb12744efdf74a1b849bdc0b8db03238?pvs=4" target="_blank">이력서</a>
                                                 </li>
                                                 <li>
-                                                    <a href="https://www.notion.so/fe17ff272aef4e4b9fa419596c0e2c76?pvs=4" target="_blank">자기소개서</a>
+                                                    <a href="https://pacific-soil-139.notion.site/fe17ff272aef4e4b9fa419596c0e2c76?pvs=4" target="_blank">자기소개서</a>
                                                 </li>
                                                 <li>
                                                     <a href="https://github.com/pickylemon" target="_blank">Github</a>

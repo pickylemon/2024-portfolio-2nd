@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.portfolio.www.auth.dto.PasswdResetDto;
+import com.portfolio.www.auth.dto.ResetPasswdAuthDto;
+import com.portfolio.www.auth.dto.ResetPasswdAuthResponse;
 import com.portfolio.www.auth.message.LoginMessageEnum;
 import com.portfolio.www.auth.message.ResetPasswdAuthMessageEnum;
 import com.portfolio.www.auth.service.LoginService;
@@ -67,9 +69,16 @@ public class LoginController {
 			Cookie cookie = makeCookie(memberId, rememberMe);
 			response.addCookie(cookie);
 			
+			
 			rattr.addFlashAttribute("msgObject", LoginMessageEnum.LOGIN_SUCCESS);
+//			rattr.addFlashAttribute("msg", LoginMessageEnum.LOGIN_SUCCESS.getMsg());
+//			rattr.addFlashAttribute("code", LoginMessageEnum.LOGIN_SUCCESS.getCode());
+			
 
 			return "redirect:"+(url==""? "/index.do" : url); 
+			
+			
+			
 			//로그인 성공시 원래 요청페이지로 이동(없으면 홈)
 			//(로그인 필터를 통해 이 컨트롤러 메서드에 온 경우가 아닌,
 			//직접적으로 로그인을 한 경우에는 name이 url인 input의 value가 빈 문자열로 넘어온다(null이 아님) 
@@ -146,6 +155,9 @@ public class LoginController {
 		} else if (code == -1) {
 			//조회되는 아이디가 없으면
 			model.addAttribute("msgObject", ResetPasswdAuthMessageEnum.NO_SUCH_MEMBER);
+		} else if (code == -2) {
+			//가입시 등록한 이메일과 다른 이메일을 적었을 경우
+			model.addAttribute("msgObject", ResetPasswdAuthMessageEnum.WRONG_EMAIL);	
 		} else if (code == -3) {
 			//이메일 발송 오류
 			model.addAttribute("msgObject", ResetPasswdAuthMessageEnum.AUTH_MAIL_FAIL);
@@ -160,16 +172,31 @@ public class LoginController {
 	}
 	
 	@GetMapping("/resetPasswd.do")
-	public String resetPasswordPage(String uri, Model model) {
+	public String resetPasswordPage(String uri, Model model, RedirectAttributes rattr) {
 		log.info("authUri={}",uri);
 		//authUri로 조회되는 
-		PasswdResetDto dto = loginService.checkAuthUriForPasswdReset(uri);
+//		PasswdResetDto dto = loginService.checkAuthUriForPasswdReset(uri);
+		ResetPasswdAuthResponse response = loginService.checkAuthUriForPasswdReset(uri);
+		PasswdResetDto dto = response.getDto();
+		
+		
 		log.info("authDto={}", dto);
-		if(dto != null) {
+		if(response.getDto() != null) {
+			//유효한 uri & 유효한 시간 범위라면
 			model.addAttribute("dto", dto);
 			return "auth/resetPasswd";
 		} else {
-			return "redirect:/index.do"; //TODO 잘못된 접근 404페이지로 수정하기
+			
+			ResetPasswdAuthMessageEnum msgObject = response.getMsgObject();
+			rattr.addFlashAttribute("msgObject", msgObject);
+			
+			//유효하지 않은 경로 또는 이전에 비밀번호 변경에 한번 사용했던 url을 재접속하는 경우
+			if(msgObject == ResetPasswdAuthMessageEnum.INVALID_PATH) {
+				return "redirect:/index.do";
+			} else {
+			//유효 시간 초과의 경우, 다시 정보를 입력하고 메일 발송을 유도
+				return "redirect:/auth/checkIdAndEmail.do";
+			}
 		}
 	}
 	
@@ -180,7 +207,8 @@ public class LoginController {
 		
 		if(result.hasErrors()) {
 			result.getAllErrors().forEach(System.out::println);
-			model.addAttribute("memberSeq", memberSeq);
+//			model.addAttribute("memberSeq", memberSeq);
+			model.addAttribute("dto", passwdResetDto);
 			return "auth/resetPasswd";
 		}
 		

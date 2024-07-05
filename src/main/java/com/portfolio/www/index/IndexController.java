@@ -1,26 +1,32 @@
 package com.portfolio.www.index;
 
-import java.util.HashMap;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class IndexController {
 	
 
-	@RequestMapping("/index.do")
-	public ModelAndView index(@RequestParam HashMap<String, String> params) {
-		ModelAndView mv = new ModelAndView();
-
-		mv.setViewName("index");
-		return mv;
+	@GetMapping("/index.do")
+	public String index(Model model, HttpServletRequest request) {
+		log.info("\n\n >>>>index.do<<<<");
+		log.info("model={}",model);
+		
+		String referer = request.getHeader("referer");
+		log.info("\n\n >>>>index.do referer <<<<");
+		log.info("referer={}",referer);
+		return "index";
 	}
 	
 	
-	@RequestMapping("/aboutMe.do")
+	@GetMapping("/aboutMe.do")
 	public ModelAndView introduce() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("aboutMe");

@@ -20,7 +20,8 @@
 		   expire_dtm, 
 		   auth_yn
 	 FROM forum.member_auth 
-    WHERE auth_uri = #{uri} AND auth_yn = 'N'
+<!--     WHERE auth_uri = #{uri} AND auth_yn = 'N' -->
+    WHERE auth_uri = #{uri} 
 	</select>
 	<update id="updateAuthValid" parameterType="String">
 	UPDATE forum.member_auth
@@ -30,11 +31,12 @@
 	
 	<insert id="addResetPasswdAuthInfo" parameterType="ResetPasswdAuthDto">
 	INSERT INTO forum.`reset_passwd_auth`
-	(auth_uri, member_seq, reg_dtm, expire_dtm)
-	VALUES (#{authUri}, #{memberSeq}, #{regDtm}, #{expireDtm})
+	(auth_uri, member_seq, reg_dtm, expire_dtm, reset_pwd_yn)
+	VALUES (#{authUri}, #{memberSeq}, #{regDtm}, #{expireDtm}, 'N')
 	</insert>
 
 	<select id="getPasswdResetDto" parameterType="String" resultType="PasswdResetDto">
+<!-- 	<select id="getPasswdResetDto" parameterType="String" resultType="ResetPasswdAuthDto"> -->
 	SELECT *
 	FROM forum.reset_passwd_auth
 	WHERE auth_uri = #{uri}

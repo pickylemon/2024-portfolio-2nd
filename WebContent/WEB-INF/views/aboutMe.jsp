@@ -181,7 +181,7 @@ p.skill {
 
                         <li class="happening">
                             <div class="happening--period">
-                                <p>2019.07 ~ 2012.03</p>
+                                <p>2019.07 ~ 2021.03</p>
                             </div>
                             <div class="happening--detail">
                                 <h4 class="title">삐아프</h4>
@@ -201,7 +201,7 @@ p.skill {
                         
                         <li class="happening">
                             <div class="happening--period">
-                                <p>2022.07 ~ 2023.11</p>
+                                <p>2022.07 ~ 2022.11</p>
                             </div>
                             <div class="happening--detail">
                                 <h4 class="title">마얘</h4>
@@ -211,7 +211,7 @@ p.skill {
                         
                         <li class="happening">
                             <div class="happening--period">
-                                <p>2023.12 ~ 2023.08</p>
+                                <p>2022.12 ~ 2023.08</p>
                             </div>
                             <div class="happening--detail">
                                 <h4 class="title">1인 케이크 가게 운영(자영업)</h4>

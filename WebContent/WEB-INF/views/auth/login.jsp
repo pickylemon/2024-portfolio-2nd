@@ -26,14 +26,14 @@ String ctx = request.getContextPath();
                             <div class="login--form">
                                 <div class="form-group">
                                     <label for="user_name">Id</label>
-                                    <input id="user_name" type="text" class="text_field" placeholder="Enter your username..." name="memberId" value="${savedId ne null? savedId : memberId}">
+                                    <input id="user_name" type="text" class="text_field" placeholder="테스트 id는 test1 또는 test2입니다." name="memberId" value="${savedId ne null? savedId : memberId}">
                                     <input type="hidden" name="url" value="${url}">
 <%--                                     <c:out value="${request.}"/> --%>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="pass">Password</label>
-                                    <input id="pass" type="password" class="text_field" placeholder="Enter your password..." name="passwd">
+                                    <input id="pass" type="password" class="text_field" placeholder="테스트 passwd는 abcd1234*입니다." name="passwd">
                                 </div>
 
                                 <div class="form-group">
@@ -75,10 +75,13 @@ String ctx = request.getContextPath();
     let idElem = document.querySelector('input[name=memberId]')
     let passwdElem = document.querySelector('input[name=passwd]')
     
-    window.onload = function(){
+    
+	showErrorMsg(msg, code)
+   
+// 	window.onload = function(){
     	
-    	showErrorMsg(msg, code)
-    }
+
+//     }
     
     function showErrorMsg(msg, code) {
     	if(code != -1 && code != -9) return;

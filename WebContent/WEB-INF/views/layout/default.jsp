@@ -18,7 +18,7 @@ String ctx = request.getContextPath();
     <meta name="description" content="MartPlace - Complete Online Multipurpose Marketplace HTML Template">
     <meta name="keywords" content="marketplace, easy digital download, digital product, digital, html5">
 
-    <title>박문주의 포트폴리오</title>
+    <title>박문주의 포트폴리오</title>	
 
     <!-- inject:css -->
     <link rel="stylesheet" href="<%=ctx%>/assest/template/css/animate.css">
@@ -38,6 +38,7 @@ String ctx = request.getContextPath();
 	<script type="text/javascript">
 		var ctx = '<%= request.getContextPath() %>';
 	</script>	
+	<script src="<%=ctx%>/assest/template/js/websocket.js"></script>
 	<script src="<%=ctx%>/assest/js/page.js"></script>
 </head>
 
@@ -52,7 +53,7 @@ String ctx = request.getContextPath();
     
     <!--//////////////////// JS GOES HERE ////////////////-->
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0C5etf1GVmL_ldVAichWwFFVcDfa1y_c"></script>
+<!--     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0C5etf1GVmL_ldVAichWwFFVcDfa1y_c"></script> -->
     <!-- inject:js -->
     <script src="<%=ctx%>/assest/template/js/vendor/jquery/jquery-1.12.3.js"></script>
     <script src="<%=ctx%>/assest/template/js/vendor/jquery/popper.min.js"></script>
@@ -72,11 +73,12 @@ String ctx = request.getContextPath();
     <script src="<%=ctx%>/assest/template/js/vendor/waypoints.min.js"></script>
     <script src="<%=ctx%>/assest/template/js/dashboard.js"></script>
     <script src="<%=ctx%>/assest/template/js/main.js"></script>
-    <script src="<%=ctx%>/assest/template/js/map.js"></script>
+<%--     <script src="<%=ctx%>/assest/template/js/map.js"></script> --%>
     
     <!--  swiper  -->
     <script src="https://unpkg.com/swiper@6.8.4/swiper-bundle.min.js"></script>
 	<script src="<%=ctx%>/assest/template/js/swiper.js"></script>
+
 	
 	<script src="https://kit.fontawesome.com/99823c8069.js" crossorigin="anonymous"></script>
     <!-- endinject -->

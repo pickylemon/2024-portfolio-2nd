@@ -88,11 +88,13 @@ public class JoinService extends AuthCommonService{
 		//해당 아이디로 가입된 회원이 없다.
 		if(ObjectUtils.isEmpty(memberDto)) {
 			code = -1; 
+			return code;
 		}
 		
 		//사용자 입력 이메일과 DB에 저장된 이메일이 다르다.
 		if(!passwdOrEmailMatch(receiver, memberDto.getEmail())){
 			code = -2;
+			return code;
 		}
 		
 		Map<String, String> mailComponent = makeMailComponent(contextPath);
@@ -136,6 +138,12 @@ public class JoinService extends AuthCommonService{
 		if(ObjectUtils.isEmpty(memberDto)) { //해당 auth로 식별되는 회원정보 없음.
 			//QUESTION 근데 이걸 체크해야하는 경우가 있을까? 구체적인 예외 상황 상상해보기.
 			return code; 
+		}
+		
+		//2-2. 이미 인증이 된 회원가입일 경우(링크를 또 클릭했을 때)
+		if(authDto.getAuthYn().equals("Y")) {
+			code = 0;
+			return code;
 		}
 		
 		//3. 인증 시간이 유효한지

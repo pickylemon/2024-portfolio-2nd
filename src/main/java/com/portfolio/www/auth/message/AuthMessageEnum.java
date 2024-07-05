@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum AuthMessageEnum {
-	SUCCESS("000", "인증 메일이 발송되었습니다."), 
+	SUCCESS("000", "인증 메일이 발송되었습니다. 메일 인증 후 로그인이 가능합니다."), 
 	ALREADY_EXISTS("001", "이미 존재하는 아이디입니다."),
 	JOIN_FAIL("002", "회원가입에 실패했습니다"),
 	
@@ -12,7 +12,8 @@ public enum AuthMessageEnum {
 	INVALID_AUTH_TIME("101", "인증 시간이 초과되었습니다."),
 	AUTH_MAIL_FAIL("102", "이메일 인증에 실패했습니다."),
 	
-	MAIL_SEND_FAIL("103", "인증 메일 전송에 실패했습니다");
+	MAIL_SEND_FAIL("103", "인증 메일 전송에 실패했습니다. 아이디 또는 이메일을 다시 확인해주세요."), 
+	ALREADY_AUTHORIZED("104", "이미 인증된 회원입니다. 로그인을 해주세요.");
 	
 	private AuthMessageEnum(String code, String msg) {
 		this.code = code;

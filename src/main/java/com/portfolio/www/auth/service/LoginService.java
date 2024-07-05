@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,11 @@ import org.springframework.util.ObjectUtils;
 
 import com.portfolio.www.auth.dto.EmailDto;
 import com.portfolio.www.auth.dto.EmailUtil;
-import com.portfolio.www.auth.dto.MemberAuthDto;
 import com.portfolio.www.auth.dto.MemberDto;
 import com.portfolio.www.auth.dto.PasswdResetDto;
 import com.portfolio.www.auth.dto.ResetPasswdAuthDto;
+import com.portfolio.www.auth.dto.ResetPasswdAuthResponse;
+import com.portfolio.www.auth.message.ResetPasswdAuthMessageEnum;
 import com.portfolio.www.auth.repository.MemberAuthRepository;
 import com.portfolio.www.auth.repository.MemberRepository;
 
@@ -29,6 +31,8 @@ public class LoginService extends AuthCommonService {
 //	protected final MemberRepository memberRepository;
 //	protected final MemberAuthRepository memberAuthRepository;
 //	protected final EmailUtil emailUtil;
+	@Value("#{config['emailsend.domain.path']}")
+	private String DOMAIN_PATH;
 	
 	@Autowired
 	public LoginService(MemberRepository memberRepository, 
@@ -56,6 +60,8 @@ public class LoginService extends AuthCommonService {
 		//해당 아이디로 조회되는 회원이 없는 경우
 		if(ObjectUtils.isEmpty(memberDto)) {
 			if(!ObjectUtils.isEmpty(memberDto2)) {
+				//member테이블에 해당 아이디가 있으나, auth가 'N'인 경우
+				//이메일 인증을 먼저 하도록 유도한다.
 				return -8;
 			}
 			return code; 
@@ -73,11 +79,13 @@ public class LoginService extends AuthCommonService {
 		//해당 아이디로 가입된 회원이 없다.
 		if(ObjectUtils.isEmpty(memberDto)) {
 			code = -1; 
+			return code;
 		}
 		
 		//사용자 입력 이메일과 DB에 저장된 이메일이 다르다.
 		if(!passwdOrEmailMatch(userEmail, memberDto.getEmail())){
 			code = -2;
+			return code;
 		}
 		
 		//조회되는 아이디가 있고, 입력한 이메일이 일치하면 메일을 보낸다.
@@ -105,17 +113,22 @@ public class LoginService extends AuthCommonService {
 		return code;
 	}
 	
-	public PasswdResetDto checkAuthUriForPasswdReset(String uri) {
-		int code = 1;
+//	public PasswdResetDto checkAuthUriForPasswdReset(String uri) {
+	public ResetPasswdAuthResponse checkAuthUriForPasswdReset(String uri) {
+		ResetPasswdAuthResponse response;
 		PasswdResetDto authDto = memberAuthRepository.getPasswdResetDto(uri);
 		
 		log.info("authDto={}", authDto);
-		//1. 인증 주소가 유효한지
-		if(ObjectUtils.isEmpty(authDto) || !isValidTime(authDto.getExpireDtm())) {
-			//유효하지 않은 uri이거나 인증시간이 초과된 경우
-			return null;
+		//1. 인증 주소가 유효하지 않거나, 이미 비밀번호 변경에 한번 사용된 적 있는 url이라면 (중복 접근x)
+		if(ObjectUtils.isEmpty(authDto) || authDto.getResetPwdYn().equals("Y")) {
+			return response = new ResetPasswdAuthResponse(ResetPasswdAuthMessageEnum.INVALID_PATH);
+		} else if (!isValidTime(authDto.getExpireDtm()) ) {
+			//인증시간이 초과된 경우
+			return response = new ResetPasswdAuthResponse(ResetPasswdAuthMessageEnum.INVALID_AUTH_TIME);
+		} else {
+			//정상적인 경우
+			return response = new ResetPasswdAuthResponse(authDto);
 		}
-		return authDto; //유효한 uri, 시간일 때만 1을 반환
 	}
 	
 	@Transactional
@@ -134,10 +147,12 @@ public class LoginService extends AuthCommonService {
 	
 	
 	private Map<String, String> makeMailComponent(String contextPath) {
+		log.info("DOMAIN_PATH={}", DOMAIN_PATH);
+		
 		Map<String, String> mailComponent = new HashMap<>();
 		mailComponent.put("subject", "새로운 비밀번호를 설정해주세요");
 		mailComponent.put("contextPath", contextPath);
-		mailComponent.put("domain", "http://localhost:8080");
+		mailComponent.put("domain", DOMAIN_PATH);
 		mailComponent.put("path", "/auth/resetPasswd.do?uri=");
 		mailComponent.put("content", "비밀번호 재설정하기");
 		return mailComponent;

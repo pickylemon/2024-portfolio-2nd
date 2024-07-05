@@ -211,6 +211,7 @@ String ctx = request.getContextPath();
     function connectStomp(){
     	
        	let sock = new SockJS("/pf/stomp")
+//        	let sock = new SockJS("/ws/stomp")
        	let stompClient = Stomp.over(sock)
        	
 

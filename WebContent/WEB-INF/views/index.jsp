@@ -198,33 +198,35 @@ String ctx = request.getContextPath();
     <script>
     let msg = '${msgObject.msg}'
     let code = '${msgObject.code}'
-    
+
     console.log("code="+code)
     console.log("msg="+msg)
     
     
-   	if(code == 101) {
-    		//인증메일 시간 초과인 경우 다른 메시들과 다르게 처리
-    		remail(msg)
-   	} else if (msg!=''){
-   		console.log(code)
-   		alert(msg)
-   	}
-    	
-
-    
-    //window.onload 왜 작동 안하지?
-    		
-//     window.onload = function(){
-//     	console.log("window.onload")
-//     	if(code == 101) {
+//    	if(code == 101) {
 //     		//인증메일 시간 초과인 경우 다른 메시들과 다르게 처리
 //     		remail(msg)
-//     	} else if (msg!=''){
-//     		console.log(code)
-//     		alert(msg)
-//     	}
-//     } 
+//    	} else if (msg!=''){
+//    		console.log(code)
+//    		alert(msg)
+//    	}
+    
+    
+    document.addEventListener("DOMContentLoaded", function(){
+        if(code == 101) {
+                //인증메일 시간 초과인 경우 다른 메시들과 다르게 처리
+                remail(msg)
+        } else if (code == 103) {
+        		//인증메일 재전송시 아이디 또는 이메일 잘못 입력한 경우
+        		remail(msg)
+        } else if (msg!=''){
+        	
+            console.log(code)
+            alert(msg)
+        }
+    });
+
+    	
     
     function remail(msg){
    		let remailMsg = msg + '\n인증메일을 다시 받으시겠습니까?'

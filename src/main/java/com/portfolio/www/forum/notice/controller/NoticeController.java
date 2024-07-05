@@ -58,6 +58,10 @@ public class NoticeController {
 							@RequestParam(defaultValue = "10") Integer size,
 							@ModelAttribute SearchCondition sc,
 							Model model) {
+		log.info("\n\\n >>>>listPage.do<<<<");
+		log.info("model={}", model);
+		
+		
 		log.info("page={}, size={}",page, size);
 		log.info("sc={}",sc);
 		

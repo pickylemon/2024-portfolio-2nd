@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class ResetPasswdAuthDto {
 	private int resetPasswdAuthSeq;
 	private String authUri;
+	private String passwd;
 	private int memberSeq;
 	private long regDtm;
 	private long expireDtm;
